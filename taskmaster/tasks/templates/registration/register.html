@@ -1,0 +1,61 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 70vh">
+    <div class="card shadow-lg p-2 rounded" style="width: 450px;">
+        <h2 class="text-center mb-4">Register</h2>
+        <form method="post">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="row mb-3">
+                <div class="col-5">
+                    {{ form.username.label_tag }}
+                </div>
+                <div class="col-7">
+                    {{ form.username }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-5">
+                    {{ form.email.label_tag }}
+                </div>
+                <div class="col-7">
+                    {{ form.email }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-5">
+                    {{ form.password1.label_tag }}
+                </div>
+                <div class="col-7">
+                    {{ form.password1 }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-5">
+                    {{ form.password2.label_tag }}
+                </div>
+                <div class="col-7">
+                    {{ form.password2 }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+        <p class="text-center mt-3">
+            Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Login here</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}

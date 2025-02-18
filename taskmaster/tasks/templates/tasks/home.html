@@ -1,0 +1,60 @@
+<!-- tasks/templates/tasks/home.html -->
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container text-center my-5">
+  <h1 class="display-4">Welcome to TaskMaster</h1>
+  <p class="lead">Manage your tasks efficiently and stay on top of your goals.</p>
+  <a href="{% url 'task_list' %}" class="btn btn-primary btn-lg">View Tasks</a>
+
+  <div class="row mt-5">
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Create Tasks</h5>
+          <p class="card-text">Easily create and add tasks with customizable priorities to stay organized and focused.</p>
+          <a href="{% url 'task_create' %}" class="btn btn-success">Add a New Task</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Track Your Progress</h5>
+          <p class="card-text">Monitor your progress with task completion status and prioritize your most important tasks.</p>
+          <a href="{% url 'task_list' %}" class="btn btn-info">View All Tasks</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Stay Organized</h5>
+          <p class="card-text">Categorize and organize tasks by priority and deadline for maximum productivity.</p>
+          <a href="{% url 'task_list' %}" class="btn btn-warning">View Prioritized Tasks</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+  <div class="col-6 mt-5">
+    <h3>Why Use TaskMaster?</h3>
+    <p>TaskMaster is designed to help you become more organized, productive, and achieve your goals efficiently. Whether you're managing personal tasks, work assignments, or anything in between, TaskMaster provides the tools to make task management a breeze.</p>
+
+    <ul class="list-unstyled">
+      <li><i class="bi bi-check-circle"></i> Simple, easy-to-use interface</li>
+      <li><i class="bi bi-check-circle"></i> Customizable task priorities</li>
+      <li><i class="bi bi-check-circle"></i> Track task completion status</li>
+      <li><i class="bi bi-check-circle"></i> Fully responsive for all devices</li>
+    </ul>
+  </div>
+
+  <div class="col-6 mt-5">
+    <h4>Get Started Today!</h4>
+    <p>Create your first task and see how TaskMaster can help you stay productive and organized.</p>
+    <a href="{% url 'task_create' %}" class="btn btn-primary btn-lg">Create Your First Task</a>
+  </div>
+    </div>
+</div>
+{% endblock %}

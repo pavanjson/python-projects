@@ -1,0 +1,77 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <div class="delete-task-container">
+    <h1>Delete Task</h1>
+    <p class="confirmation-message">Are you sure you want to delete the task "<strong>{{ task.title }}</strong>"?</p>
+    <form method="post" class="delete-form">
+      {% csrf_token %}
+      <div class="buttons-container">
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <a href="{% url 'task_list' %}" class="btn btn-secondary">Back to Task List</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block extra_css %}
+  <style>
+    /* Container styles */
+    .delete-task-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .confirmation-message {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    /* Button styles */
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+  </style>
+{% endblock %}

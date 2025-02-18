@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- tasks/templates/tasks/task_detail.html -->
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>{{ task.title }}</h1>
+  <p>{{ task.description }}</p>
+  <p>Priority: {{ task.get_priority_display }}</p>
+  <p>Completed: {% if task.completed %}Yes{% else %}No{% endif %}</p>
+  <a href="{% url 'task_update' task.pk %}">Edit</a>
+  <a href="{% url 'task_delete' task.pk %}">Delete</a>
+  <a href="{% url 'task_list' %}">Back to Task List</a>
+{% endblock %}
+
+</body>
+</html>

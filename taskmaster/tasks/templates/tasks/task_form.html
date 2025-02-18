@@ -1,0 +1,107 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<div class="container mb-1">
+    <div class="row">
+        <!-- Sidebar (col-3) -->
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <div class="card shadow-lg border-light">
+                <div class="card-header text-center bg-primary text-white">
+                    <h5>About TaskMaster</h5>
+                </div>
+                <div class="card-body">
+                    <p>TaskMaster is a productivity tool designed to help you manage your tasks efficiently. Create, update, and track your tasks in one place with ease.</p>
+                    <p>With customizable task priorities, you can focus on what matters most and get things done faster.</p>
+                    <p>Stay organized and never miss an important task!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Form (col-9) -->
+        <div class="col-lg-9 col-md-8 col-sm-12">
+            <div class="card shadow-lg p-3 rounded">
+                <h2 class="text-center mb-4">
+                    {% if form.instance.pk %}
+                        Edit Task
+                    {% else %}
+                        Create Task
+                    {% endif %}
+                </h2>
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Task Title -->
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                        </div>
+                        <div class="col-9">
+                            <div class="input-group">
+                                {{ form.title }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Task Description -->
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
+                        </div>
+                        <div class="col-9">
+                            {{ form.description }}
+                        </div>
+                    </div>
+
+                    <!-- Task Priority -->
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="{{ form.priority.id_for_label }}" class="form-label">{{ form.priority.label }}</label>
+                        </div>
+                        <div class="col-9">
+                            {{ form.priority }}
+                        </div>
+                    </div>
+
+                    <!-- Task Completed -->
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="{{ form.completed.id_for_label }}" class="form-label">{{ form.completed.label }}</label>
+                        </div>
+                        <div class="col-9">
+                            {{ form.completed }}
+                        </div>
+                    </div>
+
+                    <!-- Task Due Date -->
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="{{ form.due_date.id_for_label }}" class="form-label">{{ form.due_date.label }}</label>
+                        </div>
+                        <div class="col-9">
+                            <input type="date" name="due_date" id="{{ form.due_date.id_for_label }}" class="form-control" value="{{ form.due_date.value|default:today }}" />
+                        </div>
+                    </div>
+
+                    <!-- Task Repeat -->
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="{{ form.repeat.id_for_label }}" class="form-label">{{ form.repeat.label }}</label>
+                        </div>
+                        <div class="col-9">
+                            {{ form.repeat }}
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-success w-100">Save</button>
+                </form>
+
+                <p class="text-center mt-3">
+                    <a href="{% url 'task_list' %}" class="text-decoration-none">Back to Task List</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
