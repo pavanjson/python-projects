@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - MyJourney</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e3f2fd);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+            font-size: 14px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        label {
+            font-weight: bold;
+            text-align: left;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .error-list {
+            color: red;
+            font-size: 14px;
+            list-style-type: none;
+            padding: 0;
+            margin: 5px 0 0 0;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1><a href="{% url 'home' %}">MyJourney</a></h1>
+    <div>
+        {% if user.is_authenticated %}
+        <span>Welcome, {{ user.username }}!</span>
+        <a href="{% url 'edit_profile' %}">Edit Profile</a>
+        <form action="{% url 'signout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Sign Out</button>
+        </form>
+        {% else %}
+        <a href="{% url 'signup' %}">Sign Up</a> | <a href="{% url 'signin' %}">Sign In</a>
+        {% endif %}
+    </div>
+</header>
+
+<div class="container">
+    <h1>Edit Profile</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in user_form %}
+            <p>{{ field.label_tag }} {{ field }}</p>
+            {% if field.errors %}
+                <ul class="error-list">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+        <button type="submit">Save Changes</button>
+    </form>
+</div>
+
+<footer>
+    <p>&copy; 2025 MyJourney. Developed by SkyllX Developers</p>
+</footer>
+</body>
+</html>

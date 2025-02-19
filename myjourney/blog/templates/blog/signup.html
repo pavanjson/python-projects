@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MyJourney</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e3f2fd);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 40%;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: left;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .errorlist {
+            color: #d9534f;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            list-style-type: none;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            background: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .bottom-text {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .bottom-text a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .bottom-text a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1><a href="{% url 'home' %}">MyJourney</a></h1>
+    <div>
+        {% if user.is_authenticated %}
+        <span>Welcome, {{ user.username }}!</span>
+        <a href="{% url 'edit_profile' %}">Edit Profile</a>
+        <form action="{% url 'signout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Sign Out</button>
+        </form>
+        {% else %}
+        <a href="{% url 'signin' %}">Sign In</a>
+        {% endif %}
+    </div>
+</header>
+
+<div class="container">
+    <h2>Sign Up</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        {% for field in form %}
+        <p>
+            {% if field.errors %}
+            <ul class="errorlist">
+                {% for error in field.errors %}
+                <li style="color: red;">{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {{ field.label_tag }}
+            {{ field }}
+
+        </p>
+        {% endfor %}
+
+        <button type="submit">Sign Up</button>
+    </form>
+    <p class="bottom-text">Already have an account? <a href="{% url 'signin' %}">Sign In</a></p>
+</div>
+
+<footer>
+    <p>&copy; 2025 MyJourney. Developed by SkyllX Developers</p>
+</footer>
+
+</body>
+</html>

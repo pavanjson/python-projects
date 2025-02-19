@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }} - MyJourney</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e3f2fd);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 60%;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .post-meta {
+            font-size: 14px;
+            color: #666;
+        }
+        .comment-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+        .comment {
+            font-size: 14px;
+            color: #444;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        footer {
+            background: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1><a href="{% url 'home' %}">MyJourney</a></h1>
+    <div>
+        <a href="{% url 'home' %}">Home</a>
+        {% if user.is_authenticated %}
+            <span>Welcome, {{ user.username }}!</span>
+            <a href="{% url 'edit_profile' %}">Edit Profile</a>
+            <form action="{% url 'signout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Sign Out</button>
+            </form>
+        {% else %}
+            <a href="{% url 'signup' %}">Sign Up</a> | <a href="{% url 'signin' %}">Sign In</a>
+        {% endif %}
+    </div>
+</header>
+
+<div class="container">
+    <h1>{{ post.title }}</h1>
+    <p class="post-meta">by <strong>{{ post.author.username }}</strong> on {{ post.created_at }}</p>
+    <p>{{ post.content }}</p>
+
+    <div class="comment-section">
+        <h3>Comments</h3>
+        {% for comment in comments %}
+            <p class="comment"><strong>{{ comment.author.username }}</strong>: {{ comment.content }}</p>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Comment</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 MyJourney. Developed by SkyllX Developers</p>
+</footer>
+</body>
+</html>

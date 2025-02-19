@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyJourney - Home</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e3f2fd);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+            font-size: 14px;
+        }
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .content-wrapper {
+            width: 85%;
+            display: flex;
+            gap: 20px;
+        }
+        .main-content {
+            flex: 3;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar {
+            flex: 1;
+            background: #f1f1f1;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        .post-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .post-card h2 a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .post-card h2 a:hover {
+            text-decoration: underline;
+        }
+        .post-meta {
+            font-size: 14px;
+            color: #666;
+        }
+        .post-content {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+        .post-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .comment-section {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .comment {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 5px;
+        }
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1><a href="{% url 'home' %}">MyJourney</a></h1>
+    <div>
+        {% if user.is_authenticated %}
+        <span>Welcome, {{ user.username }}!</span>
+        <a href="{% url 'edit_profile' %}">Edit Profile</a>
+        <form action="{% url 'signout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Sign Out</button>
+        </form>
+        {% else %}
+        <a href="{% url 'signup' %}">Sign Up</a> | <a href="{% url 'signin' %}">Sign In</a>
+        {% endif %}
+    </div>
+</header>
+
+<div class="main-container">
+    <div class="content-wrapper">
+        {% if user.is_authenticated %}
+        <aside class="sidebar">
+            <div style="text-align: center;">
+                <a href="{% url 'create_post' %}">
+                    <button>Add Post</button>
+                </a>
+            </div>
+            <h3>Connections Available:</h3>
+            <ul>
+                {% for friend in friend_suggestions %}
+                <li>{{ friend.username }}</li>
+                {% empty %}
+                <p>No connections available.</p>
+                {% endfor %}
+            </ul>
+        </aside>
+        {% endif %}
+
+        <div class="main-content">
+            {% if user.is_authenticated %}
+            <h3 style="text-align: center;">Stories Hub</h3>
+            <div>
+                {% for post in posts %}
+                <div class="post-card">
+                    <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
+                    <p class="post-meta">by <strong>{{ post.author.username }}</strong> on {{ post.created_at }}</p>
+                    <p class="post-content">{{ post.content }}</p>
+                    {% if post.author == user %}
+                    <div class="post-actions">
+                        <a href="{% url 'edit_post' post.pk %}"><button>Edit</button></a>
+                        <form action="{% url 'delete_post' post.pk %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    <div class="comment-section">
+                        <h3>Comments:</h3>
+                        {% for comment in post.comments.all %}
+                        <p class="comment"><strong>{{ comment.author.username }}</strong>: {{ comment.content }}</p>
+                        {% empty %}
+                        <p>No comments yet.</p>
+                        {% endfor %}
+                        <form action="{% url 'add_comment' post.pk %}" method="post">
+                            {% csrf_token %}
+                            <textarea name="content" placeholder="Add a comment"></textarea>
+                            <button type="submit">Add Comment</button>
+                        </form>
+                    </div>
+                    <p><strong>Tags:</strong> {{ post.tags }}</p>
+                </div>
+                {% empty %}
+                <p>No posts available.</p>
+                {% endfor %}
+            </div>
+            {% else %}
+            <h1>✨ Welcome to MyJourney - Your Digital Storytelling Hub!</h1>
+            <p>Every journey is unique, and every story deserves to be heard. <strong>MyJourney</strong> is a personal blogging platform designed to help you document, share, and relive your experiences.</p>
+            <h3>🌍 Why Choose MyJourney?</h3>
+            <ul>
+                <li>✅ <strong>Share Your Story</strong> - Publish blog posts with ease.</li>
+                <li>✅ <strong>Engage With Readers</strong> - Get feedback through comments.</li>
+                <li>✅ <strong>Stay Organized</strong> - Use tags to categorize your posts.</li>
+                <li>✅ <strong>Build Your Community</strong> - Connect with like-minded individuals.</li>
+            </ul>
+            <h3>🚀 What is MyJourney?</h3>
+            <ul>
+                <li>📌 Write about personal experiences.</li>
+                <li>📌 Interact with other users.</li>
+                <li>📌 Manage your content with ease.</li>
+                <li>📌 Keep track of your posts with tags.</li>
+            </ul>
+            <p>Join <strong>MyJourney</strong> today and start sharing your stories! ✨</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 MyJourney. Developed by SkyllX Developers</p>
+</footer>
+</body>
+</html>
