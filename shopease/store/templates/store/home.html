@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero">
+    <div class="hero-text">
+        <h1>Welcome to ShopEase!</h1>
+        <p>Your one-stop shop for all your needs.</p>
+        <a href="{% url 'product_list' %}" class="btn">Shop Now</a>
+    </div>
+</div>
+
+<!-- Featured Categories -->
+<section class="categories">
+    <h2>Shop by Category</h2>
+    <div class="category-grid">
+        {% for category in categories %}
+        <div class="category">
+            <a href="{% url 'category_products' category.slug %}">
+                <img src="{% static 'images/'|add:category.slug|add:'.jpg' %}" alt="{{ category.name }}">
+                <p class="category-link">{{ category.name }}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Best Sellers -->
+<section class="best-sellers">
+    <h2>Best Selling Products</h2>
+    <div class="product-grid">
+        {% for product in best_sellers %}
+        <div class="product">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+            <a href="{% url 'product_detail' product.id %}" class="btn">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

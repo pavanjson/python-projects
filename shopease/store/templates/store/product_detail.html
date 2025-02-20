@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="product-container">
+    <!-- Product Image -->
+    <div class="product-image">
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+        <img src="{% static 'images/default-product.jpg' %}" alt="Default Product Image">
+        {% endif %}
+    </div>
+
+    <!-- Product Details -->
+    <div class="product-info">
+        <h2 class="product-title">{{ product.name }}</h2>
+        <p class="product-description">{{ product.description }}</p>
+        <p class="product-price">Price: <strong>${{ product.price }}</strong></p>
+
+        <!-- Add to Cart Button -->
+        <a href="{% url 'add_to_cart' product.id %}" class="product-cart-btn">Add to Cart</a>
+    </div>
+</div>
+
+{% endblock %}

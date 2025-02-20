@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h2 class="catalog-title">Product Catalog</h2>
+
+<h2>Categories</h2>
+<ul class="category-list">
+    <li><a href="{% url 'product_list' %}" class="category-link all-products">All Products</a></li>
+    {% for category in categories %}
+        <li><a href="{% url 'category_products' category.slug %}" class="category-link">{{ category.name }}</a></li>
+    {% endfor %}
+</ul>
+
+<!-- Product Grid -->
+<h2>{% if selected_category %}{{ selected_category.name }} Products{% else %}All Products{% endif %}</h2>
+<div class="catalog-grid">
+    {% for product in products %}
+    <div class="catalog-card">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="catalog-img">
+        <h3 class="catalog-name">{{ product.name }}</h3>
+        <p class="catalog-price">${{ product.price }}</p>
+        <div class="catalog-actions">
+            <a href="{% url 'product_detail' product.id %}" class="catalog-btn catalog-view">View Details</a>
+            <a href="{% url 'add_to_cart' product.id %}" class="catalog-btn catalog-add-cart">Add to Cart</a>
+        </div>
+    </div>
+    {% empty %}
+    <p class="catalog-empty">No products available.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="checkout-title">Checkout</h2>
+
+<!-- Checkout Table -->
+<div class="checkout-container">
+    <table class="checkout-table">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td class="checkout-product">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="checkout-img">
+                <span>{{ product.name }}</span>
+            </td>
+            <td>{{ product.quantity }}</td>
+            <td>${{ product.total_price }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- Total Amount -->
+<p class="checkout-total">Total Amount: <strong>${{ total }}</strong></p>
+
+<!-- Payment Button -->
+<form method="post" class="checkout-form">
+    {% csrf_token %}
+    <button type="submit" class="checkout-pay-btn">Pay Now</button>
+</form>
+
+{% endblock %}

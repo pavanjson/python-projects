@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="order-container">
+    <!-- Thank You Message -->
+    <h2 class="order-title">Order Confirmation</h2>
+    <p class="order-thank-you">Thank you for your purchase, <strong>{{ request.user.username }}</strong>! 🎉</p>
+    <p class="order-id">Your Order ID: <strong>#{{ order.id }}</strong></p>
+
+    <!-- Order Details -->
+    <h3 class="order-details-title">Order Details:</h3>
+    <div class="order-table-container">
+        <table class="order-table">
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+            {% for item in order.items.all %}
+            <tr>
+                <td class="order-product">
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="order-img">
+                    <span>{{ item.product.name }}</span>
+                </td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.get_total_price }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

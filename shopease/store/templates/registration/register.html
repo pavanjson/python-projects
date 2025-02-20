@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="register-container">
+    <h2 class="register-title">Create an Account</h2>
+
+    <!-- Display form errors -->
+    {% if form.errors %}
+    <div class="register-error">
+        <p>Please correct the errors below.</p>
+    </div>
+    {% endif %}
+
+    <form method="post" class="register-form">
+        {% csrf_token %}
+
+        <div class="register-field">
+            <label for="id_username">Username</label>
+            {{ form.username }}
+        </div>
+
+        <div class="register-field">
+            <label for="id_email">Email</label>
+            {{ form.email }}
+        </div>
+
+        <div class="register-field">
+            <label for="id_password1">Password</label>
+            {{ form.password1 }}
+        </div>
+
+        <div class="register-field">
+            <label for="id_password2">Confirm Password</label>
+            {{ form.password2 }}
+        </div>
+
+        <button type="submit" class="register-btn">Register</button>
+    </form>
+
+    <p class="register-login-link">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+</div>
+
+{% endblock %}
