@@ -1,34 +1,33 @@
-# MyJourney
+# TaskMaster
 
 - ### **Features:**  
-  - **User Authentication:** Register & Login with validations for username, email, and password  
-  - **Post Management:** Create, edit, and manage your blog posts  
-  - **Comments Section:** Engage in conversations with a built-in commenting feature  
-  - **Tagging:** Organize and categorize your posts with tags  
+  - **Task Management:** Create, read, update, and delete tasks seamlessly  
+  - **User Authentication:** Secure registration and login system  
+  - **Priority Setting:** Easily assign and manage task priorities
 
 - ### **Technologies:**  
   - **Frontend:** HTML, CSS, JavaScript  
-  - **Backend:** Python, Django  
-  - **Database:** MySQL  
+  - **Backend:** Django (Python)  
+  - **Database:** MySQL
 
 - ### **Brief:**  
-  **MyJourney** is a personal blog platform designed for sharing experiences and insights. It empowers users to publish their stories, interact through comments, and effortlessly organize content using tags.
+  **TaskMaster** is a sleek and efficient todo list app designed to help you manage your daily tasks with ease. It features a user-friendly interface for complete task management along with robust authentication and task prioritization to keep you organized and productive.
 
 ---
 
-## **📝 Post Management & Community Interaction**  
-- **Create and manage posts** with an intuitive interface  
-- **Comment on posts** to spark discussions and connect with readers  
-- **Tag your posts** to enhance content discovery and organization
+## **📝 Task Management & User Experience**  
+- **CRUD Operations:** Quickly create, view, update, and delete tasks  
+- **Priority Setting:** Assign priority levels to organize tasks effectively  
+- **User Authentication:** Secure login and registration for personalized task lists
 
 ---
 
 ## **🔧 Set Up Database**  
 ### **Install MySQL and Create Database**  
-- Open **MySQL Workbench Terminal** and execute:  
+- Open **MySQL Workbench Terminal** and execute:
 
   ```sql
-  CREATE DATABASE myjourney_db;
+  CREATE DATABASE taskmaster_db;
   ```
 
 ---
@@ -71,5 +70,4 @@ Use the following login credentials for testing:
    
 ---
 
-
-**MyJourney** offers a seamless blogging experience that encourages creativity, fosters community engagement, and simplifies content management. Start your journey today!
+**TaskMaster** streamlines your task management process, ensuring that you stay organized and on top of your daily activities. Get started today and take control of your productivity!
