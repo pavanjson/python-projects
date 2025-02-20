@@ -1,0 +1,290 @@
+/* GENERAL STYLES */
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure the page fills the entire screen */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content should push the footer to the bottom */
+main {
+    flex: 1;  /* Takes up all available space */
+}
+
+/* HEADER */
+header {
+    background: #007bff;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav .btn {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    background: #28a745;
+    border-radius: 5px;
+}
+
+nav .btn:hover {
+    background: #218838;
+}
+
+/* SEARCH CONTAINER */
+.search-container {
+    padding: 20px;
+}
+
+.search-container input {
+    padding: 10px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.search-container button {
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.search-container button:hover {
+    background: #0056b3;
+}
+
+/* REMOVE FROM FAVORITES BUTTON */
+.remove-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.remove-btn:hover {
+    background: #c82333;
+}
+
+
+/* WEATHER CARD */
+.weather-card {
+    background: white;
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.weather-card img {
+    width: 80px;
+}
+
+.temp {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* FLEXIBLE FORECAST CONTAINER */
+.forecast-section {
+    margin: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.forecast-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Evenly distribute items */
+    padding: 10px;
+    gap: 15px;
+}
+
+/* FORECAST CARDS WILL AUTOMATICALLY ADJUST */
+.forecast-item {
+    flex: 1 1 calc(10% - 20px); /* Adjusts dynamically, allowing 5 items per row */
+    min-width: 120px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* RESPONSIVE DESIGN FOR SMALLER SCREENS */
+@media (max-width: 1024px) {
+    .forecast-item {
+        flex: 1 1 calc(33.3% - 20px); /* Show 3 items per row on tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .forecast-item {
+        flex: 1 1 calc(50% - 20px); /* Show 2 items per row on small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .forecast-item {
+        flex: 1 1 100%; /* Show 1 item per row on mobile screens */
+    }
+}
+
+/* FAVORITES */
+.favorites-section {
+    margin: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.favorites-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.favorites-section li {
+    padding: 8px;
+    font-size: 18px;
+}
+
+/* FAVORITE LOCATIONS TABLE */
+.table-container {
+    overflow-x: auto;
+    margin-top: 15px;
+    border-radius: 10px;
+}
+
+.favorites-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 16px;
+}
+
+.favorites-table th, .favorites-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.favorites-table th {
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.favorites-table tbody tr {
+    transition: background 0.3s ease-in-out;
+}
+
+.favorites-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ACTION BUTTON */
+.delete-btn {
+    color: red;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.delete-btn:hover {
+    color: darkred;
+}
+
+/* MOBILE FRIENDLY */
+@media (max-width: 768px) {
+    .favorites-table {
+        font-size: 14px;
+    }
+
+    .favorites-table th, .favorites-table td {
+        padding: 10px;
+    }
+}
+
+
+/* FOOTER STYLES */
+footer {
+    background: #007bff;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    margin-top: auto; /* Push footer to bottom */
+    width: 100%;
+}
+
+/* WEATHER CONTAINER: Splits screen into 50-50 layout */
+.weather-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* LEFT: Weather Display (Hidden when no city is searched) */
+.weather-card {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 15px;
+    min-width: 45%;
+    display: {% if weather %}block{% else %}none{% endif %}; /* Hides when no city is searched */
+}
+
+/* RIGHT: Project Information (Always Displayed) */
+.project-info {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 15px;
+    min-width: 45%;
+    text-align: left;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .weather-container {
+        flex-direction: column;
+    }
+
+    .weather-card, .project-info {
+        width: 100%;
+    }
+}
+

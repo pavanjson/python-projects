@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | WeatherWise</title>
+    <link rel="stylesheet" href="/static/weather/styles.css">
+    <link rel="stylesheet" href="/static/weather/login.css"> <!-- Login-specific styles -->
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>🌤 WeatherWise</h1>
+        <nav>
+            <a href="{% url 'home' %}" class="btn">Home</a>
+            <a href="{% url 'register' %}" class="btn">Register</a>
+        </nav>
+    </header>
+
+    <!-- LOGIN FORM CONTAINER -->
+    <main class="login-container">
+        <div class="login-box">
+            <h2>Login to Your Account</h2>
+
+            {% if error %}
+                <p class="error-message">{{ error }}</p>  <!-- Display login error -->
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+
+            <p class="register-link">Don't have an account? <a href="{% url 'register' %}">Register Here</a></p>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>WeatherWise &copy; 2025 | Powered by OpenWeatherMap API</p>
+    </footer>
+</body>
+</html>

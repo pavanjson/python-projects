@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherWise</title>
+    <link rel="stylesheet" href="/static/weather/styles.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>🌤 WeatherWise</h1>
+        <nav>
+            {% if user.is_authenticated %}
+                <p>Welcome, {{ user.username }}! <a href="{% url 'logout' %}" class="btn">Logout</a></p>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn">Login</a>
+                <a href="{% url 'register' %}" class="btn">Register</a>
+            {% endif %}
+        </nav>
+    </header>
+
+<!-- MAIN CONTENT (Ensures Footer Stays at Bottom) -->
+<main>
+    <!-- SEARCH BAR -->
+    <section class="search-container">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Enter city..." required>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+<!-- WEATHER DISPLAY SECTION -->
+<section class="weather-container">
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% elif weather %}
+        <!-- LEFT SIDE: Weather Information (Only shown when a city is searched) -->
+        <div class="weather-card">
+            <h2>{{ weather.city }} in {{ weather.country}}</h2>
+            <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Weather icon">
+            <p class="temp">{{ weather.temperature }}°C</p>
+            <p>{{ weather.description }}</p>
+            <p>Humidity: <strong>{{ weather.humidity }}%</strong></p>
+            <p>Wind: <strong>{{ weather.wind_speed }} m/s</strong> ({{ weather.wind_direction }}°)</p>
+
+            {% if user.is_authenticated %}
+                {% if weather.city in favorite_cities %}
+                    <!-- Show "Remove from Favorites" if the city is already saved -->
+                    <form method="POST" action="{% url 'delete_favorite' weather.city %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn remove-btn">❌ Remove from Favorites</button>
+                    </form>
+                {% else %}
+                    <!-- Show "Save to Favorites" if city is not in favorites -->
+                    <form method="POST" action="{% url 'save_favorite' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="city" value="{{ weather.city }}">
+                        <button type="submit" class="btn">⭐ Save to Favorites</button>
+                    </form>
+                {% endif %}
+            {% else %}
+                <p><a href="{% url 'login' %}">Login</a> to save favorites.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <!-- RIGHT SIDE: Project Information (Always Displayed) -->
+    <div class="project-info">
+        <h2>🌍 About WeatherWise</h2>
+        <p><strong>Features:</strong> Display current weather, weather forecast, search by city, store favorite locations.</p>
+        <p><strong>Technologies:</strong> HTML/CSS/JavaScript (Frontend), Django (Backend), MySQL (Database)</p>
+        <p><strong>Brief:</strong> WeatherWise is an intuitive weather app that provides real-time weather updates and forecasts. Users can search for cities, view weather trends, and save their favorite locations for quick access.</p>
+        <h3>📌 Weather Forecast Includes:</h3>
+        <ul>
+            <li>🌡 Temperature trends for upcoming hours or days</li>
+            <li>🌧 Precipitation chances (rain, snow, etc.)</li>
+            <li>💨 Wind speed and direction</li>
+            <li>💧 Humidity levels</li>
+            <li>☀ General weather conditions (sunny, cloudy, rainy, etc.)</li>
+        </ul>
+    </div>
+</section>
+
+    <!-- HOURLY FORECAST -->
+    {% if hourly_forecast %}
+        <section class="forecast-section">
+            <h3>🌡 Hourly Forecast (Next 24 Hours)</h3>
+            <div class="forecast-container">
+                {% for data in hourly_forecast %}
+                    <div class="forecast-item">
+                        <p><strong>{{ data.time }}</strong></p>
+                        <img src="http://openweathermap.org/img/w/{{ data.icon }}.png" alt="Weather icon">
+                        <p>{{ data.temp }}°C</p>
+                        <p>{{ data.conditions }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    <!-- 5-DAY FORECAST -->
+    {% if daily_forecast %}
+        <section class="forecast-section">
+            <h3>📅 5-Day Forecast</h3>
+            <div class="forecast-container">
+                {% for day in daily_forecast %}
+                    <div class="forecast-item">
+                        <p><strong>{{ day.date }}</strong></p>
+                        <img src="http://openweathermap.org/img/w/{{ day.icon }}.png" alt="Weather icon">
+                        <p>{{ day.temp }}°C</p>
+                        <p>{{ day.conditions }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+<!-- FAVORITE LOCATIONS -->
+<section class="favorites-section">
+    <h3>⭐ Favorite Locations</h3>
+
+    {% if favorites %}
+        <div class="table-container">
+            <table class="favorites-table">
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Temperature</th>
+                        <th>Description</th>
+                        <th>Humidity</th>
+                        <th>Wind</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fav in favorites %}
+                        <tr>
+                            <td>
+                                <a href="#" class="favorite-city" data-city="{{ fav.city }}">{{ fav.city }}</a>
+                            </td>
+                            <td>{{ fav.temperature }}°C</td>
+                            <td>{{ fav.description }}</td>
+                            <td>{{ fav.humidity }}%</td>
+                            <td>{{ fav.wind_speed }} m/s ({{ fav.wind_direction }}°)</td>
+                            <td>
+                                <a href="{% url 'delete_favorite' fav.city %}" class="delete-btn">❌</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="no-favorites">
+            {% if user.is_authenticated %}
+                You have no favorite cities yet! Search for a city and click "Save to Favorites" to add one.
+            {% else %}
+                <a href="{% url 'login' %}" class="btn">Login</a> to save your favorite cities.
+            {% endif %}
+        </p>
+    {% endif %}
+</section>
+
+</main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>WeatherWise &copy; 2025 | Powered by OpenWeatherMap API</p>
+    </footer>
+
+<!-- JAVASCRIPT TO AUTO-FILL SEARCH FORM -->
+<script>
+    document.querySelectorAll(".favorite-city").forEach(cityLink => {
+        cityLink.addEventListener("click", function (event) {
+            event.preventDefault();  // Prevents default link behavior
+
+            let city = this.getAttribute("data-city");  // Get city name from data attribute
+            let searchInput = document.querySelector("input[name='city']");
+            let searchForm = searchInput.closest("form");
+
+            searchInput.value = city;  // Auto-fill search input
+            searchForm.submit();  // Auto-submit the form
+        });
+    });
+</script>
+
+
+<!-- AJAX TO LOAD WEATHER DATA FOR FAVORITES -->
+<script>
+    document.querySelectorAll(".favorite-city").forEach(cityLink => {
+        cityLink.addEventListener("click", function (event) {
+            event.preventDefault();
+            let city = this.getAttribute("data-city");
+            let searchInput = document.querySelector("input[name='city']");
+            let searchForm = searchInput.closest("form");
+
+            searchInput.value = city;  // Auto-fill search input
+            searchForm.submit();  // Auto-submit the form
+        });
+    });
+</script>
+
+</body>
+</html>
