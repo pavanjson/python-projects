@@ -1,0 +1,41 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+<div class="signup-container">
+  <h2 class="signup-title">Sign Up</h2>
+
+  {# Error block: display errors from all fields and non-field errors #}
+  {% if form.errors %}
+    <div class="error-message">
+      {% for field in form %}
+        {% if field.errors %}
+          <p><strong>{{ field.label }}:</strong> {{ field.errors|join:", " }}</p>
+        {% endif %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="post" class="signup-form">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.username.label_tag }}
+      {{ form.username }}
+    </div>
+    <div class="form-group">
+      {{ form.password1.label_tag }}
+      {{ form.password1 }}
+    </div>
+    <div class="form-group">
+      {{ form.password2.label_tag }}
+      {{ form.password2 }}
+    </div>
+    <button type="submit" class="signup-button">Sign Up</button>
+  </form>
+  <p class="login-link">
+    Already have an account? <a href="{% url 'login' %}">Log in</a>
+  </p>
+</div>
+{% endblock %}

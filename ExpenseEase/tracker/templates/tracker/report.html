@@ -1,0 +1,38 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+<div class="report-container">
+  <h2 class="report-title">Expense Report (Month-wise)</h2>
+
+  {% if report_data %}
+    {% for month_data in report_data %}
+      <div class="month-section">
+        <h3 class="month-title">
+          {{ month_data.month }}
+          <!-- Export links -->
+          <a href="{% url 'export_month_pdf' month_data.month %}" class="export-link">Export PDF</a> |
+          <a href="{% url 'export_month_excel' month_data.month %}" class="export-link">Export Excel</a>
+        </h3>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Total Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for data in month_data.categories %}
+            <tr>
+              <td>{{ data.category }}</td>
+              <td>{{ data.total }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="no-data">No expense data available.</p>
+  {% endif %}
+</div>
+{% endblock %}

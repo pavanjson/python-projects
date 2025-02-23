@@ -1,0 +1,32 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+<div class="expense-list-container">
+  <h2 class="expense-list-title">Expenses</h2>
+  <table class="expense-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for expense in expenses %}
+      <tr>
+        <td>{{ expense.title }}</td>
+        <td>{{ expense.amount }} {{ expense.currency }}</td>
+        <td>{{ expense.category.name }}</td>
+        <td>{{ expense.date }}</td>
+        <td>
+          <a href="{% url 'edit_expense' expense.id %}" class="expense-edit-link">Edit</a> |
+          <a href="{% url 'delete_expense' expense.id %}" class="expense-delete-link">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

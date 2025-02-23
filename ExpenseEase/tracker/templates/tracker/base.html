@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ExpenseEase</title>
+    <link rel="stylesheet" href="{% static 'tracker/css/style.css' %}">
+    <script src="{% static 'tracker/js/script.js' %}"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{% url 'dashboard' %}">
+                <h1>ExpenseEase</h1>
+            </a>
+        </div>
+        <nav>
+            {% if user.is_authenticated %}
+                <!-- Links visible only to authenticated users -->
+                <a href="{% url 'dashboard' %}">Dashboard</a> |
+                <a href="{% url 'expense_list' %}">Expenses</a> |
+                <a href="{% url 'add_expense' %}">Add Expense</a> |
+                <a href="{% url 'add_budget' %}">Add Budget</a> |
+                <a href="{% url 'report' %}">Reports</a> |
+                <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; color: white; text-decoration: underline; cursor: pointer;">
+                        Logout
+                    </button>
+                </form>
+            {% else %}
+                <!-- Links visible to unauthenticated users -->
+                <a href="{% url 'login' %}">Login</a> |
+                <a href="{% url 'signup' %}">Sign Up</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <div class="container">
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer>
+        <p>&copy; 2025 ExpenseEase</p>
+    </footer>
+</body>
+</html>

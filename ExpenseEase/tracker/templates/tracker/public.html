@@ -1,0 +1,56 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+<div class="expense-content">
+  <h2 class="expense-title">Welcome to ExpenseEase</h2>
+  <p class="expense-intro">
+    ExpenseEase is your personal expense tracker. Manage your finances, set budgets, and generate reports with ease.
+  </p>
+
+  <section class="expense-about">
+    <h3 class="expense-section-title">About ExpenseEase</h3>
+    <p class="expense-section-text">
+      ExpenseEase is an innovative web application designed to help you take control of your personal finances.
+      With an intuitive interface and robust functionality, tracking and managing your expenses becomes effortless.
+    </p>
+  </section>
+
+  <section class="expense-features">
+    <h3 class="expense-section-title">Features</h3>
+    <ul class="expense-list">
+      <li class="expense-list-item"><strong>Add, Edit, Delete Expenses:</strong> Seamlessly manage your expenses.</li>
+      <li class="expense-list-item"><strong>Categorize Expenses:</strong> Organize spending by categories for better insights.</li>
+      <li class="expense-list-item"><strong>Generate Reports:</strong> Create detailed reports to understand your financial habits.</li>
+      <li class="expense-list-item"><strong>Set Budgets:</strong> Monitor your spending against personalized budgets.</li>
+    </ul>
+  </section>
+
+<!--  <section class="expense-advanced">-->
+<!--    <h3 class="expense-section-title">Advanced Features</h3>-->
+<!--    <ul class="expense-list">-->
+<!--      <li class="expense-list-item"><strong>Recurring Expense Tracking:</strong> Automatically track regular expenses.</li>-->
+<!--      <li class="expense-list-item"><strong>Budget Planning & Alerts:</strong> Plan your budget and receive timely alerts when limits are reached.</li>-->
+<!--      <li class="expense-list-item"><strong>Income vs. Expense Comparison Charts:</strong> Visualize your financial health with dynamic charts.</li>-->
+<!--      <li class="expense-list-item"><strong>Multi-Currency Support:</strong> Manage expenses in different currencies effortlessly.</li>-->
+<!--    </ul>-->
+<!--  </section>-->
+
+  <section class="expense-tech">
+    <h3 class="expense-section-title">Technologies</h3>
+    <ul class="expense-list">
+      <li class="expense-list-item"><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+      <li class="expense-list-item"><strong>Backend:</strong> Django</li>
+      <li class="expense-list-item"><strong>Database:</strong> MySQL</li>
+    </ul>
+  </section>
+
+  <section class="expense-brief">
+    <h3 class="expense-section-title">Brief</h3>
+    <p class="expense-section-text">
+      ExpenseEase is an expense tracker that helps users manage their finances by categorizing expenses, setting budgets,
+      and generating insightful reports. Whether you're managing personal expenses or handling small business finances,
+      ExpenseEase gives you the tools to take control of your financial future.
+    </p>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+<div class="dashboard-container">
+  <h2 class="dashboard-title">Dashboard</h2>
+  <p class="dashboard-total">Total Expenses: {{ total_expenses }}</p>
+
+  <h3 class="dashboard-section-title">Recent Expenses</h3>
+  <table class="dashboard-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for expense in expenses|slice:":5" %}
+      <tr>
+        <td>{{ expense.title }}</td>
+        <td>{{ expense.amount }} {{ expense.currency }}</td>
+        <td>{{ expense.date }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3 class="dashboard-section-title">Budgets</h3>
+  <table class="dashboard-table">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Budget Amount</th>
+        <th>Period</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for budget in budgets %}
+      <tr>
+        <td>{{ budget.category.name }}</td>
+        <td>{{ budget.amount }}</td>
+        <td>{{ budget.start_date }} to {{ budget.end_date }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

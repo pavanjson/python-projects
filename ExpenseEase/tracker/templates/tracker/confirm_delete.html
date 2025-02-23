@@ -1,0 +1,13 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+<div class="confirm-delete-container">
+  <h2 class="confirm-delete-title">Delete Expense</h2>
+  <p class="confirm-delete-text">Are you sure you want to delete the expense "{{ expense.title }}"?</p>
+  <form method="post" class="confirm-delete-form">
+    {% csrf_token %}
+    <button type="submit" class="confirm-delete-button">Yes, Delete</button>
+    <a href="{% url 'expense_list' %}" class="confirm-delete-cancel">Cancel</a>
+  </form>
+</div>
+{% endblock %}

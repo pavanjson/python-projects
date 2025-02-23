@@ -1,0 +1,39 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+<div class="login-container">
+  <h2 class="login-title">Log In</h2>
+  <form method="post" class="login-form">
+    {% csrf_token %}
+
+    {# Render non-field errors once #}
+    {% if form.non_field_errors %}
+      <div class="error-message">
+        {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {# Render each field individually #}
+    {% for field in form %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}
+          <div class="error-message">
+            {% for error in field.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <button type="submit" class="login-button">Log In</button>
+  </form>
+  <p class="signup-link">
+    Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
+  </p>
+</div>
+{% endblock %}
