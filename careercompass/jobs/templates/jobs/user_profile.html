@@ -1,0 +1,23 @@
+{% extends "jobs/base.html" %}
+
+{% block content %}
+<div class="user-profile card">
+    <div class="profile-header">
+        <h2 class="profile-title">{{ user.username }}'s Profile</h2>
+        <a href="{% url 'edit_profile' %}" class="btn btn-secondary edit-btn">Edit Profile</a>
+    </div>
+    {% if profile.resume %}
+        <p>Resume: <a href="{{ profile.resume.url }}" class="btn btn-link">Download</a></p>
+    {% endif %}
+    <p><strong>Bio:</strong> {{ profile.bio }}</p>
+    {% if profile.current_company %}
+        <p><strong>Current Company:</strong> {{ profile.current_company }}</p>
+    {% endif %}
+    {% if profile.skills %}
+        <p><strong>Skills:</strong> {{ profile.skills }}</p>
+    {% endif %}
+    {% if profile.location %}
+        <p><strong>Location:</strong> {{ profile.location }}</p>
+    {% endif %}
+</div>
+{% endblock %}

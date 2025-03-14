@@ -1,0 +1,47 @@
+{% extends "jobs/base.html" %}
+
+{% block content %}
+<div class="job-detail card">
+    <div class="job-header">
+        <h2 class="job-title">{{ job.title }}</h2>
+        <p class="job-company">
+            <strong>Company:</strong>
+            <a href="{% url 'company_profile' job.company.id %}">{{ job.company.name }}</a>
+        </p>
+        <p class="job-location">
+            <strong>Location:</strong> {{ job.location }}
+        </p>
+    </div>
+
+    <div class="job-description">
+        <h3>Description</h3>
+        <p>{{ job.description }}</p>
+    </div>
+
+    {% if user.is_authenticated %}
+        {% if has_applied %}
+            <div class="application-status card">
+                <h3 class="status-title" style="color: green;">Application Received</h3>
+                <p class="status-message">
+                    Thank you for applying. Our HR team is reviewing your application and will get back to you soon.
+                </p>
+            </div>
+        {% else %}
+            <div class="application-form-section">
+                <h3 class="form-title" style="color: blue;">Apply for this Job</h3>
+                <form method="post" enctype="multipart/form-data" class="application-form">
+                    {% csrf_token %}
+                    <div class="form-content">
+                        {{ form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit Application</button>
+                </form>
+            </div>
+        {% endif %}
+    {% else %}
+        <p class="login-message">
+            You must <a href="{% url 'login' %}">login</a> to apply for this job.
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

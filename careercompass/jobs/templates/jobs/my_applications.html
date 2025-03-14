@@ -1,0 +1,23 @@
+{% extends "jobs/base.html" %}
+
+{% block content %}
+<div class="my-applications card">
+    <h2>My Applications</h2>
+    {% if applications %}
+        <ul class="applications-list">
+            {% for application in applications %}
+                <li class="application-item">
+                    <strong>{{ application.job.title }}</strong> at
+                    <a href="{% url 'company_profile' application.job.company.id %}">
+                        {{ application.job.company.name }}
+                    </a>
+                    <p>Status: <em>{{ application.status|capfirst }}</em></p>
+                    <p>Applied on: {{ application.applied_at|date:"M d, Y" }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have not applied to any jobs yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

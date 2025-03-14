@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CareerCompass</title>
+    <link rel="stylesheet" href="{% static 'jobs/css/style.css' %}">
+    <script src="{% static 'jobs/js/script.js' %}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-container">
+            <h1 class="site-logo">
+                <a href="{% url 'job_list' %}">CareerCompass</a>
+            </h1>
+            <nav class="site-nav">
+                <ul>
+                    <li><a href="{% url 'job_list' %}">Jobs</a></li>
+                    <li><a href="{% url 'user_profile' %}">My Profile</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'my_applications' %}">My Applications</a></li>
+                        <li>
+                            <form id="logout-form" method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-link">Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 CareerCompass. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

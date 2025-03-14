@@ -1,0 +1,25 @@
+{% extends "jobs/base.html" %}
+
+{% block content %}
+<div class="company-profile card">
+    <h2 class="card-title">{{ company.name }}</h2>
+    <p class="card-text">{{ company.description }}</p>
+    {% if company.website %}
+        <p>
+            <a href="{{ company.website }}" target="_blank" class="btn btn-primary">
+                Visit Website
+            </a>
+        </p>
+    {% endif %}
+    <h3>Job Openings</h3>
+    <ul class="job-list">
+        {% for job in jobs %}
+            <li class="job-item">
+                <a href="{% url 'job_detail' job.id %}">{{ job.title }}</a>
+            </li>
+        {% empty %}
+            <li>No job openings at the moment.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

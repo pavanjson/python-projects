@@ -1,0 +1,24 @@
+{% extends "jobs/base.html" %}
+
+{% block content %}
+<div class="job-listing">
+    <h2>Job Listings</h2>
+    <ul class="job-list">
+        {% for job in jobs %}
+            <li class="job-item card">
+                <h3 class="job-item-title">
+                    <a href="{% url 'job_detail' job.id %}">{{ job.title }}</a>
+                </h3>
+                <p class="job-item-company">
+                    at <a href="{% url 'company_profile' job.company.id %}">{{ job.company.name }}</a>
+                </p>
+                <p class="job-item-location">
+                    <small>{{ job.location }} | Posted on: {{ job.posted_date|date:"M d, Y" }}</small>
+                </p>
+            </li>
+        {% empty %}
+            <li>No jobs available at the moment.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
