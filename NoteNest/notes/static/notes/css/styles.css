@@ -1,0 +1,266 @@
+/* Reset and basic settings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Wrapper for flex layout to enable sticky footer */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header styles with gradient background */
+header {
+  background: linear-gradient(135deg, #0052cc, #0073e6);
+  color: #fff;
+  padding: 30px 0;
+}
+
+.header-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.header-container h1 a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 2.8em;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.header-container h1 a:hover {
+  color: #ffd700;
+}
+
+.tagline {
+  margin-top: 10px;
+  font-size: 1.2em;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+nav {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+nav a,
+nav span {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1em;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+nav a:hover,
+nav span:hover {
+  color: #ffd700;
+  transform: translateY(-2px);
+}
+
+.logout-form {
+  display: inline;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+  color: #ffd700;
+  transform: translateY(-2px);
+}
+
+/* Main container styles */
+.container {
+  flex: 1;
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer styles */
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 25px 0;
+}
+
+.footer-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-container p {
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+
+.footer-links a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 0.9em;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffd700;
+}
+
+/* Additional styling for card layout and form elements */
+
+.card {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.card h2 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #004d99;
+}
+
+.form {
+  margin-top: 15px;
+}
+
+.form-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #004d99;
+  color: #fff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #003366;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #bbb;
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background-color: #e60000;
+  color: #fff;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #cc0000;
+  transform: translateY(-2px);
+}
+
+/* Specific styling for auth pages */
+.auth-card {
+  max-width: 400px;
+  margin: 40px auto;
+}
+
+.auth-link {
+  margin-top: 15px;
+  text-align: center;
+}
+
+/* Styling for notes list */
+.notes-list {
+  margin-top: 20px;
+}
+
+.note-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.note-item h3 a {
+  color: #004d99;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.note-item h3 a:hover {
+  text-decoration: underline;
+}
+
+.note-actions {
+  margin-top: 10px;
+}
+
+/* Styling for search form */
+.search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-form .form-control {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.error-message {
+  margin-bottom: 15px;
+}
+
+.error {
+  color: red;
+  font-weight: 500;
+  margin: 5px 0;
+}

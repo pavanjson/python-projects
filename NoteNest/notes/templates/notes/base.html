@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoteNest - Organize Your Thoughts</title>
+  <!-- Google Fonts for modern typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'notes/css/styles.css' %}">
+  <script src="{% static 'notes/js/scripts.js' %}"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <div class="header-container">
+        <h1><a href="{% url 'note_list' %}">NoteNest</a></h1>
+        <p class="tagline">Organize your thoughts and ideas effortlessly</p>
+        <nav>
+          {% if user.is_authenticated %}
+            <span class="welcome">Welcome, {{ user.username }}!</span>
+            <a href="{% url 'note_create' %}">Create Note</a>
+            <a href="{% url 'category_create' %}">Create Category</a>
+            <form action="{% url 'logout' %}" method="post" class="logout-form">
+              {% csrf_token %}
+              <button type="submit" class="logout-button">Logout</button>
+            </form>
+          {% else %}
+            <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+            <a href="{% url 'signup' %}?next={{ request.path }}">Sign Up</a>
+          {% endif %}
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <p>&copy; 2025 NoteNest. All rights reserved.</p>
+        <div class="footer-links">
+          <a href="#">About Us</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% extends 'notes/base.html' %}
+
+{% block content %}
+<div class="card">
+  <h2>All Notes</h2>
+  <form method="get" class="search-form">
+    <input type="text" name="q" placeholder="Search notes..." value="{{ request.GET.q }}" class="form-control">
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+  <div class="notes-list">
+    {% for note in notes %}
+      <div class="note-item">
+        <h3><a href="{% url 'note_detail' note.pk %}">{{ note.title }}</a></h3>
+        {% if note.category %}
+          <p class="category">Category: {{ note.category }}</p>
+        {% endif %}
+        <div class="note-actions">
+          <a href="{% url 'note_update' note.pk %}" class="btn btn-sm btn-primary">Edit</a>
+          <a href="{% url 'note_delete' note.pk %}" class="btn btn-sm btn-danger">Delete</a>
+        </div>
+      </div>
+    {% empty %}
+      <p>No notes available.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

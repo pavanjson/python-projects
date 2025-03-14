@@ -1,0 +1,17 @@
+{% extends 'notes/base.html' %}
+
+{% block content %}
+<div class="card">
+  <h2>{{ note.title }}</h2>
+  {% if note.category %}
+    <p class="category"><strong>Category:</strong> {{ note.category }}</p>
+  {% endif %}
+  <p>{{ note.content }}</p>
+  <p class="meta"><small>Created at: {{ note.created_at }} | Updated at: {{ note.updated_at }}</small></p>
+  <div class="form-actions">
+    <a href="{% url 'note_update' note.pk %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'note_delete' note.pk %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'note_list' %}" class="btn btn-secondary">Back to List</a>
+  </div>
+</div>
+{% endblock %}
