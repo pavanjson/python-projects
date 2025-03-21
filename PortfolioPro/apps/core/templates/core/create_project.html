@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% block title %}Create Project - PortfolioPro{% endblock title %}
+{% block content %}
+<div class="container">
+  <h2>Create New Project</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Create Project</button>
+  </form>
+</div>
+{% endblock content %}

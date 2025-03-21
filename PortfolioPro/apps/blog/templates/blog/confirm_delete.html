@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+{% block title %}Confirm Delete - PortfolioPro{% endblock title %}
+{% block content %}
+<div class="container">
+  <h2>Confirm Delete</h2>
+  <p>Are you sure you want to delete the post titled "{{ post.title }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, delete it</button>
+    <a href="{% url 'blog:blog_detail' post.pk %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock content %}

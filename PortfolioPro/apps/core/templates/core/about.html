@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}About - PortfolioPro{% endblock title %}
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <img src="{% static 'images/about.jpg' %}" alt="About me" class="img-fluid rounded mb-3">
+  </div>
+  <div class="col-md-6">
+    <h2>About Me</h2>
+    <p>Hello, I'm [Your Name], a passionate professional dedicated to creating innovative solutions and designing compelling digital experiences. With years of experience in the industry, I have honed my skills in web development, design, and project management.</p>
+    <p>My journey began with a fascination for technology and creativity. Over the years, I have collaborated on diverse projects ranging from dynamic websites to interactive applications. My work is driven by a desire to blend functionality with aesthetic appeal, ensuring every project not only meets client needs but also delights its users.</p>
+    <p>At PortfolioPro, I aim to share more than just my projects—I share the stories behind them. Here, you'll find insights into the challenges faced, lessons learned, and the creative processes that fuel my work. Whether you're here to collaborate, learn, or simply get inspired, I hope my journey resonates with you.</p>
+    <p>If you'd like to know more or get in touch, please explore the site or visit the contact page. Let's build something amazing together!</p>
+  </div>
+</div>
+{% endblock content %}

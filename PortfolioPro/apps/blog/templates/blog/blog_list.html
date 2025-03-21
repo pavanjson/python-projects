@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Blog - PortfolioPro{% endblock title %}
+{% block content %}
+<section class="blog-list">
+  <h2>Blog</h2>
+  <div class="list-group">
+    {% for post in posts %}
+      <a href="{% url 'blog:blog_detail' post.pk %}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{ post.title }}</h5>
+          <small>{{ post.published_date|date:"M d, Y" }}</small>
+        </div>
+        <p class="mb-1">by {{ post.author.username }}</p>
+      </a>
+    {% empty %}
+      <p>No blog posts available.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock content %}
