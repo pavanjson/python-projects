@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LibManage</title>
+    <link rel="stylesheet" href="{% static 'library/css/styles.css' %}">
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <nav>
+            <div class="nav-container">
+                <h1 class="logo">📚 LibManage</h1>
+                <div class="nav-links">
+                    <a href="{% url 'home' %}">Home</a>
+                    <a href="{% url 'book_list' %}">Books</a>
+                    <a href="{% url 'transaction_list' %}">My Rentals</a>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'manage_requests' %}">Manage Requests</a>
+                        <a href="{% url 'manage_return_requests' %}">Return Requests</a>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <span class="user-greet">Hi, {{ user.username }}</span>
+                        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'register' %}">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        &copy; 2025 LibManage. All Rights Reserved.
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Return Book: {{ transaction.book.title }}</h2>
+<p>Issue Date: {{ transaction.issue_date }}</p>
+<p>Due Date: {{ transaction.due_date }}</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm Return</button>
+    <a href="{% url 'transaction_list' %}">Cancel</a>
+</form>
+{% endblock %}

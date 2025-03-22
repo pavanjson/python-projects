@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h2>📖 My Rentals & Requests</h2>
+    {% if transactions %}
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Status</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trans in transactions %}
+            <tr>
+                <td>{{ trans.book.title }}</td>
+                <td><span class="status {{ trans.status|lower }}">{{ trans.status }}</span></td>
+                <td>{{ trans.issue_date|default:"-" }}</td>
+                <td>{{ trans.due_date|default:"-" }}</td>
+                <td>
+                    {% if trans.status == 'Issued' and not user.is_superuser %}
+                        <a href="{% url 'request_early_return' trans.pk %}" class="btn">↩️ Request Early Return</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="no-data">You don't have any transactions yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

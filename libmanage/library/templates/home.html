@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="text-align:center">
+        <h2>Welcome to LibManage 📚</h2>
+        <p>Your complete and efficient library management solution.</p></div>
+<div class="home-content" style="display: flex; gap: 40px;">
+    <div class="intro-section" style="flex: 1;">
+        <section class="features">
+            <h3>✨ Key Features:</h3>
+            <ul>
+                <li>📖 <strong>Manage Books:</strong> Easily add, edit, and track your book inventory.</li>
+                <li>🛠️ <strong>User Management:</strong> Register users, manage profiles, and control access levels.</li>
+                <li>📆 <strong>Track Transactions:</strong> Streamlined approval and issuance of book requests.</li>
+                <li>⏰ <strong>Automated Late Fees:</strong> Efficiently calculate and manage late returns.</li>
+            </ul>
+        </section>
+
+        <section class="get-started">
+            <h3>🚀 Get Started:</h3>
+            <p>Explore our user-friendly interface and enhance your library's productivity today!</p>
+            <a href="{% url 'book_list' %}" class="btn">Explore Books</a>
+        </section>
+    </div>
+
+    <div class="quick-links" style="flex: 1;">
+        <h3>🔗 Quick Links:</h3>
+        <ul>
+            <li><a href="{% url 'book_list' %}">📚 View Books</a></li>
+            <li><a href="{% url 'transaction_list' %}">📖 My Rentals</a></li>
+            {% if user.is_superuser %}
+            <li><a href="{% url 'manage_requests' %}">🔧 Manage Requests</a></li>
+            <li><a href="{% url 'manage_return_requests' %}">🔄 Early Returns</a></li>
+            {% endif %}
+            <li><a href="{% url 'logout' %}">🚪 Logout</a></li>
+        </ul>
+
+        <section class="support">
+            <h3>💬 Need Help?</h3>
+            <p>For assistance, please contact our support team at <strong>support@libmanage.com</strong></p>
+        </section>
+    </div>
+</div>
+{% endblock %}
+

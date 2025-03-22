@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h2>🔄 Early Return Requests</h2>
+    {% if return_requests %}
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>User</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for req in return_requests %}
+            <tr>
+                <td>{{ req.book.title }}</td>
+                <td>{{ req.user.username }}</td>
+                <td>{{ req.issue_date }}</td>
+                <td>{{ req.due_date }}</td>
+                <td>
+                    <form method="post" action="{% url 'update_return' req.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">✅ Confirm Return</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="no-data">No early return requests found.</p>
+    {% endif %}
+</div>
+{% endblock %}

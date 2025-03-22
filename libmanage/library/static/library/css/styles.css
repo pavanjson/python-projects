@@ -1,0 +1,328 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f7f9fc;
+    color: #333;
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header, footer {
+    background-color: #1c3f60;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+nav a, nav button {
+    color: white;
+    margin: 0 8px;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+header {
+    background-color: #1c3f60;
+    padding: 20px;
+    color: white;
+}
+
+nav .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav .logo {
+    margin: 0;
+    font-size: 1.6em;
+}
+
+nav .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+nav .nav-links a, nav .nav-links button {
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+nav .user-greet {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+nav form {
+    margin: 0;
+}
+
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+footer {
+    margin-top: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+.btn {
+    padding: 5px 10px;
+    text-decoration: none;
+    background: #1c3f60;
+    color: white;
+    border-radius: 4px;
+}
+
+.delete {
+    background-color: #d9534f;
+}
+
+.unavailable {
+    color: red;
+}
+
+.messages div {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.messages .success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.messages .error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.form {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.home-content {
+    text-align: center;
+    padding: 50px;
+}
+
+.home-content ul {
+    display: inline-block;
+    text-align: left;
+    padding-left: 0;
+    margin: 0 auto;
+}
+
+.home-content ul li {
+    margin-bottom: 10px;
+}
+
+
+// Login &  Register
+.form-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.form-container h2 {
+    margin-bottom: 15px;
+    color: #1c3f60;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.field-error {
+    color: #d9534f;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.form-footer {
+    margin-top: 15px;
+}
+
+.form-footer a {
+    color: #1c3f60;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+button.btn {
+    padding: 10px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.styled-table th, .styled-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.styled-table th {
+    background-color: #1c3f60;
+    color: white;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.85em;
+}
+
+.status.pending {
+    background-color: #f0ad4e;
+}
+
+.status.approved {
+    background-color: #5bc0de;
+}
+
+.status.issued {
+    background-color: #5cb85c;
+}
+
+.status.denied {
+    background-color: #d9534f;
+}
+
+.status.returnrequested {
+    background-color: #f0ad4e;
+}
+
+.status.returned {
+    background-color: #0275d8;
+}
+
+.btn {
+    text-decoration: none;
+    border: none;
+    color: white;
+    padding: 7px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn.approve { background-color: #5cb85c; }
+.btn.deny { background-color: #d9534f; }
+.btn.issue { background-color: #0275d8; }
+.btn:hover { opacity: 0.9; }
+
+.no-data {
+    padding: 20px;
+    background-color: #f7f7f7;
+    color: #888;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.form-issue {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.form-issue label {
+    font-size: 1em;
+    color: #333;
+}
+
+.form-issue input[type="date"] {
+    padding: 8px 10px;
+    width: 250px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.btn.issue {
+    background-color: #1c3f60;
+    color: white;
+}
+
+.btn.back {
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+}
+
+.btn.back:hover, .btn.issue:hover {
+    opacity: 0.9;
+}
+``

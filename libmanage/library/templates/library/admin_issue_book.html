@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>📘 Issue Book</h2>
+    <table class="styled-table">
+        <tr>
+            <th>User:</th>
+            <td>{{ transaction.user.username }}</td>
+        </tr>
+        <tr>
+            <th>Book Title:</th>
+            <td>{{ transaction.book.title }}</td>
+        </tr>
+        <tr>
+            <th>Request Date:</th>
+            <td>{{ transaction.request_date }}</td>
+        </tr>
+    </table>
+
+    <form method="post" class="form-issue">
+        {% csrf_token %}
+        <label for="due_date"><strong>Select Due Date:</strong></label>
+        <input type="date" id="due_date" name="due_date" required>
+        <button type="submit" class="btn issue">Confirm Issue</button>
+        <a href="{% url 'manage_requests' %}" class="btn back">Cancel</a>
+    </form>
+</div>
+{% endblock %}

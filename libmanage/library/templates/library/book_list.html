@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>📚 Books Available</h2>
+{% if user.is_superuser %}
+<a href="{% url 'book_create' %}" class="btn">➕ Add New Book</a>
+{% endif %}
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Copies</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.num_available }}</td>
+            <td>
+                {% if user.is_superuser %}
+                    <a href="{% url 'book_update' book.pk %}" class="btn">✏️ Edit</a>
+                    <a href="{% url 'book_delete' book.pk %}" class="btn delete">🗑️ Delete</a>
+                {% else %}
+                    {% if book.num_available > 0 %}
+                        <a href="{% url 'request_rent_book' book.pk %}" class="btn">📖 Request Rent</a>
+                    {% else %}
+                        <span class="unavailable">Unavailable</span>
+                    {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

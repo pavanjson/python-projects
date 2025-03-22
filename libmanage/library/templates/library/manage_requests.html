@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h2>📚 Manage Book Requests</h2>
+    {% if pending_requests %}
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for req in pending_requests %}
+            <tr>
+                <td>{{ req.book.title }}</td>
+                <td>{{ req.user.username }}</td>
+                <td><span class="status {{ req.status|lower }}">{{ req.status }}</span></td>
+                <td>
+                    {% if req.status == 'Pending' %}
+                        <form method="post" action="{% url 'approve_request' req.pk %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn approve">✔️ Approve</button>
+                        </form>
+                        <form method="post" action="{% url 'deny_request' req.pk %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn deny">✖️ Deny</button>
+                        </form>
+                    {% elif req.status == 'Approved' %}
+                        <a href="{% url 'issue_book_admin' req.pk %}" class="btn issue">📘 Issue Book</a>
+                    {% elif req.status == 'Issued' %}
+                        <span class="issued">📗 Already Issued</span>
+                    {% else %}
+                        <span>{{ req.status }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="no-data">No book requests available right now.</p>
+    {% endif %}
+</div>
+{% endblock %}
