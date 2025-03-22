@@ -1,0 +1,25 @@
+{% extends 'quiz/base.html' %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Available Quizzes</h2>
+  <div class="row">
+    {% for quiz in quizzes %}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ quiz.title }}</h5>
+            <p class="card-text">{{ quiz.description|truncatewords:20 }}</p>
+            <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-primary">Take Quiz</a>
+            {% if user.is_authenticated and quiz.author == user %}
+              <a href="{% url 'quiz_edit' quiz.id %}" class="btn btn-warning">Edit</a>
+              <a href="{% url 'quiz_delete' quiz.id %}" class="btn btn-danger">Delete</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No quizzes available.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

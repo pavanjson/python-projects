@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+header nav a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+h1, h2 {
+    color: #444;
+}
+
+form {
+    margin-top: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #ccc;
+}
+
+.card {
+    border: 1px solid #ddd;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}

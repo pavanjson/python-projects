@@ -1,0 +1,10 @@
+{% extends 'quiz/base.html' %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Quiz Score</h2>
+  <div class="alert alert-info" role="alert">
+    Your Score: {{ score }} out of {{ total }}
+  </div>
+  <a href="{% url 'quiz_list' %}" class="btn btn-secondary">Back to Quizzes</a>
+</div>
+{% endblock content %}

@@ -1,0 +1,24 @@
+{% extends 'quiz/base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Create a New Quiz</h2>
+  <form method="post" id="quizForm">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.as_p }}
+    </div>
+    <hr>
+    <h4>Questions</h4>
+    <div id="questionsContainer"></div>
+    <button type="button" id="addQuestionBtn" class="btn btn-secondary mt-2">Add Question</button>
+    <input type="hidden" id="question_count" name="question_count" value="0">
+    <button type="submit" class="btn btn-primary mt-2">Submit Quiz</button>
+  </form>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'quiz/js/dynamic_quiz.js' %}"></script>
+{% endblock extra_js %}

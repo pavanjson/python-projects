@@ -1,0 +1,42 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="jumbotron text-center bg-light p-5 rounded">
+    <h1 class="display-4">Welcome to QuizQuest!</h1>
+    <p class="lead">Test your knowledge, challenge yourself, and share your learning journey.</p>
+    <hr class="my-4">
+    <p>Join our community of quiz enthusiasts and start exploring our quizzes today!</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'quiz_list' %}" role="button">Browse Quizzes</a>
+  </div>
+
+  <div class="row text-center mt-5">
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Create Quizzes</h5>
+          <p class="card-text">Easily design your own quizzes with dynamic multiple choice questions and options.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Take Quizzes</h5>
+          <p class="card-text">Challenge yourself with quizzes on various topics and track your progress.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Detailed Feedback</h5>
+          <p class="card-text">Review your answers alongside correct responses and learn from your mistakes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
