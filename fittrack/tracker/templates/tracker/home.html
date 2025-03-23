@@ -1,0 +1,62 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+  <!-- Hero Section -->
+  <div class="jumbotron text-center">
+    <h1 class="display-4">Welcome to FitTrack!</h1>
+    {% if user.is_authenticated %}
+      <p class="lead">Hello, {{ user.username }}. Start logging your workouts and setting your goals today!</p>
+      <a href="{% url 'progress_report' %}" class="btn btn-primary btn-lg">View Your Progress</a>
+    {% else %}
+      <p class="lead">Track your fitness journey with ease and precision.</p>
+      <p>
+        <a class="btn btn-primary btn-lg mr-2" href="{% url 'login' %}" role="button">Login</a>
+        <a class="btn btn-success btn-lg" href="{% url 'register' %}" role="button">Register</a>
+      </p>
+    {% endif %}
+  </div>
+
+  <!-- Features Section -->
+  <div class="container">
+    <div class="row text-center mb-4">
+      <div class="col">
+        <h2>Key Features</h2>
+        <p class="lead">Everything you need to manage your fitness journey.</p>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title">Workout Logging</h4>
+            <p class="card-text">Record your workouts with details like exercise type, duration, and calories burned.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title">Goal Setting</h4>
+            <p class="card-text">Define your fitness goals and track your progress over time with ease.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title">Interactive Reports</h4>
+            <p class="card-text">View dynamic charts and detailed reports to monitor your achievements and stay motivated.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call-to-Action / Tip Section -->
+    <div class="row">
+      <div class="col">
+        <div class="alert alert-info text-center" role="alert">
+          <strong>Pro Tip:</strong> Consistency is key! Log your workouts daily and update your progress for the best results.
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

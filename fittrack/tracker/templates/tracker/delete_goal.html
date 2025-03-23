@@ -1,0 +1,19 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+  <div class="card">
+    <div class="card-header bg-danger text-white">
+      Delete Goal
+    </div>
+    <div class="card-body">
+      <p>Are you sure you want to delete this goal?</p>
+      <ul>
+        <li>{{ goal.description }} - Target Date: {{ goal.target_date }} - {% if goal.is_completed %}Completed{% else %}Pending{% endif %}</li>
+      </ul>
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'progress_report' %}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+{% endblock %}

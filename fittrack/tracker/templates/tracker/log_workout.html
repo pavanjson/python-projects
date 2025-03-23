@@ -1,0 +1,15 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      Log a Workout
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Log Workout</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

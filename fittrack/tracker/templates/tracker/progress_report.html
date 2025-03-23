@@ -1,0 +1,83 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+  <div class="card mb-4">
+    <div class="card-header">
+      Progress Report
+    </div>
+    <div class="card-body">
+      <div class="mb-3">
+        <a href="{% url 'export_workouts' %}" class="btn btn-outline-secondary">Export Workouts as CSV</a>
+      </div>
+      <p><strong>Total Workouts:</strong> {{ total_workouts }}</p>
+      <p><strong>Total Duration:</strong> {{ total_duration }} minutes</p>
+      <p><strong>Total Calories Burned:</strong> {{ total_calories }}</p>
+
+      <h4 class="mt-4">Calories Burned Over Time</h4>
+      <canvas id="caloriesChart" width="400" height="200"></canvas>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        var ctx = document.getElementById('caloriesChart').getContext('2d');
+        var caloriesChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: {{ labels|safe }},
+            datasets: [{
+              label: 'Calories Burned',
+              data: {{ calories_data|safe }},
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1
+            }]
+          },
+          options: {
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Date'
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Calories'
+                },
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+
+      <h4 class="mt-4">Your Workouts</h4>
+      <ul class="list-group mb-3">
+        {% for workout in workouts %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ workout.workout_date }} - {{ workout.exercise_type }}: {{ workout.duration }} minutes, {{ workout.calories_burned }} calories</span>
+            <span>
+              <a href="{% url 'update_workout' workout.pk %}" class="btn btn-sm btn-primary">Edit</a>
+              <a href="{% url 'delete_workout' workout.pk %}" class="btn btn-sm btn-danger">Delete</a>
+            </span>
+          </li>
+        {% empty %}
+          <li class="list-group-item">No workouts logged yet.</li>
+        {% endfor %}
+      </ul>
+
+      <h4>Your Goals</h4>
+      <ul class="list-group">
+        {% for goal in goals %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ goal.description }} - Target Date: {{ goal.target_date }} - {% if goal.is_completed %}Completed{% else %}Pending{% endif %}</span>
+            <span>
+              <a href="{% url 'update_goal' goal.pk %}" class="btn btn-sm btn-primary">Edit</a>
+              <a href="{% url 'delete_goal' goal.pk %}" class="btn btn-sm btn-danger">Delete</a>
+            </span>
+          </li>
+        {% empty %}
+          <li class="list-group-item">No goals set yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
