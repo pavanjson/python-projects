@@ -1,0 +1,38 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h2>Latest Posts</h2>
+
+<form method="get" action="" class="search-form">
+  <input type="text" name="q" placeholder="Search posts..." value="{{ query|default:'' }}">
+  <button type="submit" class="btn">Search</button>
+</form>
+
+<ul class="post-list">
+  {% for post in page_obj %}
+    <li class="post-item">
+      <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+      <p class="post-meta">By {{ post.author.username }} on {{ post.created_at|date:"F j, Y, g:i a" }}</p>
+      {% if post.tags.all %}
+        <p class="post-tags">Tags:
+          {% for tag in post.tags.all %}
+            <span class="tag">{{ tag.name }}</span>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+      {% endif %}
+      <p class="post-likes">Likes: {{ post.likes.count }}</p>
+    </li>
+  {% empty %}
+    <li>No posts available.</li>
+  {% endfor %}
+</ul>
+
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Previous</a>
+  {% endif %}
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next</a>
+  {% endif %}
+</div>
+{% endblock %}

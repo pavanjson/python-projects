@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BlogBuzz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+</head>
+<body>
+  <header>
+    <div class="container header-container">
+      <div class="logo">
+        <h1><a href="{% url 'post_list' %}">BlogBuzz</a></h1>
+      </div>
+      <nav>
+        <ul class="nav-list">
+          <li><a href="{% url 'post_list' %}">Home</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'create_post' %}">Create Post</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+            <li class="welcome">Welcome, {{ user.username }}</li>
+          {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 BlogBuzz. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
