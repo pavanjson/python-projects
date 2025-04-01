@@ -1,0 +1,31 @@
+{% extends 'polls/base.html' %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Admin Dashboard</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Question</th>
+        <th>Created By</th>
+        <th>Created At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for poll in polls %}
+      <tr>
+        <td>{{ poll.question }}</td>
+        <td>{{ poll.created_by.username }}</td>
+        <td>{{ poll.created_at|date:"Y-m-d h:i A" }}</td>
+        <td>
+          <a class="btn btn-sm btn-primary" href="{% url 'poll_detail' poll.id %}">View</a>
+          <a class="btn btn-sm btn-warning" href="{% url 'poll_update' poll.id %}">Edit</a>
+          <a class="btn btn-sm btn-danger" href="{% url 'poll_delete' poll.id %}">Delete</a>
+          <a class="btn btn-sm btn-info" href="{% url 'poll_results' poll.id %}">Results</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

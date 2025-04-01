@@ -1,0 +1,27 @@
+{% extends 'polls/base.html' %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Polls</h2>
+  <form method="get" action="{% url 'poll_search' %}" class="mb-4">
+    <div class="input-group">
+      <input type="text" name="q" class="form-control" placeholder="Search polls..." value="{{ query|default:'' }}">
+      <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </div>
+  </form>
+  <ul class="list-group">
+    {% for poll in polls %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="{% url 'poll_detail' poll.id %}">{{ poll.question }}</a>
+      {% if user.is_superuser or poll.created_by == user %}
+      <div>
+        <a href="{% url 'poll_update' poll.id %}" class="btn btn-sm btn-warning me-1">Edit</a>
+        <a href="{% url 'poll_delete' poll.id %}" class="btn btn-sm btn-danger me-1">Delete</a>
+      </div>
+      {% endif %}
+    </li>
+    {% empty %}
+    <li class="list-group-item">No polls found.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

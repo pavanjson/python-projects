@@ -1,0 +1,22 @@
+{% extends 'polls/base.html' %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Update Poll</h2>
+  <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.as_p }}
+    </div>
+    <h3>Options:</h3>
+    <div>
+      {{ formset.management_form }}
+      {% for form in formset %}
+      <div class="mb-3">
+        {{ form.as_p }}
+      </div>
+      {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Update Poll</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'polls/base.html' %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Results for: {{ poll.question }}</h2>
+  <div id="results" class="mb-4">
+    <ul class="list-group">
+      {% for result in results %}
+      <li class="list-group-item">
+        {{ result.option }}: {{ result.votes }} votes ({{ result.percentage|floatformat:2 }}%)
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="mt-3"><strong>Total Votes:</strong> {{ total_votes }}</p>
+  </div>
+</div>
+<script>
+  setInterval(function(){
+    $.ajax({
+      url: "{% url 'poll_results_json' poll.id %}",
+      success: function(data){
+        var resultsDiv = $('#results');
+        var html = '<ul class="list-group">';
+        data.results.forEach(function(item){
+          html += '<li class="list-group-item">' + item.option + ': ' + item.votes + ' votes (' + item.percentage.toFixed(2) + '%)</li>';
+        });
+        html += '</ul>';
+        html += '<p class="mt-3"><strong>Total Votes:</strong> ' + data.total_votes + '</p>';
+        resultsDiv.html(html);
+      }
+    });
+  }, 5000);
+</script>
+{% endblock %}

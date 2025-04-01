@@ -1,0 +1,46 @@
+{% extends 'polls/base.html' %}
+{% block content %}
+<div class="container">
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>{{ poll.question }}</h2>
+    </div>
+    <div class="card-body">
+      {% if poll.image %}
+      <div class="mb-3">
+        <img src="{{ poll.image.url }}" class="img-fluid" alt="Poll Image">
+      </div>
+      {% endif %}
+      {% if poll.description %}
+      <p><strong>Description:</strong> {{ poll.description }}</p>
+      {% endif %}
+      <p><strong>Created by:</strong> {{ poll.created_by.username }}</p>
+      <p><strong>Created at:</strong> {{ poll.created_at|date:"Y-m-d h:i A" }}</p>
+      {% if poll.start_date %}
+      <p><strong>Scheduled Start Time:</strong> {{ poll.start_date|date:"Y-m-d h:i A" }}</p>
+      {% endif %}
+      {% if poll.end_date %}
+      <p><strong>Scheduled End Time:</strong> {{ poll.end_date|date:"Y-m-d h:i A" }}</p>
+      {% endif %}
+    </div>
+  </div>
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% else %}
+    <form method="post" class="mb-4">
+      {% csrf_token %}
+      <div class="mb-3">
+        {% for option in poll.options.all %}
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="option" value="{{ option.id }}" id="option{{ option.id }}">
+          <label class="form-check-label" for="option{{ option.id }}">
+            {{ option.option_text }}
+          </label>
+        </div>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary">Vote</button>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}

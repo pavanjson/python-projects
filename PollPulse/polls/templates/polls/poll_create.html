@@ -1,0 +1,48 @@
+{% extends 'polls/base.html' %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Create New Poll</h2>
+  <form method="post" enctype="multipart/form-data" id="poll-form" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.as_p }}
+    </div>
+    <h3>Options:</h3>
+    <div id="options-container">
+      {{ formset.management_form }}
+      {% for form in formset %}
+        <div class="option-form mb-3">
+          {{ form.as_p }}
+        </div>
+      {% endfor %}
+    </div>
+    <button type="button" id="add-option-btn" class="btn btn-secondary mb-3">Add Option</button>
+    <br>
+    <button type="submit" class="btn btn-primary">Create Poll</button>
+  </form>
+</div>
+<script>
+  $(document).ready(function(){
+      var formIdx = $('#id_form-TOTAL_FORMS').val();
+      $('#add-option-btn').click(function(){
+          var newForm = $('.option-form:first').clone();
+          newForm.find('input').each(function(){
+              $(this).val('');
+              var name = $(this).attr('name');
+              if (name) {
+                  var newName = name.replace(/-\d+-/, '-' + formIdx + '-');
+                  $(this).attr('name', newName);
+              }
+              var id = $(this).attr('id');
+              if (id) {
+                  var newId = id.replace(/-\d+-/, '-' + formIdx + '-');
+                  $(this).attr('id', newId);
+              }
+          });
+          $('#options-container').append(newForm);
+          formIdx++;
+          $('#id_form-TOTAL_FORMS').val(formIdx);
+      });
+  });
+</script>
+{% endblock %}
