@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .recipe-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .recipe-card {
+        width: 280px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        padding-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease;
+    }
+
+    .recipe-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .recipe-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .recipe-content {
+        padding: 10px;
+    }
+
+    .recipe-card h3 {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    .recipe-card p {
+        font-size: 14px;
+        color: #555;
+        margin: 5px 10px;
+    }
+
+    .rating {
+        font-size: 14px;
+        color: #ffa500;
+    }
+
+    .share-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .share-buttons a {
+        text-decoration: none;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+    }
+
+    .whatsapp { background: #25D366; }
+    .twitter { background: #1DA1F2; }
+    .facebook { background: #1877F2; }
+</style>
+
+<h1 style="text-align: center;">🍽️ All Recipes</h1>
+
+<!-- Search Bar -->
+<form method="GET" action="">
+    <input type="text" name="query" placeholder="Search for recipes..." value="{{ request.GET.query }}">
+    <button type="submit">Search</button>
+</form>
+
+<div class="recipe-container">
+    {% for recipe in recipes %}
+        <div class="recipe-card">
+            <a href="{% url 'recipe_detail' recipe.id %}">
+                {% if recipe.image %}
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/260x180" alt="No Image Available">
+                {% endif %}
+            </a>
+
+            <div class="recipe-content">
+                <h3><a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.title }}</a></h3>
+                <p class="rating">⭐ {{ recipe.average_rating|default:"0" }}/5</p>
+                <p>{{ recipe.description|truncatechars:100 }}</p>
+            </div>
+
+            <div class="share-buttons">
+                <a class="whatsapp" href="https://api.whatsapp.com/send?text=Check out this recipe: {{ request.build_absolute_uri }}" target="_blank">WhatsApp</a>
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=Check out this recipe: {{ request.build_absolute_uri }}" target="_blank">Twitter</a>
+                <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">Facebook</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>No recipes found.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

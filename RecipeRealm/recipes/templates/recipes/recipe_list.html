@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .recipe-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        margin: 30px auto;
+        max-width: 1200px;
+    }
+
+    .recipe-card {
+        width: 30%;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        padding-bottom: 15px;
+        transition: transform 0.3s ease;
+    }
+
+    .recipe-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .recipe-card img {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .recipe-content {
+        padding: 15px;
+    }
+
+    .recipe-card h3 {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+
+    .recipe-card p {
+        font-size: 14px;
+        color: #555;
+        margin: 5px 10px;
+    }
+
+    .rating {
+        font-size: 15px;
+        color: #ffa500;
+    }
+
+    .share-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .share-buttons a {
+        text-decoration: none;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 5px;
+        font-size: 13px;
+    }
+
+    .whatsapp { background: #25D366; }
+    .twitter { background: #1DA1F2; }
+    .facebook { background: #1877F2; }
+
+    footer {
+        background-color: #ff6600;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 14px;
+        margin-top: 30px;
+    }
+</style>
+
+
+<h1 style="text-align: center; margin-bottom: 20px;">🍽️ All Recipes</h1>
+
+<!-- Search Bar -->
+<div style="display: flex; justify-content: center; margin-bottom: 30px;">
+    <form method="GET" action="" style="display: flex; gap: 10px;">
+        <input type="text" name="q" placeholder="Search for recipes..." value="{{ request.GET.q }}"
+               style="padding: 8px 12px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px;">
+        <button type="submit"
+                style="padding: 8px 16px; font-size: 14px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Search
+        </button>
+    </form>
+</div>
+
+
+<div class="recipe-container">
+    {% for recipe in recipes %}
+        <div class="recipe-card">
+            <a href="{% url 'recipe_detail' recipe.id %}">
+                {% if recipe.image %}
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/260x180" alt="No Image Available">
+                {% endif %}
+            </a>
+            <div class="recipe-content">
+                <h3><a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.title }}</a></h3>
+                <p class="rating">⭐ {{ recipe.average_rating|default:"0" }}/5</p>
+                <p>{{ recipe.description|truncatechars:100 }}</p>
+            </div>
+            <div class="share-buttons">
+                <a class="whatsapp" href="https://api.whatsapp.com/send?text=Check out this recipe: {{ request.build_absolute_uri }}" target="_blank">WhatsApp</a>
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=Check out this recipe: {{ request.build_absolute_uri }}" target="_blank">Twitter</a>
+                <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">Facebook</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>No recipes found.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

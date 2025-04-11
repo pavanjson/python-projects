@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .recipe-detail {
+        max-width: 700px;
+        margin: 40px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .recipe-detail img {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    .rating-stars {
+        font-size: 24px;
+        color: #ffa500;
+    }
+
+    .rate-form {
+        margin-top: 20px;
+        font-size: 16px;
+    }
+
+    .rate-form select {
+        padding: 8px;
+        font-size: 14px;
+        margin-right: 10px;
+        border-radius: 6px;
+    }
+
+    .rate-form button {
+        padding: 8px 16px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .rate-form button:hover {
+        background-color: #218838;
+    }
+</style>
+
+<div style="max-width: 800px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center;">
+    <h1>{{ recipe.title }}</h1>
+    <p><strong>Category:</strong> {{ recipe.category }}</p>
+    <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+    <p>{{ recipe.description }}</p>
+    {% if recipe.image %}
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" style="max-width: 100%; border-radius: 10px; margin-top: 20px;">
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'rate_recipe' recipe.id %}" style="margin-top: 20px;">
+            {% csrf_token %}
+            <label for="rating">Rate this recipe:</label>
+            <select name="rating" id="rating">
+                <option value="1">1 ★</option>
+                <option value="2">2 ★★</option>
+                <option value="3">3 ★★★</option>
+                <option value="4">4 ★★★★</option>
+                <option value="5">5 ★★★★★</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    {% else %}
+        <p style="margin-top: 20px;"><a href="{% url 'login' %}">Log in</a> to rate this recipe.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

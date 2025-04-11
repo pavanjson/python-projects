@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecipeRealm</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+              margin-top: 30px;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            flex: 1;
+            padding: 20px;
+        }
+        footer {
+
+            background: #f1f1f1;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #333;
+
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'includes/navbar.html' %}
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+ <footer style="background-color: #ff6600; color: white; text-align: center; padding: 15px 10px; position: relative; bottom: 0; width: 100%; margin-top: 40px;">
+        <div>
+            <p style="margin: 5px 0;">© 2025 <strong>RecipeRealm</strong>. All rights reserved.</p>
+            <p style="margin: 0; font-size: 14px;">
+                Made with ❤️ by the RecipeRealm Team
+            </p>
+        </div>
+    </footer>
+
+
+</body>
+</html>

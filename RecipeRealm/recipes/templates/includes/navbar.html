@@ -1,0 +1,18 @@
+{% load static %}
+<nav style="background: #ff6600; padding: 10px 3px ; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; z-index: 999;">
+    <div style="display: flex; align-items: center;">
+        <a href="/" style="display: flex; align-items: center; text-decoration: none;">
+            <img src="{% static 'images/RecipeRealmLogo.jpeg' %}" alt="RecipeRealm" height="40" style="margin-right: 10px;">
+            <span style="color: white; font-size: 20px; font-weight: bold;">RecipeRealm</span>
+        </a>
+    </div>
+    <div style="display: flex; flex-wrap: wrap;">
+        <a href="{% url 'home' %}" style="color: white; text-decoration: none; margin: 5px 10px;">Home</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" style="color: white; text-decoration: none; margin: 5px 10px;">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" style="color: white; text-decoration: none; margin: 5px 10px;">Login</a>
+            <a href="{% url 'register' %}" style="color: white; text-decoration: none; margin: 5px 10px;">Register</a>
+        {% endif %}
+    </div>
+</nav>
