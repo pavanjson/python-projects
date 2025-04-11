@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white text-center rounded-top-4">
+          <h4 class="my-2">📝 Create a New Post</h4>
+        </div>
+
+        <div class="card-body">
+         <form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="id_content" class="form-label">What's on your mind?</label>
+    <textarea name="content" class="form-control" id="id_content" rows="4" placeholder="Write something..."></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="id_image" class="form-label">Upload an image</label>
+    <input type="file" name="image" class="form-control" id="id_image">
+  </div>
+
+  <div class="mb-3">
+    <label for="id_video" class="form-label">Upload a video</label>
+    <input type="file" name="video" class="form-control" id="id_video">
+  </div>
+
+  <button type="submit" class="btn btn-success w-100">📤 Post</button>
+</form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow p-5 rounded-4 border-0" style="width: 100%; max-width: 500px;"> <!-- Increased from 400px to 500px -->
+    <h3 class="text-center mb-4 text-primary fw-bold">Login to SocialSync</h3>
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" id="username" placeholder="Enter your username" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password" required>
+      </div>
+
+      {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+
+      <button type="submit" class="btn btn-primary w-100 mt-2">Login</button>
+    </form>
+
+    <p class="mt-4 text-center small">Don’t have an account? <a href="{% url 'register' %}">Register here</a></p>
+  </div>
+</section>
+{% endblock %}

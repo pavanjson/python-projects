@@ -1,0 +1,55 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', sans-serif;
+}
+.navbar {
+  height: 70px;
+  font-size: 1.15rem;
+}
+
+.navbar .nav-link {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+h2 {
+    color: #343a40;
+    margin-top: 20px;
+}
+
+img, video {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+footer p {
+    margin-bottom: 0;
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+.rounded-circle:hover {
+  transform: scale(1.05);
+  transition: 0.2s ease-in-out;
+}
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 2px solid white;
+  background-color: #fff;
+}
