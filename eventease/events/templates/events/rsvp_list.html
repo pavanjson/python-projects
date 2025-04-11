@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>📋 RSVP Responses</h2>
+
+    {% if rsvps %}
+        <table class="rsvp-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Status</th>
+                    <th>Response Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rsvp in rsvps %}
+                    <tr>
+                        <td>{{ rsvp.user.username }}</td>
+                        <td>{{ rsvp.status }}</td>
+                        <td>{{ rsvp.responded_at|date:"M d, Y H:i" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No RSVP responses yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

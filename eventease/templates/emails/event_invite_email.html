@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>You're Invited to {{ event.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            color: #333;
+        }
+        .email-container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #4b6cb7;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <h2>You're invited to <em>{{ event.title }}</em> 🎉</h2>
+
+    <p><strong>📅 Date:</strong> {{ event.date|date:"F j, Y – g:i A" }}</p>
+    <p><strong>📍 Location:</strong> {{ event.location }}</p>
+    <p><strong>📝 Description:</strong></p>
+    <p>{{ event.description }}</p>
+
+    <p>Don't miss out! RSVP now on <a href="http://127.0.0.1:8000/event/{{ event.id }}/">EventEase</a>.</p>
+
+    <div class="footer">
+        Powered by EventEase 💼
+    </div>
+</div>
+</body>
+</html>

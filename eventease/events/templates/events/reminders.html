@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="reminders-container" style="padding: 30px;">
+  <h2>⏰ Upcoming Event Reminders</h2>
+
+  {% if upcoming_events %}
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+      {% for event in upcoming_events %}
+        <div style="flex: 1 1 300px; background: #fdfdfd; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+          <h4 style="margin-bottom: 8px; color: #2c3e50;">{{ event.title }}</h4>
+          <p><strong>Date:</strong> {{ event.date|date:"F d, Y – g:i A" }}</p>
+          <p><strong>Ends:</strong> {{ event.end_time|date:"F d, Y – g:i A" }}</p>
+          <p><strong>Location:</strong> {{ event.location }}</p>
+          <p style="margin-top: 10px;">{{ event.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No upcoming reminders.</p>
+  {% endif %}
+</div>
+{% endblock %}

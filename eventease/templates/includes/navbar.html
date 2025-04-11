@@ -1,0 +1,31 @@
+{% load static %}
+<nav class="navbar">
+  <div class="nav-container">
+    <!-- 🔷 Logo -->
+    <div class="logo">
+      <a href="{% url 'home' %}">
+        <img src="{% static 'images/logo.jpeg' %}" alt="EventEase Logo" height="40">
+        <span>EventEase</span>
+      </a>
+    </div>
+
+    <!-- 🔷 Links -->
+    <div class="nav-links">
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+
+      {% if user.is_authenticated %}
+        <a href="{% url 'create_event' %}">Create Event</a>
+        <a href="{% url 'reminders' %}">Reminders</a>
+
+        <!-- 🧑 Show username -->
+        <span style="color: #ccc; margin-left: 10px;">
+          <strong>Hi, {{ user.username }}</strong> 👋</span>
+
+        <a href="{% url 'logout' %}">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>

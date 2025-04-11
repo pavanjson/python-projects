@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container home-hero">
+  <h1>🎉 Welcome to <span class="highlight">EventEase</span></h1>
+  <p class="lead">
+    Your one-stop solution to manage events, send RSVPs, and set reminders.
+    Whether it's a workshop, seminar, or a fun meetup – EventEase has you covered!
+  </p>
+
+  <div class="features">
+    <div class="feature-card">
+      <h3>📅 Create Events</h3>
+      <p>Schedule events easily with title, description, date, and location fields. Perfect for workshops, meetings, or anything in between.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>✅ RSVP System</h3>
+      <p>Let attendees confirm their participation with just one click. Track who’s coming and manage responses with ease.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>⏰ Smart Reminders</h3>
+      <p>Never miss an event again. View all your upcoming events in a clean and simple layout.</p>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    {% if user.is_authenticated %}
+      <a href="{% url 'dashboard' %}" class="cta-button">Go to Dashboard</a>
+    {% else %}
+      <a href="{% url 'register' %}" class="cta-button">Get Started</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

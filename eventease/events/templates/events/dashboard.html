@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="dashboard-container" style="padding: 30px;">
+
+  <h2>📅 Your Events</h2>
+
+  <!-- ✅ Upcoming Events -->
+  {% if upcoming_events %}
+    <h3 style="color: #2ecc71;">🟢 Upcoming Events</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+      {% for event in upcoming_events %}
+        <div style="flex: 1 1 250px; background: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+          <h4 style="margin-bottom: 10px;"><a href="{% url 'event_detail' event.id %}">{{ event.title }}</a></h4>
+          <p><strong>Start:</strong> {{ event.date|date:"F d, Y, g:i a" }}</p>
+          <p><strong>Ends:</strong> {{ event.end_time_db|date:"F d, Y, g:i a" }}</p>
+          <p><strong>Location:</strong> {{ event.location }}</p>
+          <a href="{% url 'edit_event' event.id %}" style="display: inline-block; margin-top: 10px; padding: 5px 10px; background-color: #4b6cb7; color: white; border-radius: 5px; text-decoration: none;">✏️ Edit</a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No upcoming events.</p>
+  {% endif %}
+
+  <hr style="margin: 40px 0;">
+
+  <!-- 🔴 Past Events -->
+  {% if past_events %}
+    <h3 style="color: #e74c3c;">🔴 Past Events</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+      {% for event in past_events %}
+        <div style="flex: 1 1 250px; background: #f1f1f1; padding: 20px; border-radius: 10px; box-shadow: 0 0 8px rgba(0,0,0,0.03);">
+          <h4>{{ event.title }}</h4>
+          <p><strong>Start:</strong> {{ event.date|date:"F d, Y, g:i a" }}</p>
+          <p><strong>Ended:</strong> {{ event.end_time_db|date:"F d, Y, g:i a" }}</p>
+          <p><strong>Location:</strong> {{ event.location }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No past events.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

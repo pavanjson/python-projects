@@ -1,0 +1,323 @@
+/* Layout Wrapper for Sticky Footer */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    padding: 30px;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(to right, #4b6cb7, #182848);
+    color: white;
+    padding: 20px 40px;
+    font-size: 18px;
+    min-height: 80px;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 12px;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Form Container (Register, Login, Create, Edit) */
+.form-container {
+    max-width: 500px;
+    margin: 100px auto 50px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #182848;
+    margin-bottom: 20px;
+}
+
+.form-container label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-container textarea,
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"],
+.form-container input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: none;
+    font-size: 15px;
+}
+
+.form-container button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: #4b6cb7;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background: #182848;
+}
+
+.form-errors {
+    color: #c00;
+    background: #ffe0e0;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid #c00;
+    border-radius: 4px;
+}
+
+/* Footer */
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 30px 20px 10px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.footer-grid h4 {
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.footer-grid ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-grid ul li {
+    margin-bottom: 5px;
+}
+
+.footer-grid ul li a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.footer-grid ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid #555;
+    padding-top: 10px;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* Messages */
+.messages {
+    list-style: none;
+    padding: 10px;
+    background-color: #e0f7fa;
+    border-left: 5px solid #00796b;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+/* Dashboard styling */
+.dashboard-container {
+    padding: 40px;
+}
+
+.dashboard-container h2 {
+    color: #182848;
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.event-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.event-card {
+    background-color: #ffffff;
+    border-left: 5px solid #4b6cb7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.event-card:hover {
+    transform: scale(1.02);
+}
+
+.event-card h3 {
+    margin-top: 0;
+    color: #4b6cb7;
+}
+
+.event-card p {
+    margin: 8px 0;
+}
+
+.edit-btn {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #4b6cb7;
+    color: #fff;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.edit-btn:hover {
+    background-color: #182848;
+}
+/* Horizontal Scroll Wrapper */
+.reminder-horizontal-scroll {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.reminder-card {
+    min-width: 300px;
+    flex-shrink: 0;
+    background-color: #ffffff;
+    padding: 20px;
+    border-left: 5px solid #4b6cb7;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    scroll-snap-align: start;
+    transition: transform 0.2s;
+}
+
+.reminder-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.reminder-card h3 {
+    margin-top: 0;
+    color: #182848;
+}
+.home-hero {
+    text-align: center;
+    margin-top: 60px;
+}
+
+.home-hero h1 {
+    font-size: 36px;
+    color: #182848;
+}
+
+.home-hero .highlight {
+    color: #4b6cb7;
+}
+
+.home-hero .lead {
+    font-size: 18px;
+    margin: 20px 0 40px;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.feature-card {
+    background-color: #fff;
+    padding: 20px;
+    border-left: 5px solid #4b6cb7;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 280px;
+    transition: transform 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card h3 {
+    margin-top: 0;
+    color: #4b6cb7;
+}
+
+.cta-section {
+    margin-top: 40px;
+}
+
+.cta-button {
+    background-color: #4b6cb7;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cta-button:hover {
+    background-color: #182848;
+}
+.alert {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.field-errors .error {
+    color: #d9534f;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+

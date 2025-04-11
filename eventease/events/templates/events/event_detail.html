@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container" style="max-width: 800px; margin: auto; padding: 40px 20px;">
+    <div class="event-card" style="background: white; border-radius: 10px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <h2 style="display: flex; align-items: center;">
+    <span style="margin-right: 10px;">📅</span>{{ event.title }}
+    {% if event.is_past %}
+        <span style="color: red; font-size: 16px; margin-left: 10px;">⏳ (Ended)</span>
+    {% endif %}
+</h2>
+
+
+
+      <p><strong>Starts at:</strong> {{ event.date|date:"F j, Y – g:i A" }}</p>
+<p><strong>Ends at:</strong> {{ event.date|add:event.duration|date:"F j, Y – g:i A" }}</p>
+<p><strong>Location:</strong> {{ event.location }}</p>
+
+        <p><strong>Description:</strong></p>
+        <textarea rows="4" readonly style="width: 100%; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+{{ event.description }}
+        </textarea>
+
+        <hr style="margin: 30px 0;">
+
+        <h4>✅ RSVP</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" style="padding: 10px 20px; background-color: #4b6cb7; color: white; border: none; border-radius: 5px; margin-top: 10px;">
+                Submit RSVP
+            </button>
+        </form>
+
+        <hr style="margin: 30px 0;">
+
+        <h4>📢 Share this Event</h4>
+        <div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px; margin-bottom: 10px;">
+            <textarea id="share-text" readonly style="width: 100%; height: 140px; border: none; background: none; resize: none;">
+You're invited to *{{ event.title }}* 🎉
+
+📅 Date: {{ event.date|date:"F j, Y – g:i A" }}
+📍 Location: {{ event.location }}
+
+📝 {{ event.description }}
+
+Join us via EventEase platform!
+            </textarea>
+            <button onclick="copyToClipboard()" style="margin-top: 10px; padding: 10px 15px; background-color: #4b6cb7; color: white; border: none; border-radius: 5px;">
+                📋 Copy Message
+            </button>
+        </div>
+        <a href="https://wa.me/?text={{ event.title|urlencode }}" target="_blank" style="color: #25d366; text-decoration: underline;">📤 Share on WhatsApp</a>
+
+        <!-- 📨 Email Send Section -->
+        <hr style="margin: 30px 0;">
+        <h4>📨 Invite via Email</h4>
+        <form action="{% url 'send_invite' event.id %}" method="post"
+              style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            {% csrf_token %}
+            <input type="email" name="email" required placeholder="recipient@example.com"
+                   style="padding: 8px; width: 250px; border: 1px solid #ccc; border-radius: 4px;">
+            <button type="submit"
+                    style="background: #0072c6; color: white; padding: 10px 15px; border: none; border-radius: 4px;">
+                📤 Send Invitation
+            </button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+function copyToClipboard() {
+    var copyText = document.getElementById("share-text");
+    copyText.select();
+    document.execCommand("copy");
+    alert("Event info copied!");
+}
+</script>
+
+{% endblock %}
