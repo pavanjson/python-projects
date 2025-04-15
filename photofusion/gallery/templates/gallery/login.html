@@ -1,0 +1,62 @@
+{% extends 'gallery/base.html' %}
+{% block content %}
+<div class="row justify-content-center align-items-center">
+  <!-- Left: Project Description -->
+  <div class="col-md-6 mb-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h3 class="card-title">📸 Welcome to <span class="text-info">PhotoFusion</span></h3>
+        <p class="card-text text-muted">
+          <strong>PhotoFusion</strong> is your personal space to preserve, manage, and celebrate memories through photos.
+          Whether you're an individual, photographer, or visual storyteller, PhotoFusion gives you the perfect platform to:
+        </p>
+        <ul>
+          <li>📤 <strong>Upload</strong> and manage your photos seamlessly</li>
+          <li>🗂️ <strong>Create Albums</strong> to categorize moments like vacations, events, or milestones</li>
+          <li>🔍 <strong>Search Instantly</strong> across captions and album names</li>
+          <li>🖼️ <strong>Preview Images</strong> in full-screen with interactive navigation</li>
+          <li>👤 <strong>Customize your profile</strong> with your avatar and personal info</li>
+          <li>🛡️ <strong>Secure your gallery</strong> with private login access</li>
+        </ul>
+        <p class="text-muted mt-3">
+          Join the community of storytellers — where every photo tells a story. <br>
+          <strong>Login now</strong> to build your visual world with PhotoFusion.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Login Form -->
+  <div class="col-md-5">
+    <div class="card shadow">
+      <div class="card-header bg-success text-white fw-semibold">Login to Your Account</div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+
+          {% if error %}
+            <div class="alert alert-danger">Invalid username or password.</div>
+          {% endif %}
+
+          <div class="mb-3">
+            <label for="username">Username</label>
+            <input type="text" name="username" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="password">Password</label>
+            <input type="password" name="password" class="form-control" required>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-success">Login</button>
+          </div>
+        </form>
+        <p class="mt-3 text-center">
+          Don't have an account? <a href="{% url 'register' %}">Register now</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

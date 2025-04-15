@@ -1,0 +1,74 @@
+{% extends 'gallery/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+  <div class="card shadow p-4">
+    <h2 class="mb-4">📤 Upload a Photo</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        {{ form.album.label_tag }}
+        {{ form.album }}
+        {% if form.album.errors %}
+          <div class="text-danger">{{ form.album.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        {{ form.new_album.label_tag }}
+        {{ form.new_album }}
+        {% if form.new_album.errors %}
+          <div class="text-danger">{{ form.new_album.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        {{ form.image.label_tag }}
+        {{ form.image }}
+        <br>
+        <img id="preview" src="#" alt="Image preview" class="img-thumbnail mt-3" style="display:none; max-width: 300px;" />
+        {% if form.image.errors %}
+          <div class="text-danger">{{ form.image.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        {{ form.caption.label_tag }}
+        {{ form.caption }}
+        {% if form.caption.errors %}
+          <div class="text-danger">{{ form.caption.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Upload Photo</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Image preview
+  const imageInput = document.getElementById('id_image');
+  const preview = document.getElementById('preview');
+
+  if (imageInput) {
+    imageInput.addEventListener('change', function (e) {
+      const [file] = imageInput.files;
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+      } else {
+        preview.style.display = 'none';
+      }
+    });
+  }
+
+  // If album select has no options (except placeholder), hide it
+  const albumSelect = document.getElementById('id_album');
+  if (albumSelect && albumSelect.options.length <= 1) {
+    albumSelect.parentElement.style.display = 'none';
+    document.querySelector('label[for="id_album"]').style.display = 'none';
+    document.querySelector('label[for="id_new_album"]').classList.add('fw-bold');
+  }
+</script>
+{% endblock %}

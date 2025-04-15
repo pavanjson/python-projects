@@ -1,0 +1,137 @@
+
+{% extends 'gallery/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📸 Your Photo Gallery</h2>
+    <a href="{% url 'upload' %}" class="btn btn-primary">+ Upload New Photo</a>
+  </div>
+
+  <!-- Album filter -->
+  <form method="get" class="row mb-4">
+    <div class="col-md-4">
+      <select name="album" class="form-select" onchange="this.form.submit()">
+        <option value="">All Albums</option>
+        {% for a in albums %}
+          <option value="{{ a.id }}" {% if request.GET.album == a.id|stringformat:'s' %}selected{% endif %}>{{ a.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+
+  {% if photos %}
+    <div class="row">
+      {% for photo in photos %}
+        <div class="col-md-4 col-lg-3 mb-4">
+          <div class="card shadow-sm h-100">
+            <div class="img-hover-zoom">
+              <img src="{{ photo.image.url }}" class="card-img-top gallery-image" data-index="{{ forloop.counter0 }}" style="height: 250px; object-fit: cover;">
+            </div>
+            <div class="card-body">
+              <h6 class="card-subtitle text-muted mb-1">{{ photo.album.name }}</h6>
+              <p class="card-text mb-1">{{ photo.caption }}</p>
+              <small class="text-muted">Uploaded {{ photo.uploaded_at|date:"M d, Y H:i" }}</small>
+              {% if photo.album.user == user %}
+              <div class="mt-2">
+                <a href="{% url 'edit_photo' photo.id %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'delete_photo' photo.id %}" class="btn btn-sm btn-danger">Delete</a>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        {% if photos.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?{% if request.GET.album %}album={{ request.GET.album }}&{% endif %}page={{ photos.previous_page_number }}">Previous</a>
+          </li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">Page {{ photos.number }} of {{ photos.paginator.num_pages }}</span></li>
+        {% if photos.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?{% if request.GET.album %}album={{ request.GET.album }}&{% endif %}page={{ photos.next_page_number }}">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% else %}
+    <div class="text-center">
+      <img src="{% static 'gallery/img/empty_gallery.svg' %}" alt="No Photos" style="width: 200px;">
+      <h5 class="mt-3 text-muted">No photos uploaded yet.</h5>
+      <a href="{% url 'upload' %}" class="btn btn-outline-primary mt-2">Upload Now</a>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Lightbox Modal -->
+<div class="modal fade" id="lightboxModal" tabindex="-1" aria-labelledby="lightboxLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-body p-0">
+        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+        <img id="lightboxImage" src="" class="w-100" style="max-height: 90vh; object-fit: contain;">
+        <div class="position-absolute top-50 start-0 translate-middle-y ms-3">
+          <button class="btn btn-light" id="prevBtn">⟨</button>
+        </div>
+        <div class="position-absolute top-50 end-0 translate-middle-y me-3">
+          <button class="btn btn-light" id="nextBtn">⟩</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.img-hover-zoom {
+  overflow: hidden;
+}
+.img-hover-zoom img {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+.img-hover-zoom:hover img {
+  transform: scale(1.05);
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const images = document.querySelectorAll(".gallery-image");
+  const modal = new bootstrap.Modal(document.getElementById("lightboxModal"));
+  const modalImg = document.getElementById("lightboxImage");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  let currentIndex = 0;
+  const imageList = Array.from(images).map(img => img.src);
+
+  function updateModalImage() {
+    modalImg.src = imageList[currentIndex];
+  }
+
+  images.forEach((img, index) => {
+    img.addEventListener("click", () => {
+      currentIndex = index;
+      updateModalImage();
+      modal.show();
+    });
+  });
+
+  prevBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+    updateModalImage();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % imageList.length;
+    updateModalImage();
+  });
+});
+</script>
+{% endblock %}

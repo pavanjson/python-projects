@@ -1,0 +1,9 @@
+{% extends 'gallery/base.html' %}
+{% block content %}
+<h3>Are you sure you want to delete your account?</h3>
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Yes, Delete My Account</button>
+  <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
