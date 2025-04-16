@@ -1,0 +1,15 @@
+body {
+    font-family: sans-serif;
+    padding: 20px;
+    background: #f2f2f2;
+}
+a {
+    color: darkblue;
+    text-decoration: none;
+}
+header, main {
+    margin-bottom: 20px;
+}
+ul {
+    list-style-type: none;
+}

@@ -1,0 +1,141 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+
+<!-- Hero Section -->
+{% if not request.GET.q %}
+<div class="text-center my-5">
+  <h1 class="display-4 fw-bold">🎬 Welcome to MovieMingle</h1>
+  <p class="lead text-muted">Discover, rate, and share your favorite movies. Powered by Django & Bootstrap.</p>
+</div>
+{% endif %}
+
+<!-- Role-based Content (Only when not searching) -->
+{% if not request.GET.q %}
+  {% if not user.is_authenticated %}
+  <div class="row mb-5">
+    <div class="col-md-6">
+      <div class="card border-info">
+        <div class="card-body">
+          <h5 class="card-title">New here?</h5>
+          <p class="card-text">Join MovieMingle and explore a world of movies. You can rate, review, and build your favorites list.</p>
+          <a href="{% url 'signup' %}" class="btn btn-info">Sign Up</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card border-success">
+        <div class="card-body">
+          <h5 class="card-title">Already a member?</h5>
+          <p class="card-text">Log in to add your own reviews and interact with the community!</p>
+          <a href="{% url 'login' %}" class="btn btn-success">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% elif user.is_superuser %}
+  <div class="alert alert-primary mb-4" role="alert">
+    <h5 class="alert-heading">👑 Admin Dashboard</h5>
+    <p>You can add, edit, or delete movies. Use the navigation bar or click below.</p>
+    <a href="{% url 'movie_add' %}" class="btn btn-outline-primary">Add New Movie</a>
+  </div>
+  {% else %}
+  <div class="alert alert-success mb-4" role="alert">
+    <h5 class="alert-heading">👋 Welcome, {{ user.username }}!</h5>
+    <p>Browse movies below and leave your reviews to help others discover great films!</p>
+  </div>
+  {% endif %}
+{% endif %}
+
+<!-- Favorite Movies Section -->
+{% if user.is_authenticated and user.favorite_movies.all and not request.GET.q %}
+<div class="mt-5">
+  <h3 class="mb-3">🌟 Your Favorite Movies</h3>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for movie in user.favorite_movies.all %}
+    <div class="col">
+      <div class="card h-100 shadow">
+        <img src="{{ movie.image_url }}" class="card-img-top" style="height: 300px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title">{{ movie.title }}</h5>
+          <a href="{% url 'movie_detail' movie.pk %}" class="btn btn-sm btn-primary">View</a>
+          <form action="{% url 'toggle_favorite' movie.pk %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-warning">Remove</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- Search Result Heading -->
+{% if request.GET.q %}
+<h3 class="mb-4">🔍 Search Results for "{{ request.GET.q }}"</h3>
+{% endif %}
+
+<!-- Movie Cards -->
+{% if movies %}
+<div class="container mt-4">
+  {% if not request.GET.q %}
+    <h2 class="mb-4">🎞️ Browse All Movies</h2>
+  {% endif %}
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for movie in movies %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          {% if movie.image_url %}
+            <img src="{{ movie.image_url }}" class="card-img-top" alt="{{ movie.title }}" style="height: 500px; object-fit: cover;">
+          {% else %}
+            <img src="https://via.placeholder.com/400x300?text=No+Image" class="card-img-top" alt="No image">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ movie.title }}</h5>
+            <p class="card-text"><strong>Director:</strong> {{ movie.director }}</p>
+            <p class="card-text"><strong>Rating:</strong> ⭐ {{ movie.average_rating }}</p>
+            <a href="{% url 'movie_detail' movie.pk %}" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-center my-4">
+  <nav>
+    <ul class="pagination">
+      {% if movies.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ movies.previous_page_number }}">Previous</a>
+        </li>
+      {% endif %}
+
+      <li class="page-item active"><span class="page-link">{{ movies.number }}</span></li>
+
+      {% if movies.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ movies.next_page_number }}">Next</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+
+{% else %}
+  <div class="text-center mt-5">
+    <h2 class="text-danger">🚫 No movies found for "{{ request.GET.q }}"</h2>
+    <p>Try searching with different keywords or <a href="/">view all movies</a>.</p>
+  </div>
+{% endif %}
+
+<!-- CTA Section (hide when searching) -->
+{% if not request.GET.q %}
+<div class="text-center mt-5">
+  <h4 class="mb-3">✨ Suggest a Movie</h4>
+  <p class="text-muted">Want us to add your favorite film? <a href="mailto:add-movie@moviemingle.com">Contact us</a> or reach out on social!</p>
+</div>
+{% endif %}
+
+{% endblock %}

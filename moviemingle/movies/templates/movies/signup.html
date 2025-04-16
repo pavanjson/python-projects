@@ -1,0 +1,22 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+  <div class="card p-4 shadow-lg" style="width: 100%; max-width: 450px;">
+    <h2 class="text-center mb-4">📝 Sign Up</h2>
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small">{{ field.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary w-100">Create Account</button>
+    </form>
+    <p class="mt-3 text-center">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+  </div>
+</div>
+{% endblock %}
