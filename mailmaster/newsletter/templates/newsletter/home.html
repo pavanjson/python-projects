@@ -1,0 +1,44 @@
+{% extends 'newsletter/base.html' %}
+{% block content %}
+<div class="text-center mb-5">
+  <h1 class="display-5 fw-bold text-primary">📧 Welcome to MailMaster</h1>
+  <p class="lead">Your all-in-one platform to manage subscribers, compose newsletters, and track campaigns effortlessly.</p>
+  <hr class="my-4">
+</div>
+
+<div class="row text-center">
+  <div class="col-md-4 mb-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title">👥 Manage Subscribers</h5>
+        <p class="card-text">Add, delete, or group your email subscribers to keep your contact list organized.</p>
+        <a href="/subscribers/" class="btn btn-outline-primary">View Subscribers</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title">✍️ Compose Newsletters</h5>
+        <p class="card-text">Create engaging newsletters using a simple interface and send them to targeted groups.</p>
+        <a href="/compose/" class="btn btn-outline-success">Create Newsletter</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title">📬 Track Sent Emails</h5>
+        <p class="card-text">View a history of all newsletters sent, along with their recipients and details.</p>
+        <a href="/sent/" class="btn btn-outline-dark">View Sent</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center mt-4">
+  <a href="/groups/" class="btn btn-primary btn-lg">🎯 Manage Groups</a>
+</div>
+{% endblock %}

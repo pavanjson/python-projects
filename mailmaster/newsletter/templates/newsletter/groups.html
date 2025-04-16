@@ -1,0 +1,32 @@
+<!-- newsletter/templates/newsletter/groups.html -->
+{% extends 'newsletter/base.html' %}
+{% block content %}
+<h2>Manage Groups</h2>
+
+<form method="post" class="mb-4">
+  {% csrf_token %}
+  <div class="input-group">
+    <input type="text" name="name" class="form-control" placeholder="New group name" required>
+    <button class="btn btn-primary" type="submit">Add Group</button>
+  </div>
+</form>
+
+<table class="table table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>Group Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for group in groups %}
+    <tr>
+        <td><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></td>
+      <td>
+        <a href="{% url 'delete_group' group.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this group?')">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

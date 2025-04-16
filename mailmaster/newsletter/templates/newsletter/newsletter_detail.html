@@ -1,0 +1,15 @@
+{% extends 'newsletter/base.html' %}
+{% block content %}
+<div class="card">
+  <div class="card-header bg-primary text-white">
+    <h4>{{ newsletter.subject }}</h4>
+  </div>
+  <div class="card-body">
+    <p><strong>Group:</strong> {{ newsletter.group.name }}</p>
+    <p><strong>Sent On:</strong> {{ newsletter.created_at }}</p>
+    <hr>
+    <p>{{ newsletter.content|linebreaks }}</p>
+  </div>
+</div>
+<a href="{% url 'sent_newsletters' %}" class="btn btn-secondary mt-3">← Back to Sent</a>
+{% endblock %}

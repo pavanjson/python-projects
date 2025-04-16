@@ -1,0 +1,36 @@
+<!-- newsletter/templates/newsletter/group_detail.html -->
+{% extends 'newsletter/base.html' %}
+{% block content %}
+<h2>Group: {{ group.name }}</h2>
+
+<form method="post" class="mb-4">
+    {% csrf_token %}
+    <label for="emails">Add Email IDs (comma-separated):</label>
+    <div class="input-group">
+        <input type="text" name="emails" class="form-control" placeholder="e.g. test1@gmail.com, test2@gmail.com" required>
+        <button class="btn btn-success" type="submit">Add</button>
+    </div>
+</form>
+
+<h4>Subscribers in {{ group.name }}</h4>
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sub in subscribers %}
+        <tr>
+            <td>{{ sub.email }}</td>
+            <td>
+                <a href="{% url 'delete_subscriber' sub.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this subscriber?')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'group_list' %}" class="btn btn-secondary mt-3">← Back to Groups</a>
+{% endblock %}

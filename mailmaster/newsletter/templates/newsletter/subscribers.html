@@ -1,0 +1,39 @@
+<!-- newsletter/templates/newsletter/subscribers.html -->
+{% extends 'newsletter/base.html' %}
+{% block content %}
+<h2>Manage Subscribers</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        {{ form.email.label_tag }} {{ form.email }}
+    </div>
+    <div class="mb-3">
+        {{ form.group.label_tag }} {{ form.group }}
+    </div>
+    <div class="mb-3">
+        {{ form.new_group.label_tag }} {{ form.new_group }}
+    </div>
+    <button type="submit" class="btn btn-primary">Add Subscriber</button>
+</form>
+
+
+<hr>
+<h3>Current Subscribers</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Group</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sub in subscribers %}
+        <tr>
+            <td>{{ sub.email }}</td>
+            <td>{{ sub.group.name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
