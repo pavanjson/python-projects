@@ -1,48 +1,118 @@
 {% extends 'polls/base.html' %}
+{% load form_filters %}
 {% block content %}
 <div class="container">
-  <h2 class="mb-4">Create New Poll</h2>
-  <form method="post" enctype="multipart/form-data" id="poll-form" class="needs-validation" novalidate>
-    {% csrf_token %}
-    <div class="mb-3">
-      {{ form.as_p }}
-    </div>
-    <h3>Options:</h3>
-    <div id="options-container">
-      {{ formset.management_form }}
-      {% for form in formset %}
-        <div class="option-form mb-3">
-          {{ form.as_p }}
+  <h2 class="mb-4 text-center text-primary">🗳️ Create a New Poll</h2>
+
+  <div class="card shadow-lg">
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data" id="poll-form" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <!-- 📌 Poll Info -->
+        <div class="mb-3">
+          <label class="form-label">Question</label>
+          {{ form.question|add_class:"form-control" }}
         </div>
-      {% endfor %}
+
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          {{ form.description|add_class:"form-control" }}
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Start Date</label>
+            {{ form.start_date|add_class:"form-control" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">End Date</label>
+            {{ form.end_date|add_class:"form-control" }}
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Poll Image (optional)</label>
+          {{ form.image|add_class:"form-control" }}
+        </div>
+
+        <!-- 🧩 Options Section -->
+        <div class="mb-3">
+          <h5 class="text-success">Poll Options</h5>
+          <p class="text-muted small">Add at least 2 options. You can add or delete below.</p>
+        </div>
+
+        <div id="options-container">
+          {{ formset.management_form }}
+          {% for form in formset %}
+          <div class="option-form mb-3 border p-3 rounded position-relative">
+            <label class="form-label">Option {{ forloop.counter }}</label>
+            {{ form.option_text|add_class:"form-control" }}
+            <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 mt-2 me-2 delete-option-btn">✖</button>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="mb-4 text-end">
+          <button type="button" id="add-option-btn" class="btn btn-outline-secondary btn-sm">
+            ➕ Add Option
+          </button>
+        </div>
+
+        <div class="text-end">
+          <button type="submit" class="btn btn-primary px-4">Create Poll</button>
+        </div>
+      </form>
     </div>
-    <button type="button" id="add-option-btn" class="btn btn-secondary mb-3">Add Option</button>
-    <br>
-    <button type="submit" class="btn btn-primary">Create Poll</button>
-  </form>
+  </div>
 </div>
+
+<!-- 🔧 Add/Delete Option Script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function(){
-      var formIdx = $('#id_form-TOTAL_FORMS').val();
-      $('#add-option-btn').click(function(){
-          var newForm = $('.option-form:first').clone();
-          newForm.find('input').each(function(){
-              $(this).val('');
-              var name = $(this).attr('name');
-              if (name) {
-                  var newName = name.replace(/-\d+-/, '-' + formIdx + '-');
-                  $(this).attr('name', newName);
-              }
-              var id = $(this).attr('id');
-              if (id) {
-                  var newId = id.replace(/-\d+-/, '-' + formIdx + '-');
-                  $(this).attr('id', newId);
-              }
-          });
-          $('#options-container').append(newForm);
-          formIdx++;
-          $('#id_form-TOTAL_FORMS').val(formIdx);
+  $(document).ready(function () {
+    let totalForms = $('#id_form-TOTAL_FORMS');
+    let formIdx = parseInt(totalForms.val());
+
+    // ➕ Add Option
+    $('#add-option-btn').click(function () {
+      const newForm = $('.option-form:first').clone(false);
+
+      newForm.find('input').each(function () {
+        const name = $(this).attr('name').replace(/-\d+-/, '-' + formIdx + '-');
+        const id = $(this).attr('id').replace(/-\d+-/, '-' + formIdx + '-');
+        $(this).attr({ name: name, id: id }).val('');
       });
+
+      newForm.find('label').text('Option ' + (formIdx + 1));
+      newForm.find('.delete-option-btn').show();
+      $('#options-container').append(newForm);
+      formIdx++;
+      totalForms.val(formIdx);
+    });
+
+    // ❌ Delete Option
+    $('#options-container').on('click', '.delete-option-btn', function () {
+      if ($('.option-form').length > 2) {
+        $(this).closest('.option-form').remove();
+
+        // Re-index option labels
+        $('.option-form').each(function (index) {
+          $(this).find('label').text('Option ' + (index + 1));
+        });
+
+        // Update total forms
+        formIdx = $('.option-form').length;
+        totalForms.val(formIdx);
+      } else {
+        alert("At least 2 options are required.");
+      }
+    });
+
+    // 🔐 Disable delete button if only 2 options
+    if ($('.option-form').length <= 2) {
+      $('.delete-option-btn').hide();
+    }
   });
 </script>
 {% endblock %}

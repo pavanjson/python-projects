@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.models import User
 from .models import Poll, PollOption
 
-
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
@@ -34,4 +33,10 @@ class PollCreationForm(forms.ModelForm):
 class PollOptionForm(forms.ModelForm):
     class Meta:
         model = PollOption
-        fields = ('option_text',)
+        fields = ['option_text']
+
+    def clean_option_text(self):
+        option_text = self.cleaned_data.get('option_text')
+        if option_text:
+            option_text = option_text.strip()  # Trim leading/trailing spaces
+        return option_text

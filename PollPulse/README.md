@@ -1,19 +1,20 @@
 # 🗳️ PollPulse
 
-PollPulse is an online polling system built with Django that allows users to create polls, vote, and view results in real-time. It provides secure user authentication and a separate admin dashboard to manage polls efficiently.
+PollPulse is a dynamic online polling system built with Django that allows users to create polls, vote, and view results in real-time. It supports role-based dashboards, poll scheduling, image uploads, and a modern Bootstrap-powered UI.
 
 ---
 
 ## 📚 Project Overview
 
 **PollPulse** enables users to:
-- ✅ Create and manage polls with multiple options.
-- ✅ Vote on active polls and view real-time results.
+- ✅ Create, edit, and delete polls with multiple options.
+- ✅ Vote on live polls and see animated real-time results.
 - ✅ Authenticate securely (Admin/User roles).
-- ✅ Access role-based dashboards.
-- ✅ Schedule poll start and end times.
-- ✅ Upload multimedia (images) to polls.
-- ✅ View poll results dynamically with auto-refresh.
+- ✅ Access custom dashboards based on user role.
+- ✅ Schedule polls with start and end times.
+- ✅ Attach images to polls for visual context.
+- ✅ Receive OTP-based email verification during registration.
+- ✅ Experience a modern, responsive design with feedback and alerts.
 
 ---
 
@@ -25,34 +26,44 @@ PollPulse is an online polling system built with Django that allows users to cre
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
 ### 🎯 Poll Management
 - Create, update, delete, and manage polls.
-- Define multiple poll options.
-- Add poll start and end times.
+- Set future poll schedule with `start_date` and `end_date`.
+- Upload image banners for polls.
+- Use modelformset with add/remove option support dynamically.
+- Duplicate options are automatically restricted.
+- Validation shown clearly with messages and field-level hints.
 
+### 👥 Role-Based User Access
+- **Admins**:
+  - Full control over polls.
+  - View who voted and their selected options (with email).
+- **Regular Users**:
+  - Can vote only once per poll.
+  - Cannot vote before or after poll duration.
+  - See results dynamically after voting.
 
-### 👥 User Authentication
-- Register, login, and logout with secure credentials.
-- Role-based access:
-  - Admin: Full poll management.
-  - Regular Users: View and vote on polls.
-![img.png](img.png)
-![img_1.png](img_1.png)
-![img_2.png](img_2.png)
-![img_3.png](img_3.png)
+### 🔐 Authentication
+- Email-based OTP verification during registration.
+- Secure login with password encryption.
+- Role-based homepage redirection.
+
+### 📊 Real-Time Results
+- Results shown as list + pie chart (Chart.js).
+- Auto-refresh enabled with live updates via AJAX.
+
+---
+
+## 🖼️ UI Snapshots
+
+![img.png](img.png)  
+![img_1.png](img_1.png)  
+![img_2.png](img_2.png)  
+![img_3.png](img_3.png)  
+![img_4.png](img_4.png)  
 ![img_5.png](img_5.png)
-
-### 📊 Voting & Results
-- Vote on active polls.
-- Prevent duplicate votes.
-- View dynamic poll results in real-time.
-![img_4.png](img_4.png)
-- 
-### 📅 Poll Scheduling
-- Schedule polls for future start and end dates.
-- Restrict voting outside poll duration.
 
 ---
 
@@ -60,11 +71,11 @@ PollPulse is an online polling system built with Django that allows users to cre
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/vinayhp22/python-projects/tree/main/
-cd pollpulse
+git clone https://github.com/vinayhp22/python-projects.git
+cd python-projects/pollpulse
 ```
 
-### 2️⃣ Create a Virtual Environment
+### 2️⃣ Create Virtual Environment
 ```bash
 # For Linux/Mac
 python3 -m venv venv
@@ -75,17 +86,13 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-### 3️⃣ Install Required Packages
+### 3️⃣ Install Requirements
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Configure `settings.py`
-- Set up your database credentials in:
-```
-PollPulse/settings.py
-```
-Update the following:
+### 4️⃣ Configure Database
+In `PollPulse/settings.py`, configure:
 ```python
 DATABASES = {
     'default': {
@@ -99,101 +106,80 @@ DATABASES = {
 }
 ```
 
-### 5️⃣ Run Database Migrations
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
 ---
 
 ## 📄 SQL Schema Setup
 
-To create the database and necessary tables, run the following steps:
-
-### 1️⃣ Open MySQL Terminal
-```bash
-mysql -u root -p
-```
-Enter your MySQL password when prompted.
-
-### 2️⃣ Run `schema.sql` File
+Run this from MySQL terminal:
 ```sql
-SOURCE /path/to/schema.sql;
+SOURCE /absolute/path/to/schema.sql;
 ```
-⚡ **Note:** Replace `/path/to/schema.sql` with the absolute path to your downloaded `schema.sql` file.
+Make sure to replace `/absolute/path/to/schema.sql` with your full file path.
 
 ---
 
-## 🔥 Run the Application
+## 🔧 Run the App
 
 ```bash
-# Start the development server
+python manage.py makemigrations
+python manage.py migrate
 python manage.py runserver
 ```
 
-Open your browser and navigate to:
+Visit:  
 ```
 http://127.0.0.1:8000/
 ```
 
 ---
 
-## 🔐 Testing Credentials
+## 🔐 Test Accounts
 
-### 1. Admin User
-- **Username:** admin  
-- **Password:** admin  
-
-### 2. Test User
-- **Username:** testuser  
-- **Password:** User@123  
+| Role     | Username     | Password  |
+|----------|--------------|-----------|
+| Admin    | admin        | admin     |
+| User     | testuser     | User@123  |
+| User     | testuser1    | User@123  |
 
 ---
 
-## 📧 Contact Information
+## 📧 Contact
 
-For queries or assistance, feel free to reach out:
-- 📧 **Official Mail:** [vinay@skyllx.com](mailto:vinay@skyllx.com)
-- 📧 **Backup Email:** [vinayhp.paramesh@gmail.com](mailto:vinayhp.paramesh@gmail.com)
+For help or contributions:
+- 📩 vinay@skyllx.com
+- 📩 vinayhp.paramesh@gmail.com
 
 ---
 
 ## 🧪 Running Tests
-Run tests to ensure functionality:
+
 ```bash
 python manage.py test
 ```
 
 ---
 
-## 📚 Folder Structure
+## 🗂️ Project Structure
 
 ```
 PollPulse/
 ├── PollPulse/
-│   ├── __init__.py
-│   ├── asgi.py
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
+│   ├── settings.py, urls.py, wsgi.py
 ├── polls/
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── templates/
-│   ├── urls.py
-│   └── views.py
-├── static/
-│   └── polls/
+│   ├── models.py, views.py, urls.py, admin.py, forms.py
+│   ├── templates/polls/
+│   └── static/polls/
 ├── media/
-└── manage.py
+├── manage.py
+└── schema.sql
 ```
 
 ---
 
 ## 📜 License
+
 This project is licensed under the MIT License.
 
 ---
+
+📝 **Last Updated:** April 17, 2025

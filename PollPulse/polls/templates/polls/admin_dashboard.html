@@ -1,31 +1,80 @@
 {% extends 'polls/base.html' %}
 {% block content %}
 <div class="container">
-  <h2 class="mb-4">Admin Dashboard</h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Question</th>
-        <th>Created By</th>
-        <th>Created At</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for poll in polls %}
-      <tr>
-        <td>{{ poll.question }}</td>
-        <td>{{ poll.created_by.username }}</td>
-        <td>{{ poll.created_at|date:"Y-m-d h:i A" }}</td>
-        <td>
-          <a class="btn btn-sm btn-primary" href="{% url 'poll_detail' poll.id %}">View</a>
-          <a class="btn btn-sm btn-warning" href="{% url 'poll_update' poll.id %}">Edit</a>
-          <a class="btn btn-sm btn-danger" href="{% url 'poll_delete' poll.id %}">Delete</a>
-          <a class="btn btn-sm btn-info" href="{% url 'poll_results' poll.id %}">Results</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <h2 class="mb-4 text-center">👨‍💼 Welcome, Admin!</h2>
+
+  <!-- 📊 Real-Time Poll Stats -->
+  <div class="row text-center g-4 mb-5">
+    <div class="col-md-3">
+      <div class="card border-primary shadow-sm">
+        <div class="card-body">
+          <h6 class="text-muted">Live Polls</h6>
+          <h3 class="text-primary">{{ live_count }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-info shadow-sm">
+        <div class="card-body">
+          <h6 class="text-muted">Upcoming Polls</h6>
+          <h3 class="text-info">{{ upcoming_count }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-danger shadow-sm">
+        <div class="card-body">
+          <h6 class="text-muted">Past Polls</h6>
+          <h3 class="text-danger">{{ past_count }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-dark shadow-sm">
+        <div class="card-body">
+          <h6 class="text-muted">Total Polls</h6>
+          <h3 class="text-dark">{{ total_count }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔧 Admin Actions -->
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Create a New Poll</h5>
+          <p class="card-text text-muted">Start a new poll with scheduling, description, and options.</p>
+          <a href="{% url 'poll_create' %}" class="btn btn-success">Create Now</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">View All Polls</h5>
+          <p class="card-text text-muted">Manage existing polls, see votes, update or delete.</p>
+          <a href="{% url 'poll_list' %}" class="btn btn-primary">Go to Polls</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Analyze Results</h5>
+          <p class="card-text text-muted">Access detailed results with voter insights and charts.</p>
+          <a href="{% url 'poll_list' %}" class="btn btn-info">View Results</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💡 Note -->
+  <div class="text-center mt-5 text-muted">
+    <p>You're viewing the admin control panel of <strong>PollPulse</strong>. Use this dashboard to monitor, manage and measure engagement.</p>
+  </div>
 </div>
 {% endblock %}

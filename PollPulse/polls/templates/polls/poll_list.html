@@ -1,27 +1,53 @@
 {% extends 'polls/base.html' %}
 {% block content %}
 <div class="container">
-  <h2 class="mb-4">Polls</h2>
-  <form method="get" action="{% url 'poll_search' %}" class="mb-4">
+  <h2 class="mb-4">🗳️ Explore Polls</h2>
+
+  <!-- 🔍 Search Form -->
+  <form method="get" action="{% url 'poll_search' %}" class="mb-5">
     <div class="input-group">
-      <input type="text" name="q" class="form-control" placeholder="Search polls..." value="{{ query|default:'' }}">
-      <button type="submit" class="btn btn-outline-secondary">Search</button>
+      <input type="text" name="q" class="form-control" placeholder="Search polls by question or description..." value="{{ query|default:'' }}">
+      <button type="submit" class="btn btn-outline-primary">Search</button>
     </div>
   </form>
-  <ul class="list-group">
+
+  {% if polls %}
+  <div class="row row-cols-1 row-cols-md-2 g-4">
     {% for poll in polls %}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <a href="{% url 'poll_detail' poll.id %}">{{ poll.question }}</a>
-      {% if user.is_superuser or poll.created_by == user %}
-      <div>
-        <a href="{% url 'poll_update' poll.id %}" class="btn btn-sm btn-warning me-1">Edit</a>
-        <a href="{% url 'poll_delete' poll.id %}" class="btn btn-sm btn-danger me-1">Delete</a>
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <!-- 🔥 Highlighted Question -->
+          <h5 class="card-title fw-bold text-primary">
+            {{ poll.question }}
+          </h5>
+
+          {% if poll.description %}
+            <p class="card-text text-muted small">{{ poll.description|truncatechars:120 }}</p>
+          {% endif %}
+
+          <p class="card-text mt-2">
+            <span class="badge bg-secondary">By {{ poll.created_by.username }}</span>
+            <span class="badge bg-light text-dark">{{ poll.created_at|date:"M d, Y h:i A" }}</span>
+          </p>
+        </div>
+
+        <!-- ✅ Buttons Section -->
+        <div class="card-footer d-flex justify-content-between flex-wrap gap-2">
+          <a class="btn btn-sm btn-success" href="{% url 'poll_detail' poll.id %}">Vote</a>
+          <a class="btn btn-sm btn-info" href="{% url 'poll_results' poll.id %}">Results</a>
+
+          {% if user.is_superuser or poll.created_by == user %}
+            <a class="btn btn-sm btn-warning" href="{% url 'poll_update' poll.id %}">Edit</a>
+            <a class="btn btn-sm btn-danger" href="{% url 'poll_delete' poll.id %}">Delete</a>
+          {% endif %}
+        </div>
       </div>
-      {% endif %}
-    </li>
-    {% empty %}
-    <li class="list-group-item">No polls found.</li>
+    </div>
     {% endfor %}
-  </ul>
+  </div>
+  {% else %}
+  <div class="alert alert-warning text-center">No polls found.</div>
+  {% endif %}
 </div>
 {% endblock %}

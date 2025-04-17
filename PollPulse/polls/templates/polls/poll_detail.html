@@ -1,46 +1,80 @@
 {% extends 'polls/base.html' %}
 {% block content %}
 <div class="container">
-  <div class="card mb-4">
-    <div class="card-header">
-      <h2>{{ poll.question }}</h2>
+
+  <!-- 📋 Poll Info Card -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">{{ poll.question }}</h4>
     </div>
     <div class="card-body">
       {% if poll.image %}
-      <div class="mb-3">
-        <img src="{{ poll.image.url }}" class="img-fluid" alt="Poll Image">
-      </div>
+        <div class="mb-3 text-center">
+          <img src="{{ poll.image.url }}" class="img-fluid rounded" alt="Poll Image">
+        </div>
       {% endif %}
       {% if poll.description %}
-      <p><strong>Description:</strong> {{ poll.description }}</p>
+        <p><strong>Description:</strong> {{ poll.description }}</p>
       {% endif %}
       <p><strong>Created by:</strong> {{ poll.created_by.username }}</p>
       <p><strong>Created at:</strong> {{ poll.created_at|date:"Y-m-d h:i A" }}</p>
       {% if poll.start_date %}
-      <p><strong>Scheduled Start Time:</strong> {{ poll.start_date|date:"Y-m-d h:i A" }}</p>
+        <p><strong>Start Time:</strong> {{ poll.start_date|date:"Y-m-d h:i A" }}</p>
       {% endif %}
       {% if poll.end_date %}
-      <p><strong>Scheduled End Time:</strong> {{ poll.end_date|date:"Y-m-d h:i A" }}</p>
+        <p><strong>End Time:</strong> {{ poll.end_date|date:"Y-m-d h:i A" }}</p>
       {% endif %}
     </div>
   </div>
+
+  <!-- ⚠️ Error Message -->
   {% if error %}
-    <div class="alert alert-danger">{{ error }}</div>
-  {% else %}
-    <form method="post" class="mb-4">
-      {% csrf_token %}
-      <div class="mb-3">
-        {% for option in poll.options.all %}
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="option" value="{{ option.id }}" id="option{{ option.id }}">
-          <label class="form-check-label" for="option{{ option.id }}">
-            {{ option.option_text }}
-          </label>
-        </div>
-        {% endfor %}
-      </div>
-      <button type="submit" class="btn btn-primary">Vote</button>
-    </form>
+    <div class="alert alert-danger text-center">{{ error }}</div>
   {% endif %}
+
+  <!-- 🔒 Admin Review Info -->
+  {% if admin_review %}
+    <div class="alert alert-warning text-center fw-semibold">
+      Dear {{ admin_name }}, you're the admin. You're restricted from voting.<br>
+      This is just a review page to show how the voting landing page looks.
+    </div>
+  {% endif %}
+
+  <!-- 🗳️ Voting Form -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form method="post" class="mb-3" {% if admin_review %}onsubmit="return showAdminAlert()" {% endif %}>
+        {% csrf_token %}
+        <div class="mb-3">
+          {% for option in poll.options.all %}
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="option" value="{{ option.id }}"
+                   id="option{{ option.id }}"
+                   {% if voted_option_id == option.id %}checked{% endif %}
+                   {% if has_voted %}disabled{% endif %}>
+            <label class="form-check-label" for="option{{ option.id }}">
+              {{ option.option_text }}
+            </label>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% if not has_voted and not admin_review %}
+          <button type="submit" class="btn btn-primary">Vote</button>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
 </div>
+
+<!-- 🔐 Admin Alert JS -->
+{% if admin_review %}
+<script>
+  function showAdminAlert() {
+    alert("Dear {{ admin_name }}, you're restricted from voting. This is just a review page.");
+    return false;
+  }
+</script>
+{% endif %}
 {% endblock %}

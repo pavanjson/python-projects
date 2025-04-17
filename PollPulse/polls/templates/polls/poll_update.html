@@ -1,22 +1,144 @@
 {% extends 'polls/base.html' %}
+{% load form_filters %}
 {% block content %}
 <div class="container">
-  <h2 class="mb-4">Update Poll</h2>
-  <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
-    {% csrf_token %}
-    <div class="mb-3">
-      {{ form.as_p }}
-    </div>
-    <h3>Options:</h3>
-    <div>
-      {{ formset.management_form }}
-      {% for form in formset %}
-      <div class="mb-3">
-        {{ form.as_p }}
+  <h2 class="mb-4 text-center text-warning">✏️ Update Poll</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert {% if message.tags == 'success' %}alert-success
+                      {% elif message.tags == 'error' %}alert-danger
+                      {% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-      {% endfor %}
+    {% endfor %}
+  {% endif %}
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data" id="poll-update-form" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <!-- Poll Fields -->
+        <div class="mb-3">
+          <label class="form-label">Question</label>
+          {{ form.question|add_class:"form-control" }}
+          {% if form.question.errors %}
+            <div class="text-danger small mt-1">{{ form.question.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          {{ form.description|add_class:"form-control" }}
+          {% if form.description.errors %}
+            <div class="text-danger small mt-1">{{ form.description.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Start Date</label>
+            {{ form.start_date|add_class:"form-control" }}
+            {% if form.start_date.errors %}
+              <div class="text-danger small mt-1">{{ form.start_date.errors.0 }}</div>
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">End Date</label>
+            {{ form.end_date|add_class:"form-control" }}
+            {% if form.end_date.errors %}
+              <div class="text-danger small mt-1">{{ form.end_date.errors.0 }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Poll Image</label>
+          {{ form.image|add_class:"form-control" }}
+          {% if form.image.errors %}
+            <div class="text-danger small mt-1">{{ form.image.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Poll Options -->
+        <h5 class="text-success mb-3">Options</h5>
+        <div id="options-container">
+          {{ formset.management_form }}
+          {% for form in formset %}
+            <div class="option-form mb-3 border p-3 rounded position-relative">
+              {{ form.id }}  <!-- ✅ Required hidden ID -->
+              {{ form.DELETE }} <!-- ✅ Hidden DELETE input -->
+
+              <label class="form-label">Option {{ forloop.counter }}</label>
+              {{ form.option_text|add_class:"form-control" }}
+              {% if form.option_text.errors %}
+                <div class="text-danger small mt-1">{{ form.option_text.errors.0 }}</div>
+              {% endif %}
+              <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 mt-2 me-2 delete-option-btn">✖</button>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Buttons -->
+        <div class="mb-4 text-end">
+          <button type="button" id="add-option-btn" class="btn btn-outline-secondary btn-sm">➕ Add Option</button>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+          <a href="{% url 'poll_delete' poll.id %}" class="btn btn-outline-danger">🗑️ Delete Poll</a>
+          <button type="submit" class="btn btn-primary px-4">Update Poll</button>
+        </div>
+      </form>
     </div>
-    <button type="submit" class="btn btn-primary">Update Poll</button>
-  </form>
+  </div>
 </div>
+
+<!-- JS for Add/Delete Option -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    let totalForms = $('#id_form-TOTAL_FORMS');
+    let formIdx = parseInt(totalForms.val());
+
+    // ➕ Add Option
+    $('#add-option-btn').click(function () {
+      const newForm = $('.option-form:first').clone(false);
+
+      newForm.find('input').each(function () {
+        const name = $(this).attr('name').replace(/-\d+-/, '-' + formIdx + '-');
+        const id = $(this).attr('id').replace(/-\d+-/, '-' + formIdx + '-');
+        $(this).attr({ name: name, id: id }).val('');
+      });
+
+      // Reset delete checkbox (if present)
+      newForm.find("input[type='checkbox']").prop('checked', false);
+
+      newForm.find('label').text('Option ' + (formIdx + 1));
+      newForm.find('.delete-option-btn').show();
+      $('#options-container').append(newForm);
+      formIdx++;
+      totalForms.val(formIdx);
+    });
+
+    // ❌ "Soft" delete the form by checking DELETE box and hiding visually
+    $('#options-container').on('click', '.delete-option-btn', function () {
+      const formBlock = $(this).closest('.option-form');
+
+      // Mark as deleted if DELETE checkbox exists
+      const deleteField = formBlock.find("input[type='checkbox']");
+      if (deleteField.length) {
+        deleteField.prop('checked', true);
+        formBlock.hide(); // visually hide, not remove from DOM
+      }
+
+      // Recalculate labels for only visible forms
+      $('.option-form:visible').each(function (index) {
+        $(this).find('label').text('Option ' + (index + 1));
+      });
+    });
+  });
+
+</script>
 {% endblock %}

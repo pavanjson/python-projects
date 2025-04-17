@@ -118,7 +118,7 @@ CREATE TABLE `auth_user` (
   `date_joined` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$870000$CXeazkRg5ky1FZri64e7tC$aTrqy4FYhdo7WVbt91/XECDizD7fDwe35CnIR/3DnvM=','2025-04-01 05:20:04.521127',1,'admin','','','',1,1,'2025-03-27 08:35:43.179868'),(2,'pbkdf2_sha256$870000$iBVvRZ837cETis9bfnrwxL$UXNFTBco2jALokfcpf0a/W3lAlgB5ZuKoDmr+weRziY=','2025-04-01 05:24:11.207813',0,'testuser','','','testuser@skyllx.com',0,1,'2025-03-31 17:20:54.602684');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$870000$CXeazkRg5ky1FZri64e7tC$aTrqy4FYhdo7WVbt91/XECDizD7fDwe35CnIR/3DnvM=','2025-04-17 13:47:48.105482',1,'admin','','','',1,1,'2025-03-27 08:35:43.179868'),(2,'pbkdf2_sha256$870000$iBVvRZ837cETis9bfnrwxL$UXNFTBco2jALokfcpf0a/W3lAlgB5ZuKoDmr+weRziY=','2025-04-17 13:47:25.849501',0,'testuser','','','testuser@skyllx.com',0,1,'2025-03-31 17:20:54.602684'),(3,'pbkdf2_sha256$870000$zpL68mZKZQK6jI3fTxSHum$j/2Sn0NOtdpkR7QFlF/ZqVRIHBSwB0OIPfZnJ801n6I=','2025-04-17 12:26:34.673561',0,'testuser1','','','vinay@skyllx.com',0,1,'2025-04-17 12:19:33.163036');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -295,7 +295,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('04jk7jc3jhilrmgs5nc5xebu3hn8c14n','.eJxVjEEOwiAQRe_C2pC2wLS4dO8ZyAwzSNVAUtqV8e7apAvd_vfef6mA25rD1mQJM6uzGtTpdyOMDyk74DuWW9WxlnWZSe-KPmjT18ryvBzu30HGlr91PxkC6bwZyDk2zCTUGwMYE03eY7QIAJYjjgjCzB0x25hkFErWiXp_AAUOObA:1tzU6d:mYhl0WBd4ZCMX0-df3l7O63KpTlXkyGVVwSuRMTKZ-s','2025-04-15 05:24:11.213974');
+INSERT INTO `django_session` VALUES ('04jk7jc3jhilrmgs5nc5xebu3hn8c14n','.eJxVjEEOwiAQRe_C2pC2wLS4dO8ZyAwzSNVAUtqV8e7apAvd_vfef6mA25rD1mQJM6uzGtTpdyOMDyk74DuWW9WxlnWZSe-KPmjT18ryvBzu30HGlr91PxkC6bwZyDk2zCTUGwMYE03eY7QIAJYjjgjCzB0x25hkFErWiXp_AAUOObA:1tzU6d:mYhl0WBd4ZCMX0-df3l7O63KpTlXkyGVVwSuRMTKZ-s','2025-04-15 05:24:11.213974'),('xvvqw1zebsdpl4m4o8f151nar7u2xmxd','.eJxVjMsOwiAQRf-FtSEzhQK6dN9vIHRmkKqBpI-V8d-1SRe6veec-1IxbWuJ2yJznFhdFKrT7zYmekjdAd9TvTVNra7zNOpd0Qdd9NBYntfD_TsoaSnf2iNJBsnO2GBdDmgdp55QzowGyJEBTgzB0xicQRDoUChb7wH7AJ16fwDj8jdg:1u5Pam:UfkQehebATdBMpFSsnqJhgc2B9Ufqlm0q6ivxLQSV9U','2025-05-01 13:47:48.110089');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,7 +318,7 @@ CREATE TABLE `polls_poll` (
   PRIMARY KEY (`id`),
   KEY `polls_poll_created_by_id_bba6b2dd_fk_auth_user_id` (`created_by_id`),
   CONSTRAINT `polls_poll_created_by_id_bba6b2dd_fk_auth_user_id` FOREIGN KEY (`created_by_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,7 +327,7 @@ CREATE TABLE `polls_poll` (
 
 LOCK TABLES `polls_poll` WRITE;
 /*!40000 ALTER TABLE `polls_poll` DISABLE KEYS */;
-INSERT INTO `polls_poll` VALUES (3,'Favorite Color','Vote for your favorite color','2025-04-05 09:00:00.000000','2025-04-05 18:00:00.000000','2025-04-04 16:20:30.123456','poll_images/colors.png',1),(4,'Best Movie of 2025','Select the best movie of 2025','2025-04-10 12:00:00.000000','2025-04-12 12:00:00.000000','2025-04-10 08:15:45.654321','poll_images/movies.png',1),(5,'Lunch Options','Choose your preferred lunch option','2025-04-15 11:00:00.000000','2025-04-15 13:00:00.000000','2025-04-15 10:00:00.000000','poll_images/lunch.png',1),(6,'New Feature Request','Vote for the feature you want next','2025-04-20 09:30:00.000000','2025-04-25 17:30:00.000000','2025-04-20 08:45:00.000000','poll_images/feature.png',1),(7,'Favorite Sport','Pick your favorite sport','2025-04-22 10:00:00.000000','2025-04-22 20:00:00.000000','2025-04-22 09:30:00.000000','poll_images/sport.png',1),(8,'Holiday Destination','Where should we go for the holiday?','2025-05-01 08:00:00.000000','2025-05-01 22:00:00.000000','2025-04-30 14:10:00.000000','poll_images/holiday.png',1),(9,'Favorite Programming Language','Select the programming language you prefer','2025-05-05 09:00:00.000000','2025-05-05 18:00:00.000000','2025-05-04 16:00:00.000000','poll_images/programming.png',1),(10,'Book of the Month','Vote for the best book this month','2025-05-10 10:00:00.000000','2025-05-15 10:00:00.000000','2025-05-10 09:00:00.000000','poll_images/book.png',1),(11,'Office Snacks','Choose the snacks for the office','2025-05-20 08:00:00.000000','2025-05-20 16:00:00.000000','2025-05-20 07:30:00.000000','poll_images/snacks.png',1);
+INSERT INTO `polls_poll` VALUES (13,'Project Selection','Final year project','2025-04-16 03:30:00.000000','2025-04-30 12:30:00.000000','2025-04-16 08:47:02.437584','',1),(16,'Testing','NA','2024-01-10 19:31:00.000000','2025-12-31 19:31:00.000000','2025-04-17 14:27:33.255965','',1);
 /*!40000 ALTER TABLE `polls_poll` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,7 +345,7 @@ CREATE TABLE `polls_polloption` (
   PRIMARY KEY (`id`),
   KEY `polls_polloption_poll_id_e1eaae7c_fk_polls_poll_id` (`poll_id`),
   CONSTRAINT `polls_polloption_poll_id_e1eaae7c_fk_polls_poll_id` FOREIGN KEY (`poll_id`) REFERENCES `polls_poll` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -354,6 +354,7 @@ CREATE TABLE `polls_polloption` (
 
 LOCK TABLES `polls_polloption` WRITE;
 /*!40000 ALTER TABLE `polls_polloption` DISABLE KEYS */;
+INSERT INTO `polls_polloption` VALUES (7,'PollPulse',13),(8,'Social Sync',13),(13,'TaskMaster',13),(14,'QuizQuest',13),(15,'Others',13),(19,'Testing 1',16),(21,'Testing 3',16),(22,'Testing 4',16);
 /*!40000 ALTER TABLE `polls_polloption` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -377,7 +378,7 @@ CREATE TABLE `polls_vote` (
   CONSTRAINT `polls_vote_option_id_96f4c8e3_fk_polls_polloption_id` FOREIGN KEY (`option_id`) REFERENCES `polls_polloption` (`id`),
   CONSTRAINT `polls_vote_poll_id_482e29e3_fk_polls_poll_id` FOREIGN KEY (`poll_id`) REFERENCES `polls_poll` (`id`),
   CONSTRAINT `polls_vote_voted_by_id_c34b72ec_fk_auth_user_id` FOREIGN KEY (`voted_by_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,6 +387,7 @@ CREATE TABLE `polls_vote` (
 
 LOCK TABLES `polls_vote` WRITE;
 /*!40000 ALTER TABLE `polls_vote` DISABLE KEYS */;
+INSERT INTO `polls_vote` VALUES (3,'2025-04-16 08:48:10.181570',7,13,2),(4,'2025-04-17 12:20:00.950936',7,13,3);
 /*!40000 ALTER TABLE `polls_vote` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -406,4 +408,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-01 10:58:49
+-- Dump completed on 2025-04-17 20:13:09
