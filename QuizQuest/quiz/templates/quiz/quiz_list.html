@@ -1,4 +1,5 @@
 {% extends 'quiz/base.html' %}
+{% load dict_extras %}
 {% block content %}
 <div class="container">
   <h2 class="mb-4">Available Quizzes</h2>
@@ -9,10 +10,34 @@
           <div class="card-body">
             <h5 class="card-title">{{ quiz.title }}</h5>
             <p class="card-text">{{ quiz.description|truncatewords:20 }}</p>
-            <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-primary">Take Quiz</a>
+
+            <!-- ✅ No. of Questions -->
+            <p class="text-muted small">No. of Questions: {{ quiz.questions.count }}</p>
+
+            {% if not user.is_superuser %}
+              <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-primary">Take Quiz</a>
+            {% endif %}
+
             {% if user.is_authenticated and quiz.author == user %}
               <a href="{% url 'quiz_edit' quiz.id %}" class="btn btn-warning">Edit</a>
               <a href="{% url 'quiz_delete' quiz.id %}" class="btn btn-danger">Delete</a>
+            {% endif %}
+
+            {% if user.is_superuser %}
+              <a href="{% url 'view_results' quiz.id %}" class="btn btn-info mt-2">View Results</a>
+            {% endif %}
+
+            {% if user.is_authenticated and not user.is_superuser %}
+              {% with attempt=user_attempts|get:quiz.id %}
+                {% if attempt %}
+                  <p class="mt-2 mb-0">Your Last Score: <strong>{{ attempt.score }}</strong></p>
+                {% endif %}
+              {% endwith %}
+            {% endif %}
+
+            <p class="text-muted small mb-1">Total Attempts: {{ quiz.total_attempts }}</p>
+            {% if quiz.total_attempts > 0 %}
+              <p class="text-muted small">Average Score: {{ quiz.avg_score|floatformat:1 }}</p>
             {% endif %}
           </div>
         </div>

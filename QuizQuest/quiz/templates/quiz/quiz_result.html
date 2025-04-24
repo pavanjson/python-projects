@@ -1,0 +1,8 @@
+{% extends 'quiz/base.html' %}
+{% block content %}
+<div class="container mt-4 text-center">
+  <h2 class="text-success">Quiz Completed!</h2>
+  <p class="lead">You scored <strong>{{ score }}</strong> out of <strong>{{ total }}</strong></p>
+  <a href="{% url 'quiz_list' %}" class="btn btn-primary mt-3">Go to Quiz List</a>
+</div>
+{% endblock %}

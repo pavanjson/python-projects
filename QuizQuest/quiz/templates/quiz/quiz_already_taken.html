@@ -1,52 +1,68 @@
 {% extends 'quiz/base.html' %}
-{% load dict_extras %}
+
 {% block content %}
 <div class="container">
   <h2 class="mb-4">{{ quiz.title }}</h2>
+
+  <!-- Message if quiz already taken -->
   <div class="alert alert-warning" role="alert">
     {{ message }}
   </div>
+
+  <!-- Cooldown remaining time -->
   {% if remaining %}
   <div class="alert alert-secondary" role="alert">
     You can retake this quiz after: {{ remaining }}
   </div>
   {% endif %}
+
+  <!-- Score display -->
   {% if score is not None and total is not None %}
   <div class="alert alert-info" role="alert">
-    Your Score: {{ score }} out of {{ total }}
+    Your Score: <strong>{{ score }}</strong> out of <strong>{{ total }}</strong>
   </div>
   {% endif %}
+
+  <!-- Quiz Questions and Answer Review -->
   <h4 class="mt-4">Test Details</h4>
   <div class="mt-3">
     {% for question in quiz.questions.all|dictsort:"order" %}
       <div class="card mb-3">
         <div class="card-body">
           <h5>Question {{ forloop.counter }}: {{ question.text }}</h5>
-          {% with qid=question.id|stringformat:"s" %}
-            {% with selected_option=user_answers|get_item:qid %}
-              <ul class="list-group">
-                {% for option in question.options.all %}
-                  <li class="list-group-item
-                    {% if option.id|stringformat:"s" == selected_option %} list-group-item-info {% endif %}
-                    {% if option.is_correct %} list-group-item-success {% endif %}">
-                    {{ option.text }}
-                    {% if option.id|stringformat:"s" == selected_option %}
-                      <span class="badge bg-primary ms-2">Your Answer</span>
-                    {% endif %}
-                    {% if option.is_correct %}
-                      <span class="badge bg-success ms-2">Correct</span>
-                    {% endif %}
-                  </li>
-                {% endfor %}
-              </ul>
-            {% endwith %}
+
+          {% with answered=False %}
+          <ul class="list-group">
+            {% for option in question.options.all %}
+              {% if option.id == question.selected_option_id %}
+                {% with answered=True %}{% endwith %}
+              {% endif %}
+              <li class="list-group-item
+                {% if option.id == question.selected_option_id %} list-group-item-info {% endif %}
+                {% if option.is_correct %} list-group-item-success {% endif %}">
+                {{ option.text }}
+
+
+                {% if option.id == question.selected_option_id %}
+                  <span class="badge bg-primary ms-2">Your Answer</span>
+                {% endif %}
+                {% if option.is_correct %}
+                  <span class="badge bg-success ms-2">Correct</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+<!--          {% if not question.selected_option_id %}-->
+<!--            <p class="text-danger mt-2"><strong>You did not answer this question.</strong></p>-->
+<!--          {% endif %}-->
           {% endwith %}
         </div>
       </div>
     {% empty %}
-      <p>No questions found.</p>
+      <p>No questions found for this quiz.</p>
     {% endfor %}
   </div>
+
   <a href="{% url 'quiz_list' %}" class="btn btn-secondary mt-3">Back to Quizzes</a>
 </div>
 {% endblock content %}

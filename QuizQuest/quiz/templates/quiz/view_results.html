@@ -1,0 +1,35 @@
+{% extends 'quiz/base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">Results for: {{ quiz.title }}</h2>
+
+  {% if results %}
+    <table class="table table-bordered table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Email</th>
+          <th>Mobile</th>
+          <th>Score</th>
+          <th>Submitted At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ result.email }}</td>
+            <td>{{ result.mobile }}</td>
+            <td>{{ result.score }}</td>
+            <td>{{ result.date_taken|date:"M d, Y H:i" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No results available yet.</p>
+  {% endif %}
+
+  <a href="{% url 'quiz_list' %}" class="btn btn-secondary mt-3">Back to Quizzes</a>
+</div>
+{% endblock %}

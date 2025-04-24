@@ -1,4 +1,3 @@
-# quiz/models.py
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -31,6 +30,15 @@ class Option(models.Model):
         return self.text
 
 
+class EmailOTP(models.Model):
+    email = models.EmailField()
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.email} - {self.otp}"
+
+
 class Score(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
@@ -41,7 +49,6 @@ class Score(models.Model):
         return f"{self.user.username} - {self.quiz.title} - {self.score}"
 
 
-# New model for anonymous test attempts
 class TestAttempt(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='attempts')
     email = models.EmailField()
@@ -51,7 +58,7 @@ class TestAttempt(models.Model):
     date_taken = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('quiz', 'email', 'mobile')
+        unique_together = ('quiz', 'email')
 
     def __str__(self):
         return f"{self.email} - {self.quiz.title} - {self.score}"

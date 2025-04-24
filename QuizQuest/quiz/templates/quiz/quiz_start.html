@@ -1,25 +1,21 @@
 {% extends 'quiz/base.html' %}
 {% block content %}
-<div class="container">
+<div class="container mt-4">
   <h2 class="mb-4">{{ quiz.title }}</h2>
   <p>{{ quiz.description }}</p>
-  <div class="card">
+
+  <div class="card shadow">
     <div class="card-body">
-      <h4 class="card-title">Enter Your Details to Start the Quiz</h4>
-      <form method="post" action="{% url 'quiz_detail' quiz.id %}">
+      <h4 class="card-title">Enter Your Email to Receive OTP</h4>
+      <form method="post" action="{% url 'send_otp' quiz.id %}">
         {% csrf_token %}
-        <input type="hidden" name="step" value="start">
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
           <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
         </div>
-        <div class="mb-3">
-          <label for="mobile" class="form-label">Mobile Number</label>
-          <input type="text" name="mobile" class="form-control" placeholder="Enter your mobile number" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Start Quiz</button>
+        <button type="submit" class="btn btn-success">Send OTP</button>
       </form>
     </div>
   </div>
 </div>
-{% endblock content %}
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'quiz/base.html' %}
-
 {% load static %}
+
 {% block content %}
 <div class="container">
   <h2 class="mb-4">Create a New Quiz</h2>
@@ -20,5 +20,8 @@
 {% endblock content %}
 
 {% block extra_js %}
+<script>
+  var existingQuizData = [];
+</script>
 <script src="{% static 'quiz/js/dynamic_quiz.js' %}"></script>
-{% endblock extra_js %}
+{% endblock %}
