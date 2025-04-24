@@ -71,7 +71,7 @@ def create_event(request):
         form = EventForm(request.POST)
         if form.is_valid():
             event = form.save(commit=False)
-            event.creator = request.user   # ✅ change user → creator
+            event.user = request.user
             event.save()
             messages.success(request, "Event created successfully.")
             return redirect('dashboard')
