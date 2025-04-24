@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mt-4">Admin Dashboard</h2>
+  <p class="lead">Welcome, {{ request.user.username }}!</p>
+
+  <div class="list-group mb-4">
+    <a href="/admin/" class="list-group-item list-group-item-action">Go to Django Admin Panel</a>
+    <a href="{% url 'course_create' %}" class="list-group-item list-group-item-action">Create New Course</a>
+    <a href="{% url 'course_list' %}" class="list-group-item list-group-item-action">View All Courses</a>
+  </div>
+
+  <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+</div>
+{% endblock %}

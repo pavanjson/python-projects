@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card border-danger shadow-sm">
+      <div class="card-body text-center">
+        <h4 class="text-danger mb-3">Confirm Deletion</h4>
+        <p>Are you sure you want to delete the lesson "<strong>{{ lesson.title }}</strong>"?</p>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger me-2">Yes, Delete</button>
+          <a href="{% url 'add_lesson' lesson.course.id %}" class="btn btn-secondary">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2 class="text-center mb-4">🎓 Student Dashboard</h2>
+  <p class="text-center text-muted">Welcome, <strong>{{ request.user.username }}</strong></p>
+
+  {% if progress_data %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for item in progress_data %}
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.course.title }}</h5>
+            <p class="card-text">Progress: {{ item.completed }}/{{ item.total }} lessons completed</p>
+            <div class="progress mb-2">
+              <div class="progress-bar" role="progressbar" style="width: {{ item.progress }}%;" aria-valuenow="{{ item.progress }}" aria-valuemin="0" aria-valuemax="100">
+                {{ item.progress }}%
+              </div>
+            </div>
+            <a href="{% url 'view_lessons' item.course.id %}" class="btn btn-sm btn-outline-primary">Continue Learning</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-center text-muted">You have not enrolled in any courses yet.</p>
+  {% endif %}
+
+  <div class="text-center mt-4">
+    <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
+    <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+  </div>
+</div>
+{% endblock %}

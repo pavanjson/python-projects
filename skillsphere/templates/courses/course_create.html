@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <!-- Course Creation Form -->
+  <div class="col-md-6">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h2 class="text-center mb-4">Create New Course</h2>
+
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="title" class="form-label">Course Title</label>
+            <input type="text" name="title" id="title" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Course Description</label>
+            <textarea name="description" id="description" rows="3" class="form-control"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="image" class="form-label">Course Image/Logo</label>
+            <input type="file" name="image" id="image" class="form-control">
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Create Course</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Existing Courses -->
+  <div class="col-md-6">
+    <h4 class="mb-3">Your Existing Courses</h4>
+    <div class="row row-cols-1 g-3">
+      {% for course in courses %}
+        <div class="col">
+          <div class="card h-100">
+            {% if course.image %}
+              <img src="{{ course.image.url }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ course.title }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ course.title }}</h5>
+              <p class="card-text small">{{ course.description|truncatechars:100 }}</p>
+              <a href="{% url 'add_lesson' course.id %}" class="btn btn-sm btn-outline-secondary">Manage Lessons</a>
+              <a href="{% url 'edit_course' course.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+              <a href="{% url 'delete_course' course.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-muted">No courses created yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

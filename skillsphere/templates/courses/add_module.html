@@ -1,0 +1,20 @@
+<h2>Add Module to {{ course.title }}</h2>
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="title" placeholder="Module Title" required><br>
+  <textarea name="content" placeholder="Module Content" required></textarea><br>
+  <input type="url" name="video_url" placeholder="Video URL (e.g., YouTube link)" required><br>
+  <button type="submit">Add Module</button>
+</form>
+
+<hr>
+<h3>Existing Modules</h3>
+<ul>
+  {% for module in modules %}
+    <li>
+      <strong>{{ module.title }}</strong> - <a href="{{ module.video_url }}" target="_blank">Watch Video</a>
+    </li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'course_list' %}">Back to Courses</a>

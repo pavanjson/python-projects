@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="mb-4 text-center">Edit Lesson: {{ lesson.title }}</h2>
+
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Lesson Title</label>
+            <input type="text" name="title" value="{{ lesson.title }}" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Lesson Content</label>
+            <textarea name="content" rows="4" class="form-control">{{ lesson.content }}</textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Video URL</label>
+            <input type="url" name="video_url" value="{{ lesson.video_url }}" class="form-control">
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Update Lesson</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

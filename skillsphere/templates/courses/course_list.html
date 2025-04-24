@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4 text-center">📚 All Courses</h2>
+
+  {% if courses %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for course in courses %}
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        {% if course.image %}
+          <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}" style="height: 180px; object-fit: cover;">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ course.title }}</h5>
+          <p class="card-text">{{ course.description|truncatewords:20 }}</p>
+        </div>
+        <div class="card-footer text-center">
+          {% if request.user.role == 'student' %}
+            <a href="{% url 'view_lessons' course.id %}" class="btn btn-outline-primary btn-sm">View Lessons</a>
+          {% elif request.user.role == 'admin' or request.user == course.instructor %}
+            <a href="{% url 'add_lesson' course.id %}" class="btn btn-outline-secondary btn-sm">Manage Lessons</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p class="text-muted text-center">No courses available right now.</p>
+  {% endif %}
+
+  {% if request.user.role in 'admin instructor' %}
+    <div class="text-center mt-4">
+      <a href="{% url 'course_create' %}" class="btn btn-success">
+        + Create New Course
+      </a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="mb-4 text-center">Edit Course</h2>
+
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Course Title</label>
+            <input type="text" name="title" value="{{ course.title }}" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Course Description</label>
+            <textarea name="description" rows="4" class="form-control">{{ course.description }}</textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Course Image (optional)</label>
+            <input type="file" name="image" class="form-control">
+            {% if course.image %}
+              <img src="{{ course.image.url }}" class="img-thumbnail mt-2" style="height: 120px;">
+            {% endif %}
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-success">Update Course</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
