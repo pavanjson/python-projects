@@ -1,24 +1,98 @@
 {% extends 'core/base.html' %}
 {% block title %}Home - PortfolioPro{% endblock title %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #081b29;
+    color: #fff;
+  }
+
+  .section-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #0ef;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .card {
+    background-color: #112e42;
+    border: none;
+    border-radius: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 255, 255, 0.2);
+  }
+
+  .card-title {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .card-text {
+    color: #ccc;
+  }
+
+  .btn-primary {
+    background-color: #00c6b0;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #0ef:
+  }
+
+  small.text-muted {
+    color: #aaa !important;
+  }
+</style>
+{% endblock extra_head %}
+
 {% block content %}
 <div class="text-center">
-  <h1 class="display-4">Welcome to PortfolioPro</h1>
-  <p class="lead">Showcase your projects, share your experiences, and connect with potential clients or employers.</p>
-  <hr class="my-4">
-  <p>PortfolioPro is your one-stop solution for building a professional online presence. Whether you're a freelancer, a creative, or a seasoned professional, our platform helps you highlight your skills and achievements.</p>
-  <div class="row mt-5">
+  <h1 class="section-heading">Welcome to PortfolioPro</h1>
+  <p class="lead text-white fw-semibold mb-5">Showcase your projects, share experiences, and connect with potential clients or employers!</p>
+
+  <div class="row mb-5">
     <div class="col-md-4">
-      <h3>Innovative Projects</h3>
-      <p>Display your innovative projects in a sleek, user-friendly format that catches the eye of potential collaborators and clients. Each project can include detailed descriptions, images, and status updates.</p>
+      <div class="card h-100 shadow-sm p-4">
+        <h3 class="card-title">🚀 Innovative Projects</h3>
+        <p class="card-text">Display your amazing work with sleek project cards, detailed descriptions, and engaging images that grab attention.</p>
+      </div>
     </div>
     <div class="col-md-4">
-      <h3>Personal Blog</h3>
-      <p>Share insights, experiences, and industry knowledge through your personal blog. Engage with your audience and build your personal brand with regular updates.</p>
+      <div class="card h-100 shadow-sm p-4">
+        <h3 class="card-title">📝 Personal Blog</h3>
+        <p class="card-text">Share insights, ideas, and career stories. Build your brand by writing blogs that connect you to the community.</p>
+      </div>
     </div>
     <div class="col-md-4">
-      <h3>Professional Profile</h3>
-      <p>Create a compelling personal profile that details your background, skills, and career highlights, making it easy for recruiters to discover and connect with you.</p>
+      <div class="card h-100 shadow-sm p-4">
+        <h3 class="card-title">👩‍💼 Professional Profile</h3>
+        <p class="card-text">Create a stunning profile to showcase your skills, background, and experiences to employers and clients globally.</p>
+      </div>
     </div>
+  </div>
+
+  <h2 class="section-heading">Explore Portfolios</h2>
+  <div class="row">
+    {% for user in users %}
+      <div class="col-md-3 mb-4">
+        <div class="card h-100 text-center shadow-sm p-4">
+          <h5 class="card-title">{{ user.first_name }} {{ user.last_name }}</h5>
+          <p class="text-success bg-white mt-1">@{{ user.username }}</p>
+          <a href="{% url 'user_profile' username=user.username %}" class="btn btn-primary btn-sm mt-1">View Profile</a>
+        </div>
+      </div>
+    {% empty %}
+      <div class="text-center text-muted">No users found.</div>
+    {% endfor %}
   </div>
 </div>
 {% endblock content %}

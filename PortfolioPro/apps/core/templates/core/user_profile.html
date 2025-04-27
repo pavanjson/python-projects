@@ -1,0 +1,261 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ user.username }} | Portfolio{% endblock title %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #081b29;
+      color: #fff;
+    }
+
+    .profile-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 50px;
+      padding: 50px;
+      flex-wrap: wrap;
+    }
+
+    .profile-text {
+      max-width: 500px;
+    }
+
+    .profile-text h1 {
+      font-size: 3rem;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .profile-text h2 {
+      font-size: 1.5rem;
+      color: #0ef;
+    }
+
+    .profile-text h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .profile-text .highlight {
+      color: #0ef;
+    }
+
+    .profile-text p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: #ccc;
+    }
+
+    .social-icons a {
+      color: #0ef;
+      font-size: 1.5rem;
+      margin-right: 15px;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #fff;
+      transform: scale(1.2);
+    }
+
+    .profile-image img {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 6px solid transparent;
+      background: linear-gradient(#0ef, #081b29) padding-box,
+                  linear-gradient(45deg, #0ef, #8a2be2) border-box;
+    }
+
+    .section-heading {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #0ef;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .card {
+      background-color: #112e42;
+      border: none;
+      border-radius: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0, 255, 255, 0.2);
+    }
+
+    .card-title {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .card-text {
+      color: #ccc;
+    }
+
+    .btn-primary {
+      background-color: #0ef;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #00c6b0;
+    }
+
+    small.text-muted {
+      color: #aaa !important;
+    }
+  </style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="profile-container">
+  <div class="profile-text">
+      <h2>Hello, It's Me</h2>
+      <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+      {% if user.profile.title %}
+        <h3>And I'm a <span class="highlight">{{ user.profile.title }}</span></h3>
+      {% endif %}
+      {% if user.profile.description %}
+        <p>{{ user.profile.description }}</p>
+      {% endif %}
+
+      <div class="social-icons">
+          {% if user.profile.facebook %}
+              <a href="{{ user.profile.facebook }}" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          {% endif %}
+          {% if user.profile.instagram %}
+              <a href="{{ user.profile.instagram }}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          {% endif %}
+          {% if user.profile.whatsapp %}
+              <a href="https://wa.me/{{ user.profile.whatsapp }}" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          {% endif %}
+      </div>
+  </div>
+
+  <div class="profile-image">
+      {% if user.profile.image %}
+        <img src="{{ user.profile.image.url }}" alt="Profile Image of {{ user.first_name }}">
+      {% else %}
+        <img src="{% static 'images/default_profile.jpg' %}" alt="Default Profile">
+      {% endif %}
+  </div>
+</div>
+
+<!-- Published Projects Section -->
+<div class="container my-5">
+  <h2 class="section-heading">Published Projects</h2>
+  <div class="row">
+    {% for project in projects %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          {% if project.image %}
+            <img src="{{ project.image.url }}" class="card-img-top rounded-top" alt="{{ project.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ project.title }}</h5>
+            <p class="card-text">{{ project.description|truncatewords:20 }}</p>
+          </div>
+          <div class="card-footer bg-transparent text-end border-0">
+            <small class="text-muted">Created on {{ project.created_at|date:"M d, Y" }}</small>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="text-center text-white fw-semibold">No projects published yet.</div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Published Blog Posts Section -->
+<div class="container my-5">
+  <h2 class="section-heading">Blog Posts</h2>
+  <div class="row">
+    {% for post in posts %}
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+            <a href="{% url 'blog:blog_detail' username=user.username pk=post.pk %}" class="btn btn-primary btn-sm mt-2">Read More</a>
+          </div>
+          <div class="card-footer bg-transparent text-end border-0">
+            <small class="text-muted">Published on {{ post.published_date|date:"M d, Y" }}</small>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="text-center text-white fw-semibold">No blog posts yet.</div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+<!--Conact Form-->
+<div class="container my-5">
+  <h2 class="section-heading">Contact Me</h2>
+
+  {% if messages %}
+    <div class="container mb-4">
+      {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <i class="fas fa-check-circle me-2"></i> {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+        <form method="post" action="{% url 'user_profile' username=user.username %}" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="{{ form.name.id_for_label }}" class="form-label fw-bold">Name</label>
+          {{ form.name }}
+          {% if form.name.errors %}
+            <div class="text-danger small">{{ form.name.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.email.id_for_label }}" class="form-label fw-bold">Email</label>
+          {{ form.email }}
+          {% if form.email.errors %}
+            <div class="text-danger small">{{ form.email.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.message.id_for_label }}" class="form-label fw-bold">Message</label>
+          {{ form.message }}
+          {% if form.message.errors %}
+            <div class="text-danger small">{{ form.message.errors }}</div>
+          {% endif %}
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary btn-lg">
+            Send Message
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

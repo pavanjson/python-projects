@@ -1,0 +1,188 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile - PortfolioPro{% endblock title %}
+
+{% block extra_head %}
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #081b29;
+    color: #fff;
+  }
+
+  .edit-profile-card {
+    background: rgba(17, 46, 66, 0.95);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 1rem;
+    padding: 3rem;
+    box-shadow: 0 8px 32px rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    color: #0ef;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #0ef;
+    display: inline-block;
+    padding-bottom: 5px;
+  }
+
+  .form-label {
+    font-weight: bold;
+    color: #0ef;
+  }
+
+  .form-control {
+    background-color: #0c223a;
+    color: #fff;
+    border: 1px solid #0ef;
+    border-radius: 0.5rem;
+    transition: 0.3s;
+  }
+
+  .form-control:focus {
+    background-color: #0c223a;
+    color: #fff;
+    border-color: #00c6b0;
+    box-shadow: none;
+  }
+
+  .btn-save {
+    background-color: #0ef;
+    border: none;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.3s;
+  }
+
+  .btn-save:hover {
+    background-color: #00c6b0;
+    transform: scale(1.05);
+  }
+
+  .image-preview {
+    max-width: 250px;
+    border-radius: 1rem;
+    border: 3px solid #0ef;
+    background: #0c223a;
+    padding: 10px;
+  }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="edit-profile-card mx-auto" style="max-width: 800px;">
+    <h2 class="text-center mb-5 text-primary fw-bold">Edit Your Profile</h2>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+
+      <!-- Account Section -->
+      <h4 class="section-title">Account Details</h4>
+
+      <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" value="{{ user.username }}" readonly>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="first_name" class="form-label">First Name</label>
+          <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="last_name" class="form-label">Last Name</label>
+          <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+        </div>
+      </div>
+
+      <!-- Profile Section -->
+      <h4 class="section-title mt-5">Profile Details</h4>
+
+      <div class="mb-4">
+        <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
+        {{ form.title }}
+        {% if form.title.errors %}
+          <div class="text-danger small">{{ form.title.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-4">
+        <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+        {{ form.description }}
+        {% if form.description.errors %}
+          <div class="text-danger small">{{ form.description.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-4">
+        <label for="{{ form.facebook.id_for_label }}" class="form-label">Facebook</label>
+        {{ form.facebook }}
+        {% if form.facebook.errors %}
+          <div class="text-danger small">{{ form.facebook.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-4">
+        <label for="{{ form.instagram.id_for_label }}" class="form-label">Instagram</label>
+        {{ form.instagram }}
+        {% if form.instagram.errors %}
+          <div class="text-danger small">{{ form.instagram.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="mb-4">
+        <label for="{{ form.whatsapp.id_for_label }}" class="form-label">WhatsApp Number</label>
+        {{ form.whatsapp }}
+        {% if form.whatsapp.errors %}
+          <div class="text-danger small">{{ form.whatsapp.errors }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Profile Image Upload -->
+      <div class="mb-4">
+        <label for="{{ form.image.id_for_label }}" class="form-label">Profile Image</label>
+        <div class="text-center mb-3">
+          {% if user.profile.image %}
+            <img id="image-preview" src="{{ user.profile.image.url }}" class="image-preview" alt="Profile Image">
+          {% else %}
+            <img id="image-preview" src="{% static 'images/default_profile.jpg' %}" class="image-preview" alt="Default Image">
+          {% endif %}
+        </div>
+        {{ form.image }}
+        {% if form.image.errors %}
+          <div class="text-danger small">{{ form.image.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-save btn-lg">Save Changes</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  const imageInput = document.getElementById('{{ form.image.id_for_label }}');
+  const preview = document.getElementById('image-preview');
+
+  if (imageInput) {
+    imageInput.addEventListener('change', function () {
+      const [file] = imageInput.files;
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+      }
+    });
+  }
+</script>
+{% endblock content %}

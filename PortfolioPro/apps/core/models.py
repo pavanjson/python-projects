@@ -11,3 +11,12 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    facebook = models.URLField(blank=True, null=True)
+    instagram = models.URLField(blank=True, null=True)
+    whatsapp = models.CharField(max_length=15, blank=True, null=True)
+    image = models.ImageField(upload_to='profile_images/', default='default.jpg')

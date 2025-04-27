@@ -1,21 +1,92 @@
 {% extends 'core/base.html' %}
 {% load static %}
+
 {% block title %}Blog - PortfolioPro{% endblock title %}
+
+{% block extra_head %}
+<style>
+  body {
+    background: #081b29;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .section-heading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0ef;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .blog-card {
+    background-color: #112e42;
+    border: none;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 255, 255, 0.2);
+  }
+
+  .blog-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .blog-meta {
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+
+  .btn-add {
+    background-color: #0ef;
+    border: none;
+    margin-bottom: 2rem;
+  }
+
+  .btn-add:hover {
+    background-color: #00c6b0;
+    transform: scale(1.05);
+  }
+</style>
+{% endblock extra_head %}
+
 {% block content %}
-<section class="blog-list">
-  <h2>Blog</h2>
-  <div class="list-group">
-    {% for post in posts %}
-      <a href="{% url 'blog:blog_detail' post.pk %}" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{ post.title }}</h5>
-          <small>{{ post.published_date|date:"M d, Y" }}</small>
-        </div>
-        <p class="mb-1">by {{ post.author.username }}</p>
+<section class="container my-5">
+  <h2 class="section-heading">Blog</h2>
+
+  {% if request.user.is_authenticated and request.user.username == user.username %}
+    <div class="text-center">
+      <a href="{% url 'blog:create_post' username=request.user.username %}" class="btn btn-add btn-lg mb-4">
+        <i class="fas fa-plus-circle me-2"></i> Add New Blog
       </a>
-    {% empty %}
-      <p>No blog posts available.</p>
-    {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+
+      {% for post in posts %}
+        <a href="{% url 'blog:blog_detail' username=user.username pk=post.pk %}" class="text-decoration-none">
+          <div class="blog-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="blog-title">{{ post.title }}</h5>
+              <small class="blog-meta">{{ post.published_date|date:"M d, Y" }}</small>
+            </div>
+            <p class="blog-meta mb-0">by {{ post.author.username }}</p>
+          </div>
+        </a>
+      {% empty %}
+        <p class="text-center text-muted">No blog posts available yet.</p>
+      {% endfor %}
+
+    </div>
   </div>
 </section>
 {% endblock content %}

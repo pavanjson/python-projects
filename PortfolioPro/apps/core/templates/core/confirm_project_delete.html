@@ -1,13 +1,67 @@
 {% extends 'core/base.html' %}
 {% block title %}Delete Project - PortfolioPro{% endblock title %}
+
+{% block extra_head %}
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #081b29;
+    color: #fff;
+  }
+
+  .delete-container {
+    max-width: 600px;
+    background-color: #112e42;
+    padding: 40px;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 255, 255, 0.1);
+    margin: 100px auto;
+    text-align: center;
+  }
+
+  h2 {
+    color: #0ef;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 2rem;
+  }
+
+  .btn-danger {
+    background-color: #ff4d4d;
+    border: none;
+    margin-right: 10px;
+    font-weight: bold;
+  }
+
+  .btn-danger:hover {
+    background-color: #e60000;
+  }
+
+  .btn-secondary {
+    background-color: #0ef;
+    border: none;
+    font-weight: bold;
+  }
+
+  .btn-secondary:hover {
+    background-color: #00c6b0;
+  }
+</style>
+{% endblock extra_head %}
+
 {% block content %}
-<div class="container">
-  <h2>Confirm Delete Project</h2>
-  <p>Are you sure you want to delete the project titled "{{ project.title }}"?</p>
+<div class="delete-container">
+  <h2>Confirm Delete</h2>
+  <p>Are you sure you want to delete the project <strong>"{{ project.title }}"</strong>?</p>
   <form method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Yes, delete it</button>
-    <a href="{% url 'portfolio' %}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-danger btn-lg">Yes, Delete it</button>
+    <a href="{% url 'portfolio' username=user.username %}" class="btn btn-secondary btn-lg">Cancel</a>
   </form>
 </div>
 {% endblock content %}

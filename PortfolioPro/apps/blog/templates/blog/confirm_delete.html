@@ -1,13 +1,63 @@
 {% extends 'core/base.html' %}
+{% load static %}
+
 {% block title %}Confirm Delete - PortfolioPro{% endblock title %}
+
+{% block extra_head %}
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #081b29;
+    color: #fff;
+  }
+
+  .card {
+    background-color: #112e42;
+    border: none;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 255, 255, 0.2);
+  }
+
+  .btn-danger {
+    background-color: #ff4d4d;
+    border: none;
+  }
+
+  .btn-danger:hover {
+    background-color: #e60000;
+  }
+
+  .btn-secondary {
+    background-color: #0ef;
+    border: none;
+  }
+
+  .btn-secondary:hover {
+    background-color: #00c6b0;
+  }
+</style>
+{% endblock extra_head %}
+
 {% block content %}
-<div class="container">
-  <h2>Confirm Delete</h2>
-  <p>Are you sure you want to delete the post titled "{{ post.title }}"?</p>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Yes, delete it</button>
-    <a href="{% url 'blog:blog_detail' post.pk %}" class="btn btn-secondary">Cancel</a>
-  </form>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card text-center">
+
+        <h2 class="mb-4" style="color: #0ef;">Confirm Delete</h2>
+
+        <p>Are you sure you want to permanently delete the post titled:</p>
+        <h4 class="text-warning mb-4">"{{ post.title }}"</h4>
+
+        <form method="post" class="d-flex justify-content-center gap-3">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger btn-lg">Yes, Delete</button>
+          <a href="{% url 'blog:blog_detail' username=user.username pk=post.pk %}" class="btn btn-secondary btn-lg">Cancel</a>
+        </form>
+
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock content %}

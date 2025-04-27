@@ -1,14 +1,95 @@
 {% extends 'core/base.html' %}
 {% block title %}Login - PortfolioPro{% endblock title %}
+
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <h2>Login</h2>
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+<div class="row justify-content-center align-items-center" style="min-height: 85vh;">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-lg p-4 border-0 rounded-4">
+      <h2 class="mb-4 text-center text-primary fw-bold">Welcome Back!</h2>
+      <p class="text-center text-muted mb-4">Login to your PortfolioPro account</p>
+
+      <!-- NON FIELD Errors (wrong credentials) -->
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+          <div class="alert alert-danger small">{{ error }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        <!-- Username Field -->
+        <div class="mb-4">
+          <label for="id_username" class="form-label fw-semibold">Username</label>
+          <input type="text" name="username" id="id_username" class="form-control" placeholder="Enter your username" required>
+
+          {% if form.username.errors %}
+            {% for error in form.username.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- Password Field -->
+        <div class="mb-4 position-relative">
+          <label for="id_password" class="form-label fw-semibold">Password</label>
+          <div class="position-relative">
+            <input type="password" name="password" id="id_password" class="form-control" placeholder="Enter your password" required>
+            <i class="fa fa-eye toggle-password" style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; color: #6c757d;"></i>
+          </div>
+
+          {% if form.password.errors %}
+            {% for error in form.password.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid mb-3">
+          <button type="submit" class="btn btn-primary btn-lg">Login</button>
+        </div>
+      </form>
+
+      <!-- Register and Forgot Password Links -->
+      <p class="mt-4 text-center text-muted">
+        Don't have an account?
+        <a href="{% url 'register' %}" class="text-decoration-none fw-semibold">Register</a>
+      </p>
+
+
+    </div>
   </div>
 </div>
+
+<!-- Extra Styling -->
+<style>
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding-right: 40px;
+  height: 50px;
+  border-radius: 0.375rem;
+}
+.toggle-password {
+  font-size: 1.2rem;
+}
+</style>
+
+<!-- Password Toggle Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const togglePasswordBtn = document.querySelector('.toggle-password');
+  const passwordInput = document.getElementById('id_password');
+
+  togglePasswordBtn.addEventListener('click', function () {
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+
+    // Change Eye Icon
+    this.classList.toggle('fa-eye');
+    this.classList.toggle('fa-eye-slash');
+  });
+});
+</script>
 {% endblock content %}

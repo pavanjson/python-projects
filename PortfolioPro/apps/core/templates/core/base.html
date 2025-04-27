@@ -5,79 +5,135 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}PortfolioPro{% endblock title %}</title>
+
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- FontAwesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
   <style>
-    /* Ensure footer stays at the bottom */
     html, body {
       height: 100%;
     }
     body {
+      background: #081b29;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
       display: flex;
       flex-direction: column;
     }
     main {
       flex: 1;
     }
+    .navbar {
+      background-color: #112e42 !important;
+    }
+    .nav-link, .navbar-brand {
+      color: #0ef !important;
+      font-weight: 600;
+    }
+    .nav-link:hover {
+      color: #00c6b0 !important;
+    }
+    .btn-outline-light {
+      color: #0ef;
+      border-color: #0ef;
+    }
+    .btn-outline-light:hover {
+      background-color: #0ef;
+      color: #081b29;
+      border-color: #0ef;
+    }
+    footer {
+      background-color: #112e42;
+    }
   </style>
+
   {% block extra_head %}{% endblock extra_head %}
 </head>
+
 <body>
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'home' %}">PortfolioPro</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'portfolio' %}">Projects</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'blog:blog_list' %}">Blog</a></li>
-          {% if user.is_authenticated %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'blog:create_post' %}">New Post</a></li>
-            <li class="nav-item">
-              <form action="{% url 'logout' %}" method="post" class="nav-link">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-link nav-link" style="display: inline; padding: 0;">Logout</button>
-              </form>
-            </li>
-          {% else %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
-          {% endif %}
-        </ul>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'home' %}">PortfolioPro</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav align-items-center gap-3">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+
+        {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' username=request.user.username %}">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'portfolio' username=request.user.username %}">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'contact' username=request.user.username %}">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'edit_profile' username=request.user.username %}">Edit Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog:blog_list' username=request.user.username %}">Blog</a>
+          </li>
+          <li class="nav-item">
+            <form action="{% url 'logout' %}" method="post" class="d-flex">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+            </form>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="container my-5">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-    </div>
-  </nav>
+    {% endfor %}
+  {% endif %}
 
-  <!-- Main Content -->
-  <main class="container my-5">
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      {% endfor %}
-    {% endif %}
-    {% block content %}{% endblock content %}
-  </main>
+  {% block content %}{% endblock content %}
+</main>
 
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3 mt-auto">
-    <div class="container">
-      <p class="mb-0">&copy; 2025 PortfolioPro. All rights reserved.</p>
-    </div>
-  </footer>
+<!-- Footer -->
+<footer class="text-white text-center py-3 mt-auto">
+  <div class="container">
+    <p class="mb-0">&copy; 2025 PortfolioPro. All rights reserved.</p>
+  </div>
+</footer>
 
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="{% static 'js/scripts.js' %}"></script>
-  {% block extra_js %}{% endblock extra_js %}
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS -->
+<script src="{% static 'js/scripts.js' %}"></script>
+
+{% block extra_js %}{% endblock extra_js %}
 </body>
 </html>

@@ -1,41 +1,121 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block title %}Projects - PortfolioPro{% endblock title %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #081b29;
+    color: #fff;
+  }
+
+  .section-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #0ef;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .card {
+    background-color: #112e42;
+    border: none;
+    border-radius: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 255, 255, 0.2);
+  }
+
+  .card-title {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .card-text {
+    color: #ccc;
+  }
+
+  .btn-primary, .btn-success, .btn-warning, .btn-danger {
+    border: none;
+  }
+
+  .btn-primary {
+    background-color: #0ef;
+  }
+
+  .btn-primary:hover {
+    background-color: #00c6b0;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+  }
+
+  .btn-warning {
+    background-color: #ffc107;
+    color: #000;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+  }
+
+  .add-project-btn {
+    background-color: #0ef;
+    border: none;
+  }
+
+  .add-project-btn:hover {
+    background-color: #00c6b0;
+  }
+
+  small.text-muted {
+    color: #aaa !important;
+  }
+</style>
+{% endblock extra_head %}
+
 {% block content %}
 <section class="portfolio">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Projects</h2>
-    {% if user.is_authenticated %}
-      <a href="{% url 'create_project' %}" class="btn btn-success">Add New Project</a>
+    <h2 class="section-heading">My Projects</h2>
+    {% if request.user.is_authenticated and request.user.username == user.username %}
+      <a href="{% url 'create_project' username=user.username %}" class="btn btn-primary add-project-btn">+ Add New Project</a>
     {% endif %}
   </div>
+
   <div class="row">
     {% for project in projects %}
       <div class="col-md-4 mb-4">
-        <div class="card h-100">
+        <div class="card h-100 shadow-sm">
           {% if project.image %}
-            <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+            <img src="{{ project.image.url }}" class="card-img-top rounded-top" alt="{{ project.title }}">
           {% endif %}
           <div class="card-body">
             <h5 class="card-title">{{ project.title }}</h5>
             <p class="card-text">{{ project.description|truncatewords:20 }}</p>
           </div>
-          <div class="card-footer text-end">
-            {% if user.is_authenticated and user == project.created_by %}
-              <a href="{% url 'edit_project' project.pk %}" class="btn btn-primary btn-sm">Edit</a>
-              <a href="{% url 'delete_project' project.pk %}" class="btn btn-danger btn-sm">Delete</a>
+          {% if request.user.is_authenticated and request.user == project.created_by %}
+            <div class="card-footer bg-transparent text-end border-0">
+              <a href="{% url 'edit_project' username=user.username pk=project.pk %}" class="btn btn-primary btn-sm me-1">Edit</a>
+              <a href="{% url 'delete_project' username=user.username pk=project.pk %}" class="btn btn-danger btn-sm me-1">Delete</a>
               {% if project.published %}
-                <a href="{% url 'toggle_project_publish' project.pk %}" class="btn btn-warning btn-sm">Unpublish</a>
+                <a href="{% url 'toggle_project_publish' username=user.username pk=project.pk %}" class="btn btn-warning btn-sm">Unpublish</a>
               {% else %}
-                <a href="{% url 'toggle_project_publish' project.pk %}" class="btn btn-success btn-sm">Publish</a>
+                <a href="{% url 'toggle_project_publish' username=user.username pk=project.pk %}" class="btn btn-success btn-sm">Publish</a>
               {% endif %}
-            {% endif %}
-          </div>
+            </div>
+          {% endif %}
         </div>
       </div>
     {% empty %}
       <div class="col-12">
-        <p class="text-center">No projects have been published yet.</p>
+        <p class="text-center text-muted">No projects have been published yet.</p>
       </div>
     {% endfor %}
   </div>
