@@ -1,0 +1,55 @@
+{% extends "auth/base.html" %}
+{% load static %}
+
+{% block title %}Login {% endblock title %}
+
+{% block content %}
+
+<!-- Forgot password START -->
+<div class="card card-body rounded-3 text-center p-4 p-sm-5">
+    <!-- Title -->
+    <h1 class="mb-2">Authentication</h1>
+    <p>Enter the email and password to sign in with your account.</p>
+    <!-- form START -->
+    
+    <form class="mt-sm-4" method="POST" novalidate>
+        {% csrf_token %}
+        <!-- Email -->
+        <div class="mb-3 input-group-lg">
+          <input name="email" type="email" class="form-control" placeholder="Enter email">
+        </div>
+        <!-- New password -->
+        <div class="mb-3 position-relative">
+          <!-- Password -->
+          <div class="input-group input-group-lg">
+            <input name="password" class="form-control fakepassword" type="password" id="psw-input" placeholder="Enter new password">
+            <span class="input-group-text p-0">
+              <i class="fakepasswordicon fa-solid fa-eye-slash cursor-pointer p-2 w-40px"></i>
+            </span>
+          </div>
+        </div>
+        <!-- Remember me -->
+        <div class="mb-3 d-sm-flex justify-content-between">
+          <div>
+            <input type="checkbox" name="remember" class="form-check-input" >
+            <label class="form-check-label">Remember me?</label>
+          </div>
+          <a href="#">Forgot password?</a>
+        </div>
+        <div class="justify-content-center mb-3">
+          Don't have account? <a href="{% url "signup" %}">Sign Up</a> now.
+        </div>
+        <!-- Button -->
+        <div class="d-grid"><button type="submit" class="btn btn-lg btn-primary">Login</button></div>
+        <!-- Copyright -->
+        <p class="mb-0 mt-3">©2024 <a target="" href="{% url "homepage" %}">Bloome</a> All rights reserved</p>
+    </form>
+
+    <!-- form END -->
+</div>
+  <!-- Forgot password END -->
+
+  <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+  <script src="{% static "js/functions.js" %}"></script>
+  <script src="{% static "js/pswmeter.min.js" %}"></script>
+{% endblock content %}

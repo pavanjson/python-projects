@@ -1,0 +1,233 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block title %}Messanging{% endblock title %}
+{% block css %}
+
+<link rel="stylesheet" href="{% static "css/chatting.css" %}">
+{% endblock css %}
+{% block content %}
+
+
+<main>
+  <div class="container">
+    <div class="row">
+
+      <!-- Sidenav START -->
+      <div class="col-lg-3">
+
+        <!-- Advanced filter responsive toggler START -->
+				<!-- Divider -->
+        <div class="d-flex align-items-center mb-4 d-lg-none">
+					<button class="border-0 bg-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+						<span class="btn btn-primary"><i class="fa-solid fa-sliders-h"></i></span>
+            <span class="h6 mb-0 fw-bold d-lg-none ms-2">Settings</span>
+					</button>
+				</div>
+        
+				<!-- Advanced filter responsive toggler END -->
+
+        <nav class="navbar navbar-light navbar-expand-lg mx-0">
+          <div class="offcanvas offcanvas-start" id="offcanvasNavbar">
+            <!-- Offcanvas header -->
+						<div class="offcanvas-header">
+							<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+						</div>
+
+            <!-- Offcanvas body -->
+            <div class="offcanvas-body p-0">
+              <!-- Card START -->
+              <div class="card w-100">
+                <!-- Card body START -->
+                <div class="card-body">
+                  <ul class="nav flex-column nav-pills nav-pills-soft">
+                                                      
+                      {% comment %} 
+                      <li data-bs-dismiss="offcanvas">
+                          <!-- Chat user tab item -->
+                          <a href="#chat-1" class="nav-link active text-start" id="chat-1-tab" data-bs-toggle="pill" role="tab">
+                          <div class="d-flex">
+                              <div class="flex-shrink-0 avatar avatar-story me-2 status-online">
+                              <img class="avatar-img rounded-circle" src="images/10.jpg" alt="">
+                              </div>
+                              <div class="flex-grow-1 d-block">
+                              <h6 class="mb-0 mt-1">Emran H Ashiq</h6>
+                              <div class="small text-secondary">Ashiq sent a photo.</div>
+                              </div>
+                          </div>
+                          </a>
+                      </li> 
+                      {% endcomment %}
+
+
+                      <!-- Chat user tab item -->
+                      <li data-bs-dismiss="offcanvas">
+                          <a href="#chat-1" class="nav-link text-start" id="chat-4-tab" data-bs-toggle="pill" role="tab">
+                          <div class="d-flex">
+                              <div class="flex-shrink-0 avatar me-2">
+                              <ul class="avatar-group avatar-group-three">
+
+                                {% for imgs in grp_messages|slice:":3" %}
+                                <li class="avatar avatar-xs">
+                                  <img class="avatar-img rounded-circle" src="{{imgs.author.profile.profile_picture.url}}" alt="avatar">
+                                </li>
+                                {% endfor %}
+
+                              </ul>
+                              </div>
+                              <div class="flex-grow-1 d-block">
+                              <h6 class="mb-0 mt-1">Ashiq, Shobuj</h6>
+                              <div class="small text-secondary">Shobuj: I'm busy</div>
+                              </div>
+                          </div>
+                          </a>
+                      </li>
+                      <!-- Chat user tab item -->
+
+                    </ul>
+
+              </div>
+              <!-- Card body END -->
+              <!-- Card footer -->
+              <div class="card-footer text-center py-2">
+                <a class="btn btn-link text-secondary btn-sm" href="{% url "view_profile" user.username %}">View Profile </a>
+              </div>
+              </div>
+            <!-- Card END -->
+            </div>
+            <!-- Offcanvas body -->
+
+            <!-- Copyright -->
+            <p class="small text-center mt-1">©2024 <a class="text-reset" target="_blank" href="https://www.chatxity.com/"> ChatXity </a></p>
+          
+          </div>
+        </nav>
+      </div>
+      <!-- Sidenav END -->
+
+        <!-- Main content START -->
+        <div class="col-lg-8 vstack gap-4">
+          <!-- Setting Tab content START -->
+          <div class="tab-content py-0 mb-0" id="tab-option-to-change">
+
+
+            <!-- Conversation item START -->
+            
+              <div class="card card-custom">
+                <div class="card-body">
+                  <!-- Top avatar and status START -->
+                  <div class="d-sm-flex justify-content-between align-items-center">
+                    <div class="d-flex mb-2 mb-sm-0">
+                      <div class="flex-shrink-0 avatar me-2">
+                        <ul class="avatar-group avatar-group-two">
+                          {% for imgs in grp_messages|slice:":2" %}
+                          <li class="avatar avatar-xs">
+                            <img class="avatar-img rounded-circle" src="{{imgs.author.profile.profile_picture.url}}" alt="avatar">
+                          </li>
+                          {% endfor %}
+    
+                        </ul>
+                      </div>
+                      <div class="flex-grow-1 d-block">
+                        <h6 class="mb-0 mt-1">Friend Room</h6>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <!-- Call button -->
+                      <a href="#!" class="icon-md rounded-circle btn btn-primary-soft me-2 px-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Audio call"><i class="bi bi-telephone-fill"></i></a>
+                      <a href="#!" class="icon-md rounded-circle btn btn-primary-soft me-2 px-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Video call"><i class="bi bi-camera-video-fill"></i></a>
+                      <!-- Card action START -->
+                      
+                      <!-- Card action END -->
+                    </div>
+                  </div>
+                  <!-- Top avatar and status END -->
+                  <hr>
+
+
+                  
+                  <div class="chatting ">
+
+                    <!-- Chat conversation START -->
+                    <div id="chat-conversation-content" class="chat-messages">
+                      {% for msg in grp_messages %}
+
+                      {% if msg.author == user %}
+                      <!-- Chat message right -->
+                      <div class="d-flex justify-content-end text-end mb-1">
+                        <div class="w-100">
+                          <div class="d-flex flex-column align-items-end">
+                            <div class="bg-primary text-white p-2 px-3 rounded-2">
+                              {{msg.body}}
+                            </div>
+                            <div class="d-flex my-2">
+                              <div class="small text-secondary">{{msg.created_at}}</div>
+                              <div class="small ms-2"><i class="fa-solid fa-check"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Chat time 
+                        <div class="text-center small my-2">2 New Messages</div>
+                      -->
+                      {% else %}
+                      <!-- Chat message left -->
+                      <div class="d-flex mb-1">
+                        <div class="flex-shrink-0 avatar avatar-xs me-2">
+                          <img class="avatar-img rounded-circle" src="{{msg.author.profile.profile_picture.url}}" alt="">
+                        </div>
+                        <div class="flex-grow-1">
+                          <div class="w-100">
+                            <div class="d-flex flex-column align-items-start">
+                              <div class="bg-light text-secondary p-2 px-3 rounded-2">
+                                {{msg.body}}</div>
+                              <div class="small my-2">{{msg.created_at}}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endif %}
+
+                      {% endfor %}
+                    </div>
+                    <!-- Chat conversation END -->
+              
+                  </div>
+
+                </div>
+                <div class="card-footer">
+                  <form class="d-sm-flex align-items-end" method="POST" novalidate>
+                    
+                      {% csrf_token %}
+                      {{form.body}}
+                      
+                      <button class="btn btn-sm btn-danger-soft ms-sm-2"><i class="fa-solid fa-face-smile fs-6"></i></button>
+                      <button class="btn btn-sm btn-secondary-soft ms-2"><i class="fa-solid fa-paperclip fs-6"></i></button>
+                      <button type="submit" class="btn btn-sm btn-primary ms-2"><i class="fa-solid fa-paper-plane fs-6"></i></button>
+                    
+                  </form>
+                </div>
+              </div>                      
+              
+            <!-- Conversation item END -->
+
+
+          </div>          
+        </div>
+
+    </div>
+  </div>
+</main>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      var chatMessages = document.querySelector('.chat-messages');
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+  });
+</script>
+{% endblock content %}
+
+{% block js %}
+
+{% endblock js %}

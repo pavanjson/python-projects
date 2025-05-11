@@ -1,0 +1,13 @@
+<form class="nav nav-item w-100 position-relative mb-2" novalidate method="POST">
+    {% csrf_token %}
+    <input name="main_post" type="hidden" value="{{parent.post.uid}}">
+    <input name="parent_comment" type="hidden" value="{{parent.uid}}">
+    <textarea name="the_reply" data-autoresize="" class="form-control pe-3 bg-light" rows="1" placeholder="Add reply..."></textarea>
+    <button class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0" 
+    hx-post="{% url "add_reply" %}"
+    hx-target="#divchanger"
+    hx-swap="innerHTML"
+    >
+        <i class="bi bi-send-fill"> </i>
+    </button>
+</form>

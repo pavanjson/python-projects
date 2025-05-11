@@ -1,0 +1,26 @@
+<input class="form-control mb-2 mt-1" type="file" name="image_{{i}}" accept="image/*">
+<input type="hidden" name ="last_image" value="{{i}}">
+<div id="Img-{{i}}">
+
+    <ul class="nav nav-pills nav-stack small fw-normal">
+        <li class="nav-item">
+            <a 
+            hx-get="{% url "add_post_images" i %}"
+            hx-target="#Img-{{i}}"
+            hx-swap="outerHTML"                
+            class="nav-link bg-light py-1 px-2 mb-0" 
+            href="#photo" >
+            <i class="bi bi-plus text-success pe-2"></i>Add more image</a>
+        </li>   
+    </ul>
+
+</div>
+
+
+{% comment %} <button
+class="btn btn-primary-soft btn-sm mb-1"
+hx-get="{% url "add_post_images" i %}"
+hx-target="#Img-{{i}}"
+hx-swap="outerHTML"
+>Add More
+</button> {% endcomment %}

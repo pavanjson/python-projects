@@ -1,0 +1,14 @@
+{% load static %}
+{% for notice in user.profile.notifications.all %}
+<li>
+  <a href="#" class=" {% if notice.seen %}{% else %}badge-unread{% endif %} list-group-item list-group-item-action rounded d-flex border-0 p-3 mb-1">
+    <div class="avatar text-center d-none d-sm-inline-block">
+      <img class="avatar-img rounded-circle" src="{% static "images/notify.svg" %}" alt="">
+    </div>
+    <div class="ms-sm-3 d-flex">
+      <p class="small mb-2"><b>{{notice.category|title}}:</b> {{notice.title}}</p>
+      <p class="small ms-3">{{notice.created}}</p>
+    </div>
+  </a>
+</li>
+{% endfor %}

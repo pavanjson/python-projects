@@ -62,7 +62,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'socialsync_db',  # Your MySQL DB Name
         'USER': 'root',           # Your MySQL Username
-        'PASSWORD': 'root',  # Your MySQL Password
+        'PASSWORD': '',  # Your MySQL Password
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }

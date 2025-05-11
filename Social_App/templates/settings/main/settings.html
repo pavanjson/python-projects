@@ -1,0 +1,104 @@
+{% extends "home/base.html" %}
+{% block title %}Settings{% endblock title %}
+{% block content %}
+
+<main>
+  <div class="container">
+    <div class="row">
+
+      <!-- Sidenav START -->
+      <div class="col-lg-3">
+
+        <!-- Advanced filter responsive toggler START -->
+				<!-- Divider -->
+        <div class="d-flex align-items-center mb-4 d-lg-none">
+					<button class="border-0 bg-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+						<span class="btn btn-primary"><i class="fa-solid fa-sliders-h"></i></span>
+            <span class="h6 mb-0 fw-bold d-lg-none ms-2">Settings</span>
+					</button>
+				</div>
+        
+				<!-- Advanced filter responsive toggler END -->
+
+        <nav class="navbar navbar-light navbar-expand-lg mx-0">
+          <div class="offcanvas offcanvas-start" id="offcanvasNavbar">
+            <!-- Offcanvas header -->
+						<div class="offcanvas-header">
+							<button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+						</div>
+
+            <!-- Offcanvas body -->
+            <div class="offcanvas-body p-0">
+              <!-- Card START -->
+              <div class="card w-100">
+                <!-- Card body START -->
+                <div class="card-body">
+
+                <!-- Side Nav START -->
+                <ul class="nav nav-tabs nav-pills nav-pills-soft flex-column fw-bold gap-2 border-0">
+                  <li class="nav-item" data-bs-dismiss="offcanvas">
+                    <a 
+                    hx-get="{% url "setting_tabs" 'profile' %}"
+                    hx-target="#tab-option-to-change"
+                    hx-swap="innerHTML"
+                    class="nav-link d-flex mb-0 active"  data-bs-toggle="tab"> <i class="bi bi-person me-2">  </i> <span> Account </span></a>
+                  </li>
+                  <li class="nav-item" data-bs-dismiss="offcanvas">
+                    <a 
+                    hx-get="{% url "setting_tabs" 'notify' %}"
+                    hx-target="#tab-option-to-change"
+                    hx-swap="innerHTML"
+                    
+                    class="nav-link d-flex mb-0" data-bs-toggle="tab"> <i class="bi bi-bell me-2">  </i>  <span>Notification </span></a>
+                  </li>
+                  <li class="nav-item" data-bs-dismiss="offcanvas">
+                    <a 
+                    hx-get="{% url "setting_tabs" 'privacy' %}"
+                    hx-target="#tab-option-to-change"
+                    hx-swap="innerHTML"
+                    class="nav-link d-flex mb-0"  data-bs-toggle="tab"> <i class="bi bi-gear me-2">  </i> <span>Privacy and safety </span></a>
+                  </li>
+                  <li class="nav-item" data-bs-dismiss="offcanvas">
+                    <a
+                    hx-get="{% url "setting_tabs" 'suspend' %}"
+                    hx-target="#tab-option-to-change"
+                    hx-swap="innerHTML"
+                    class="nav-link d-flex mb-0"  data-bs-toggle="tab"> <i class="bi bi-trash me-2">  </i> <span>Close account </span></a>
+                  </li>
+                </ul>
+                <!-- Side Nav END -->
+
+              </div>
+              <!-- Card body END -->
+              <!-- Card footer -->
+              <div class="card-footer text-center py-2">
+                <a class="btn btn-link text-secondary btn-sm" href="{% url "view_profile" user.username %}">View Profile </a>
+              </div>
+              </div>
+            <!-- Card END -->
+            </div>
+            <!-- Offcanvas body -->
+
+            <!-- Copyright -->
+            <p class="small text-center mt-1">©2024 <a class="text-reset" target="_blank" href="https://www.chatxity.com/"> ChatXity </a></p>
+          
+          </div>
+        </nav>
+      </div>
+      <!-- Sidenav END -->
+
+        <!-- Main content START -->
+        <div class="col-lg-6 vstack gap-4">
+          <!-- Setting Tab content START -->
+          <div class="tab-content py-0 mb-0" id="tab-option-to-change">
+
+          </div>          
+        </div>
+
+    </div>
+  </div>
+</main>
+
+
+{% endblock content %}
+

@@ -1,0 +1,44 @@
+{% extends "home/base.html" %}
+{% block title %}Friends{% endblock title %}
+{% block content %}
+<div class="card">
+    <!-- Card header START -->
+    <div class="card-header d-sm-flex justify-content-between align-items-center border-0">
+      <h5 class="card-title">Friends <span class="badge bg-danger bg-opacity-10 text-danger">{{profile.friends.all.count}}</span></h5>
+      
+    </div>
+    <!-- Card header END -->
+    <!-- Card body START -->
+    <div class="card-body position-relative pt-0">
+      <div class="row g-3">
+
+        {% for friend in friends %}
+        
+        <div class="col-6">
+          <!-- Friends item START -->
+          <div class="card shadow-none text-center h-100">
+            <!-- Card body -->
+            <div class="card-body p-2 pb-0">
+              {% comment %} <div class="avatar avatar-story avatar-xl"> {% endcomment %}
+              <div class="avatar avatar-xl">
+                <a href="#!"><img class="avatar-img rounded-circle" src="{{friend.profile_picture.url}}" alt=""></a>
+              </div>
+              <h6 class="card-title mb-1 mt-3"> <a href="{% url "view_profile" friend.user.username %}"> {{friend.first_name}} </a></h6>
+              
+              <p class="mb-0 small lh-sm">16 mutual connections</p>
+            </div>
+            <!-- Card footer -->
+            <div class="card-footer p-2 border-0">
+              <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Send message"> <i class="bi bi-chat-left-text"></i> </button>
+              <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove friend"> <i class="bi bi-person-x"></i> </button>
+            </div>
+          </div>
+          <!-- Friends item END -->
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+    <!-- Card body END -->
+</div>
+{% endblock content %}

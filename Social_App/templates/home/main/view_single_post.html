@@ -1,0 +1,189 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% load ipost %}
+{% block title %}Post{% endblock title %}
+{% block css %}
+
+{% endblock css %}
+{% block content %}
+<div class="col-md-8 col-lg-6 vstack gap-4">
+    <div class="card">
+        <div class="card-header border-0 pb-0">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <div class="avatar me-2">
+                        <a href="#"> <img class="avatar-img rounded-circle" src="{{data.author.profile_picture.url}}" alt=""> </a>
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-0"> <a href="#"> {{data.author}} </a></h6>
+                        <div class="nav nav-divider">
+                            <p class="nav-item mb-0 small">{{data.created_at}}</p>
+                            <span class="nav-item small" data-bs-toggle="tooltip" data-bs-placement="top" title="Public"> <i class="bi bi-globe"></i> </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="text-secondary btn btn-secondary-soft-hover py-1 px-2" id="cardShareAction3" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cardShareAction3">
+                        <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark fa-fw pe-2"></i>Save post</a></li>
+                        <li><a class="dropdown-item" href="#"> <i class="bi bi-person-x fa-fw pe-2"></i>Unfollow lori ferguson </a></li>
+                        <li><a class="dropdown-item" href="#"> <i class="bi bi-x-circle fa-fw pe-2"></i>Hide post</a></li>
+                        <li><a class="dropdown-item" href="#"> <i class="bi bi-slash-circle fa-fw pe-2"></i>Block</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#"> <i class="bi bi-flag fa-fw pe-2"></i>Report post</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-body" id="target-{{data.uid}}">
+            <p>{{data.content}}</p>
+            <div class="d-flex justify-content-between">
+                <div class="row g-3">
+                    {% for image in data.images.all|slice:":2" %}
+                    <div class="col-6">
+                        <a class="" href="{{image.image.url}}" data-glightbox="" data-gallery="image-popup">
+                            <img class="rounded img-fluid" src="{{image.image.url}}" alt="Image">
+                        </a>
+                    </div>
+                    {% endfor %}
+                    {% for image in data.images.all|slice:"2:" %}
+                    <div class="col-6">
+                        <a class="" href="{{image.image.url}}" data-glightbox="" data-gallery="image-popup">
+                            <img class="rounded img-fluid" src="{{image.image.url}}" alt="Image">
+                        </a>
+                    </div>
+                    {% endfor %}
+                    
+                </div>                
+            </div>
+            <ul class="nav nav-stack py-3 small">
+                <li class="nav-item">
+                    <a class="nav-link active text-secondary" href="#!"> <i class="bi bi-heart-fill me-1 icon-xs bg-danger text-white rounded-circle"></i> You and {{data.likes.count}} others </a>
+                </li>
+                <li class="nav-item ms-sm-auto">
+                    <a class="nav-link" href="#!"> <i class="bi bi-chat-fill pe-1"></i>Comments ({{data.comments.count}})</a>
+                </li>
+            </ul>
+            <ul class="nav nav-pills nav-pills-light nav-fill nav-stack small border-top border-bottom py-1 mb-3">
+                <li class="nav-item">            
+                    <a            
+                    class="nav-link mb-0 {% if user.profile in data|likers %}active{% endif %}"
+                    hx-get="{% url 'like_post' data.uid %}"
+                    hx-swap="outerHTML"
+                    hx-target="#target-{{data.uid}}"
+                    >
+                    
+                    {% if user.profile in data|likers %}
+                    <i class="bi bi-heart-fill pe-1"></i>
+                    Liked ({{data.likes.count}})
+                    {% else %}
+                    <i class="bi bi-heart pe-1"></i>
+                    Like ({{data.likes.count}})
+                    {% endif %}
+                    </a>            
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link mb-0" id="cardShareAction4" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-reply-fill flip-horizontal ps-1"></i>Share
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cardShareAction4">
+                        <li><a class="dropdown-item" href="#"> <i class="bi bi-envelope fa-fw pe-2"></i>Send via Direct Message</a></li>
+                        <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark-check fa-fw pe-2"></i>Bookmark </a></li>
+                        <li><a class="dropdown-item" href="#"> <i class="bi bi-link fa-fw pe-2"></i>Copy link to post</a></li>
+                        <li><a class="dropdown-item" href="#"> <i class="bi bi-share fa-fw pe-2"></i>Share post via …</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#"> <i class="bi bi-pencil-square fa-fw pe-2"></i>Share to News Feed</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-0" href="#!"> <i class="bi bi-send-fill pe-1"></i>Send</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3">
+
+    <div id="divchanger">
+        <!-- Add Comment Form -->
+        <form class="nav nav-item w-100 position-relative mb-2" method="POST" novalidate>
+            {% csrf_token %}
+            <textarea name="content" data-autoresize="" class="form-control pe-5 bg-light" rows="1" placeholder="Add a comment..."></textarea>
+            <button
+            hx-post="{% url "create_comments" data.uid %}"
+            hx-target="#divchanger"
+            hx-swap="outerHTML"
+            class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0" type="submit">
+            <i class="bi bi-send-fill"> </i>
+        </button>
+        </form>
+        
+        <ul class="comment-wrap list-unstyled">
+            {% for comment in data.comments.all %}
+        
+            <!-- Comment item START -->
+            {% if comment.parent is None %}
+            
+            <li class="comment-item">
+                <div class="d-flex">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-xs">
+                        <a href="#!"><img class="avatar-img rounded-circle" src="{{comment.user.profile_picture.url}}" alt=""></a>
+                    </div>
+                    <!-- Comment by -->
+                    <div class="ms-2">
+                        <div class="bg-light p-3 rounded">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-1"> <a href="#">{{comment.user.first_name}}</a> </h6>
+                                <small class="ms-2">1 hr</small>
+                            </div>
+                            <p class="small mb-0">{{comment.content}}</p>
+                        </div>
+                        <!-- Comment react -->
+                        <ul class="nav nav-divider pt-2 small">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#!"> Like (1)</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"
+                                hx-get="{% url "create_reply" comment.uid%}"
+                                hx-target="#x-{{comment.uid}}"
+                                hx-swap="innerHTML"
+                                > Reply</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" 
+                                hx-get="{% url "view_replies" comment.uid %}" 
+                                hx-target="#random-{{comment.uid}}" 
+                                hx-swap="innerHTML" 
+                                >View {{ comment.replies.count }} replies</a>
+                                
+                            </li>
+                        </ul>
+                        <div id="x-{{comment.uid}}"></div>
+                        <!-- Placeholder for nested comments -->
+                        <div id="random-{{comment.uid}}"></div>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+            <!-- Comment item END -->
+        
+            {% endfor %}
+        </ul>
+    </div>
+    
+    {% block js %}
+
+    {% endblock js %}
+
+</div>
+{% endblock content %}

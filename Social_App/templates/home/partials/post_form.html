@@ -1,0 +1,68 @@
+<div class="">
+	<div class="d-flex mb-1">
+		
+		<!-- Modal feed body START -->
+		<form class="w-100" method="POST" enctype="multipart/form-data" novalidate>
+			{% csrf_token %}
+			<div class="modal-body">
+				<!-- Add Feed -->
+				<div class="d-flex mb-3">
+					
+					<!-- Feed box  -->
+					{{form.content}}
+				</div>
+				<div id="photo-xyxy">
+
+				</div>
+				<div class="hstack gap-2">
+
+				<ul class="nav nav-pills nav-stack small fw-normal mt-1">
+					<li class="nav-item">
+						<a 
+						hx-get="{% url "add_post_images" i %}"
+						hx-target="#photo-xyxy"
+						hx-swap="innerHTML"
+						class="nav-link bg-light py-1 px-2 mb-0" 
+						href="#post" >
+						<i class="bi bi-image-fill text-success pe-2"></i>Photo</a>
+					</li>	
+
+					{% comment %} <li class="nav-item">
+					<a
+					class="icon-md bg-success bg-opacity-10 text-success rounded-circle"
+					href="#"
+					hx-get="{% url "add_post_images" i %}"
+					hx-target="#photo-xyxy"
+					hx-swap="innerHTML"
+					title="Photo">
+					<i class="bi bi-image-fill"></i>
+					</a>
+					</li> {% endcomment %}
+					
+					<li class="nav-item">
+					<a class="nav-link bg-light py-1 px-2 mb-0" href="#" data-bs-toggle="modal" data-bs-target="#feedActionVideo"> <i class="bi bi-camera-reels-fill text-info pe-2"></i>Video</a>
+					</li>
+					<li class="nav-item">
+					<a href="#" class="nav-link bg-light py-1 px-2 mb-0" data-bs-toggle="modal" data-bs-target="#modalCreateEvents"> <i class="bi bi-calendar2-event-fill text-danger pe-2"></i>Event </a>
+					</li>
+					<li class="nav-item">
+					<a class="nav-link bg-light py-1 px-2 mb-0" href="#" data-bs-toggle="modal" data-bs-target="#modalCreateFeed"> <i class="bi bi-emoji-smile-fill text-warning pe-2"></i>Feeling /Activity</a>
+					</li>	
+				</ul>				
+				</div>
+				<p class="text-danger mt-1">Image upload is disabled due to storage insufficiency</p>					
+			</div>
+			<div class="modal-footer row justify-content-between">
+				<!-- Select -->
+				<div class="col-lg-3 block">						
+					{{form.privacy}}
+				<!-- Button -->
+				</div>
+				<div class="col-lg-8 text-sm-end">
+					<button type="button" class="btn btn-danger-soft me-2"> <i class="bi bi-camera-video-fill pe-1"></i> Live video</button>
+					<button type="submit" class="btn btn-success-soft">Post</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

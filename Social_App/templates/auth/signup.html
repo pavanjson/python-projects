@@ -1,0 +1,60 @@
+{% extends "auth/base.html" %}
+{% load static %}
+{% block title %}Registration{% endblock title %}
+{% block content %}
+
+{% if user.is_authenticated and not user.profile.registered %}
+<div class="col-lg-12 vstack gap-4">
+    <!-- Setting Tab content START -->
+    <div class="tab-content py-0 mb-0">
+        {% include "settings/partials/profile.html" %}
+    </div>
+    <!-- Setting Tab content END -->
+</div>
+{% else %}
+{% if not user.is_authenticated %}
+<div class="card card-body rounded-3 text-center p-4 p-sm-5">
+    <!-- Title -->
+    <h1 class="mb-2"> Create Account</h1>
+    <p>Enter the necessary credentials to create your account.</p>
+    <!-- form START -->
+    <form class="mt-3" method="POST" novalidate>
+        {% csrf_token %}
+        <!-- New password -->
+        <div class="mb-3">
+            <!-- Input group -->
+            {% for field in form %}
+            <div class="input-group input-group-lg">
+                {{field}}
+                
+            </div>
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <p class="text-danger">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+            
+        </div>
+        <!-- Back to sign up -->
+        <div class="mb-3">
+            <p>Already have an account? <a href="{% url "login_page" %}">Sign In</a></p>
+        </div>
+        <!-- Button -->
+        <div class="d-grid"><button type="submit" class="btn btn-lg btn-primary">Register</button></div>
+        <!-- Copyright -->
+        <p class="mb-0 mt-3">©2024 <a target="_blank" href="#">Bloome</a> All rights reserved</p>
+    </form>
+    <!-- form END -->
+</div>
+{% else %}
+<div class="justify-content-center">
+    <h2>
+        {{user.profile.first_name}} You have registerd already!
+    </h2>
+</div>
+<a href="{% url "homepage" %}" class="btn btn-info">Go Home</a>
+{% endif %}
+{% endif %}
+
+{% endblock content %}

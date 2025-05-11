@@ -1,0 +1,57 @@
+<!-- Card feed item START -->
+<div class="card" id="request-{{prsn.user.username}}">
+    <!-- Card header START -->
+    <div class="card-header d-flex justify-content-between align-items-center border-0 pb-0">
+    <h6 class="card-title mb-0">People you may know</h6>
+    <button class="btn btn-sm btn-primary-soft"> See all </button>
+    </div>
+    <!-- Card header START -->
+    <!-- Card body START -->
+    <div class="card-body">
+    <div class="tiny-slider arrow-hover">
+        <div class="tiny-slider-inner ms-n4" data-arrow="true" data-dots="false" data-items-xl="3" data-items-lg="2" data-items-md="2" data-items-sm="2" data-items-xs="1" data-gutter="12" data-edge="30">
+        <!-- Slider items -->
+
+        {% for prsn in people %}
+        {% if prsn not in friends %}
+        <div>
+            <!-- Card add friend item START -->
+            <div class="card shadow-none text-center">
+                <!-- Card body -->
+                <div class="card-body p-2 pb-0">
+                    <div class="avatar avatar-xl">
+                        <a href="#!"><img class="avatar-img rounded-circle" src="{{prsn.profile_picture.url}}" alt=""></a>
+                    </div>
+                    <h6 class="card-title mb-1 mt-3"> <a href="#!"> {{prsn.first_name}} </a></h6>
+                    <p class="mb-0 small lh-sm">5 mutual connections</p>
+                </div>
+                <!-- Card footer -->
+                <form action="" method="POST" novalidate >
+                    {% csrf_token %}
+                    <input type="hidden" name="the_person" value="{{prsn.user.username}}">
+                    <div class="card-footer p-2 border-0" >                        
+                        {% if prsn in request_list %}
+                        <button type="button" class="btn btn-sm btn-primary-soft w-100"> Request sent </button>
+                        <a href="#" class="btn btn-sm btn-danger-soft w-100 mt-1"> Cancel </a>
+                        {% else %}
+                        <button 
+                        type="submit"
+                        hx-post="{% url "send_friend_request" %}"
+                        hx-target="#request-{{prsn.user.username}}"
+                        hx-swap="outerHTML"
+                        class="btn btn-sm btn-primary-soft w-100"> Add friend </button>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+            <!-- Card add friend item END -->
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        </div>
+    </div>
+    </div>
+    <!-- Card body END -->
+</div>
+<!-- Card feed item END -->

@@ -1,0 +1,89 @@
+{% load ipost %}
+<div class="card-body" id="target-{{data.uid}}">
+    <p>{{data.content}}</p>
+    <div class="d-flex justify-content-between">
+        <div class="row g-3">
+            {% for image in data.images.all|slice:":1" %}
+            <div class="col-6">
+                <a class="h-100" href="{{image.image.url}}" data-glightbox="" data-gallery="image-popup">
+                    <img class="rounded img-fluid" src="{{image.image.url}}" alt="Image">
+                </a>
+            </div>
+            {% endfor %}
+            <div class="col-6">
+                {% for image in data.images.all|slice:"1:2" %}
+                <a href="{{image.image.url}}" data-glightbox="" data-gallery="image-popup">
+                    <img class="rounded img-fluid" src="{{image.image.url}}" alt="Image">
+                </a>
+                {% endfor %}
+                {% for image in data.images.all|slice:"2:3" %}
+                <div class="position-relative bg-dark mt-3 rounded">
+                    <div class="hover-actions-item position-absolute top-50 start-50 translate-middle z-index-9">
+                        <a class="btn btn-link text-white" href="{% url "view_one_post" data.uid %}"> View all </a>
+                    </div>
+                    <a href="{{image.image.url}}" data-glightbox="" data-gallery="image-popup">
+                        <img class="img-fluid opacity-50 rounded" src="{{image.image.url}}" alt="">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <ul class="nav nav-stack py-3 small">
+        <li class="nav-item">
+            <a class="nav-link active text-secondary" href="#!"> <i class="bi bi-heart-fill me-1 icon-xs bg-danger text-white rounded-circle"></i> Liked by {{data.likes.count}} people </a>
+        </li>
+        <li class="nav-item ms-sm-auto">
+            <a class="nav-link" href="{% url "view_one_post" data.uid %}"> <i class="bi bi-chat-fill pe-1"></i>Comments ({{data.comments.count}})</a>
+        </li>
+    </ul>
+    <ul class="nav nav-pills nav-pills-light nav-fill nav-stack small border-top border-bottom py-1 mb-3">
+        <li class="nav-item">            
+            <a            
+            class="nav-link mb-0 {% if user.profile in data|likers %}active{% endif %}"
+            hx-get="{% url 'like_post' data.uid %}"
+            hx-swap="outerHTML"
+            hx-target="#target-{{data.uid}}"
+            >
+            
+            {% if user.profile in data|likers %}
+            <i class="bi bi-heart-fill pe-1"></i>
+            Liked ({{data.likes.count}})
+            {% else %}
+            <i class="bi bi-heart pe-1"></i>
+            Like ({{data.likes.count}})
+            {% endif %}
+            </a>            
+        </li>
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link mb-0" id="cardShareAction4" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-reply-fill flip-horizontal ps-1"></i>Share
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cardShareAction4">
+                <li><a class="dropdown-item" href="#"> <i class="bi bi-envelope fa-fw pe-2"></i>Send via Direct Message</a></li>
+                <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark-check fa-fw pe-2"></i>Bookmark </a></li>
+                <li><a class="dropdown-item" href="#"> <i class="bi bi-link fa-fw pe-2"></i>Copy link to post</a></li>
+                <li><a class="dropdown-item" href="#"> <i class="bi bi-share fa-fw pe-2"></i>Share post via …</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#"> <i class="bi bi-pencil-square fa-fw pe-2"></i>Share to News Feed</a></li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link mb-0" href="#!"> <i class="bi bi-send-fill pe-1"></i>Send</a>
+        </li>
+    </ul>
+    <!-- Add Comment Form -->
+    <form class="nav nav-item w-100 position-relative mb-2" method="POST" novalidate>
+        {% csrf_token %}
+        <textarea name="content" data-autoresize="" class="form-control pe-5 bg-light" rows="1" placeholder="Add a comment..."></textarea>
+        <button
+        hx-post="{% url "feed_comment" data.uid %}"
+        hx-target="#target-{{data.uid}}"
+        hx-swap="outerHTML"
+        class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0" type="submit">
+        <i class="bi bi-send-fill"> </i>
+    </button>
+    </form>
+</div>

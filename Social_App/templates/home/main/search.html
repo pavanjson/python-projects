@@ -1,0 +1,55 @@
+{% extends "home/base.html" %}
+{% block title %}Search - {{s_query}} {% endblock title %}
+{% block content %}
+<div class="col-md-8 col-lg-6 vstack gap-2">
+    <h4>Search results for : <span class="text-primary">{{s_query}}</span></h4>
+    <div class="card-body">
+
+        {% for ppl in search_results %}
+        {% if ppl == user.profile %}
+        {% else %}
+        <div class="card pt-2 pb-0 ">
+            <div class="hstack gap-2 mb-3 ms-2">
+                <!-- Avatar -->
+                <div class="avatar">
+                    <a href="#!"><img class="avatar-img rounded-circle " src="{{ppl.profile_picture.url}}" alt="profile"></a>
+                </div>
+                <!-- Title -->
+                <div class="overflow-hidden">
+                    <a class="h6 mb-0" href="{% url "view_profile" ppl.user.username %}">{{ppl.first_name}}</a>
+                    <p class="mb-0 small text-truncate">{{ppl.user.username}}</p>
+                    <p class="mb-0 small text-truncate">{{ppl.user.profile.bio|truncatechars:"150"}}</p>
+                </div>
+                <!-- Button -->
+                <a class="btn btn-info-soft rounded-circle icon-md ms-auto" href="#"><i class="fa-solid fa-plus"> </i></a>
+                <div>
+                    {% if ppl not in frnd_reqs and ppl not in got_reqs %}
+                    <form action="{% url "send_friend_request" %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="the_person" value="{{ppl.user.username}}">
+                        <button type="submit" class="btn btn-primary-soft rounded-circle icon-md ms-auto" ><i class="bi bi-person"></i></button>                    
+                    </form>
+                    {% elif ppl in got_reqs %}
+                    <button type="button" class="btn btn-primary-soft rounded-circle icon-md ms-auto" ><i class="bi bi-check"></i></button>                    
+                    <button type="button" class="btn btn-danger-soft rounded-circle icon-md ms-auto" ><i class="bi bi-x"></i></button>                    
+                    
+                    {% elif ppl in frnd_reqs %}                                      
+                    <button type="button" class="btn btn-primary-soft rounded-circle icon-md ms-auto" ><i class="bi bi-x"></i></button>                    
+                    
+                    {% else %}
+                    
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% endfor %}
+        <!-- View more button -->
+        <div class="d-grid mt-3">
+            <a class="btn btn-sm btn-primary-soft" href="#">View more</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

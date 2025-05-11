@@ -1,0 +1,23 @@
+{% extends "home/base.html" %}
+{% block title %}Want delete account?{% endblock title %}
+{% block content %}
+<div class="card">
+    <!-- Card header START -->
+    <div class="card-header d-sm-flex justify-content-between align-items-center border-0">
+      <h5 class="card-title text-danger">Are you sure what you are doing is deceided by you? You can't back your account and can't blame to the admin!</h5>
+      
+    </div>
+    <!-- Card header END -->
+    <!-- Card body START -->
+    <div class="card-body position-relative pt-0">
+        <form novalidate>
+            <div class="form-check form-check-md my-4">
+                <input class="form-check-input" type="checkbox" name="confirmation" id="deleteaccountCheck">
+                <label class="form-check-label text-warning" for="deleteaccountCheck">Yes, With my full concern I am deleting my account.</label>
+            </div>
+            <button class="btn btn-danger">Confirm Delete Account</button>
+        </form>
+    </div>
+    <!-- Card body END -->
+</div>
+{% endblock content %}
