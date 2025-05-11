@@ -1,0 +1,32 @@
+{% extends "home/base.html" %}
+{% block title %}Images{% endblock title %}
+
+{% block content %}
+<!-- Card START -->
+<div class="col-md-6 col-lg-12">
+<div class="card">
+    <!-- Card header START -->
+    <div class="card-header d-sm-flex justify-content-between border-0">
+    <h5 class="card-title">Photos</h5>
+    
+    </div>
+    <!-- Card header END -->
+    <!-- Card body START -->
+    <div class="card-body position-relative pt-0">
+    <div class="row g-2">
+        {% for photo in photos|slice:":10" %}
+        <!-- Photos item -->
+        <div class="col-4">
+        <a href="{{photo.image.url}}" data-gallery="image-popup" data-glightbox="">
+            <img class="rounded img-fluid" src="{{photo.image.url}}" alt="">
+        </a>
+        <!-- glightbox Albums left bar END  -->
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+    <!-- Card body END -->
+</div>
+</div>
+<!-- Card END -->
+{% endblock content %}

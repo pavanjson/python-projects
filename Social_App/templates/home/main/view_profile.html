@@ -1,0 +1,394 @@
+{% extends "home/base.html" %}
+{% block title %}{{the_profile.first_name}}{% endblock title %}
+
+{% block content %}
+
+<main>
+  <!-- Container START -->
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- Main content START -->
+      <div class="col-lg-8 vstack gap-4">
+        <!-- My profile START -->
+        <div class="card">
+          <!-- Cover image -->
+          <div class="h-200px rounded-top" style="background-image:url({{the_profile.cover_photo.url}}); background-position: center; background-size: cover; background-repeat: no-repeat;"></div>
+            <!-- Card body START -->
+            <div class="card-body py-0">
+              <div class="d-sm-flex align-items-start text-center text-sm-start">
+                <div>
+                  <!-- Avatar -->
+                  <div class="avatar avatar-xxl mt-n5 mb-3">
+                    <img class="avatar-img rounded-circle border border-white border-3" src="{{the_profile.profile_picture.url}}" alt="">
+                  </div>
+                </div>
+                <div class="ms-sm-4 mt-sm-3">
+                  <!-- Info -->
+                  <h1 class="mb-0 h5">{{the_profile.first_name}}<i class="bi bi-patch-check-fill text-success small"></i></h1>
+                  <p>{{the_profile.friends.all.count}} connections</p>
+                </div>
+                <!-- Button -->
+                <div class="d-flex mt-3 justify-content-center ms-sm-auto">
+                  {% if its_user_himself %}
+                  <button class="btn btn-danger-soft me-2" type="button"> <i class="bi bi-pencil-fill pe-1"></i> Edit profile </button>
+                  {% else %}                
+                    {% if the_profile in my_friend_req_list %}                  
+                      <a class="btn btn-primary-soft me-2" type="button"> <i class="bi bi-check pe-1"></i> Accept </a>
+                      <a class="btn btn-danger-soft me-2" type="button"> <i class="bi bi-cross pe-1"></i> Cancel </a>
+                    {% elif user.profile in his_friend_req_list %}                  
+                      <a class="btn btn-primary-soft me-2" type="button"> <i class="bi bi-check pe-1"></i> Sended </a>
+                      
+                      
+                    {% elif the_profile in myfriends.friend.all %}
+                      <a class="btn btn-primary-soft me-2" type="button"> <i class="bi bi-people pe-1"></i> Friend </a>
+
+                    {% else %}
+                    
+                    <form action="{% url "send_friend_request" %}" method="POST" novalidate>
+                      {% csrf_token %}
+                      <input type="hidden" name="the_person" value="{{the_profile.user.username}}">
+                      <button class="btn btn-primary-soft me-2" type="submit"> <i class="bi bi-person-fill pe-1"></i> Add friend </button>
+                    </form>   
+                      
+                    {% endif %}
+
+                  {% endif %}
+                  <div class="dropdown">
+                    <!-- Card share action menu -->
+                    <button class="icon-md btn btn-light" type="button" id="profileAction2" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-three-dots"></i>
+                    </button>
+                    <!-- Card share action dropdown menu -->
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileAction2">
+                      <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark fa-fw pe-2"></i>Share profile in a message</a></li>
+                      <li><a class="dropdown-item" href="#"> <i class="bi bi-file-earmark-pdf fa-fw pe-2"></i>Save your profile to PDF</a></li>
+                      {% if its_user_himself %}
+                      <li><a class="dropdown-item" href="#"> <i class="bi bi-lock fa-fw pe-2"></i>Lock profile</a></li>
+                      {% endif %}
+                      
+                      <li><hr class="dropdown-divider"></li>
+                      
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- List profile -->
+              <ul class="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0">
+                <li class="list-inline-item"><i class="bi bi-briefcase me-1"></i> {% if the_profile.profession %}{{the_profile.profession}} {% else %} None{% endif %} </li>
+                <li class="list-inline-item"><i class="bi bi-geo-alt me-1"></i> {% if the_profile.address %}{{the_profile.address}} {% else %} None{% endif %} </li>
+                <li class="list-inline-item"><i class="bi bi-calendar2-plus me-1"></i> Joined on {{the_profile.created_at}}</li>
+              </ul>
+            </div>
+            <!-- Card body END -->
+            <div class="card-footer mt-3 pt-2 pb-0">
+              <!-- Nav profile pages -->
+              <ul class="nav nav-bottom-line align-items-center justify-content-center justify-content-md-start mb-0 border-0">
+                <li class="nav-item"> <a class="nav-link active" href="#"> Posts </a> </li>
+                <li class="nav-item"> <a class="nav-link" href=""> About </a> </li>
+                {% if its_user_himself %}
+                <li class="nav-item"> <a class="nav-link" href=""> Connections <span class="badge bg-success bg-opacity-10 text-success small"> {{profile.friends.all.count}}</span> </a> </li>                
+                <li class="nav-item"> <a class="nav-link" href=""> Activity</a> </li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+          <!-- My profile END -->
+
+          {% if its_user_himself %}
+          <!-- Share feed START -->
+          <div class="card card-body">
+            <div class="d-flex mb-3">
+              <!-- Avatar -->
+              <div class="avatar avatar-xs me-2">
+                <a href="#"> <img class="avatar-img rounded-circle" src="{{the_profile.profile_picture.url}}" alt=""> </a>
+              </div>
+              <!-- Post input -->
+              <form class="w-100" method="POST" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                {% for row in form %}
+                <div class="mb-2">
+                  {{row}}
+                  {% if row.errors %}
+                  {% for error in row.errors %}
+                  <br>
+                  <p class="text-danger">{{error}}</p>
+                  {% endfor %}
+                  {% endif %}
+                </div>        
+                {% endfor %}
+
+                <fieldset name="all_images" id="imagexyxy">
+                  
+                </fieldset>
+                
+                    <div class="col-lg-8 text-sm-start mt-2">
+                      <button type="button" class="btn btn-warning-soft me-2"> <i class="bi bi-camera-video-fill pe-1"></i> Live video</button>
+                      <button type="submit" class="btn btn-success-soft">Post</button>
+                    </div>
+              </form>
+            </div>
+            <!-- Share feed toolbar START -->
+            <ul class="nav nav-pills nav-stack small fw-normal">
+              <li class="nav-item">
+                <a 
+                hx-get="{% url "add_post_images" i %}" 
+                hx-target="#imagexyxy"
+                hx-swap="innerHTML"                
+                class="nav-link bg-light py-1 px-2 mb-0" 
+                href="#post" >
+                <i class="bi bi-image-fill text-success pe-2"></i>Photo</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bg-light py-1 px-2 mb-0" href="#" data-bs-toggle="modal" data-bs-target="#feedActionVideo"> <i class="bi bi-camera-reels-fill text-info pe-2"></i>Video</a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link bg-light py-1 px-2 mb-0" data-bs-toggle="modal" data-bs-target="#modalCreateEvents"> <i class="bi bi-calendar2-event-fill text-danger pe-2"></i>Event </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bg-light py-1 px-2 mb-0" href="#" data-bs-toggle="modal" data-bs-target="#modalCreateFeed"> <i class="bi bi-emoji-smile-fill text-warning pe-2"></i>Feeling /Activity</a>
+              </li>
+              
+            </ul>
+            <!-- Share feed toolbar END -->
+            
+          </div>
+          <!-- Share feed END -->
+          {% endif %}
+
+          {% for data in posts %}
+          <div class="card">
+              <div class="card-header border-0 pb-0">
+                  <div class="d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center">
+                          <div class="avatar me-2">
+                              <a href="#"> <img class="avatar-img rounded-circle" src="{{data.author.profile_picture.url}}" alt=""> </a>
+                          </div>
+                          <div>
+                              <h6 class="card-title mb-0"> <a href="{% url "view_profile" data.author.user.username %}"> {{data.author}} </a></h6>
+                              <div class="nav nav-divider">
+                                  <p class="nav-item mb-0 small">{{data.created_at}}</p>
+                                  <span class="nav-item small" data-bs-toggle="tooltip" data-bs-placement="top" title="{{data.privacy.title}}"> <i class="bi bi-{% if data.privacy == 'public' %}globe{% elif data.privacy == 'friends' %}people {% else %}lock{% endif %}"></i> </span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="dropdown">
+                          <a href="#" class="text-secondary btn btn-secondary-soft-hover py-1 px-2" id="cardShareAction3" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi bi-three-dots"></i>
+                          </a>
+                          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cardShareAction3">
+                            <li><a class="dropdown-item" href="{% url "delete_post" data.uid %}"> <i class="bi bi-trash fa-fw pe-2"></i>Delete post</a></li>  
+                            <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark fa-fw pe-2"></i>Save post</a></li>
+                              <li><a class="dropdown-item" href="#"> <i class="bi bi-person-x fa-fw pe-2"></i>Unfollow {{profile}} </a></li>
+                              <li><a class="dropdown-item" href="#"> <i class="bi bi-x-circle fa-fw pe-2"></i>Hide post</a></li>
+                              <li><a class="dropdown-item" href="#"> <i class="bi bi-slash-circle fa-fw pe-2"></i>Block</a></li>
+                              <li>
+                                  <hr class="dropdown-divider">
+                              </li>
+                              <li><a class="dropdown-item" href="#"> <i class="bi bi-flag fa-fw pe-2"></i>Report post</a></li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body" id="target-{{data.uid}}">
+                  <p>{{data.content}}</p>
+                  <div class="d-flex justify-content-between">
+                    <div class="row g-3">
+                      {% for image in data.images.all|slice:":1" %}
+                      <div class="col-6">
+                          <a class="" href="{{image.image.url}}" data-glightbox="" data-gallery="image-popup">
+                              <img class="rounded img-fluid" src="{{image.image.url}}" alt="Image">
+                          </a>
+                      </div>
+                      {% endfor %}
+                      <div class="col-6">
+                          {% for image in data.images.all|slice:"1:2" %}
+                          <a href="{{image.image.url}}" data-glightbox="" data-gallery="image-popup">
+                              <img class="rounded img-fluid" src="{{image.image.url}}" alt="Image">
+                          </a>
+                          {% endfor %}
+                          {% for image in data.images.all|slice:"2:3" %}
+                          <div class="position-relative bg-dark mt-3 rounded">
+                              <div class="hover-actions-item position-absolute top-50 start-50 translate-middle z-index-9">
+                                  <a class="btn btn-link text-white" href="{% url "view_one_post" data.uid %}"> View all </a>
+                              </div>
+                              <a href="{{image.image.url}}" data-glightbox="" data-gallery="image-popup">
+                                  <img class="img-fluid opacity-50 rounded" src="{{image.image.url}}" alt="">
+                              </a>
+                          </div>
+                          {% endfor %}
+                    </div>
+                  </div>                      
+                  </div>
+                  <ul class="nav nav-stack py-3 small">
+                      <li class="nav-item">
+                          <a class="nav-link active text-secondary" href="#!"> <i class="bi bi-heart-fill me-1 icon-xs bg-danger text-white rounded-circle"></i> Liked by {{data.likes.count}} people </a>
+                      </li> 
+                      <li class="nav-item ms-sm-auto">
+                          <a class="nav-link" href="{% url "view_one_post" data.uid %}"> <i class="bi bi-chat-fill pe-1"></i>Comments ({{data.comments.count}})</a>
+                      </li>
+                  </ul>
+                  <ul class="nav nav-pills nav-pills-light nav-fill nav-stack small border-top border-bottom py-1 mb-3">
+                      <li class="nav-item" >
+                          <a class="nav-link mb-0 {% if data.is_liked_by_author %}active{% endif %}" 
+                          hx-get="{% url 'like_post' data.uid %}" 
+                          hx-swap="outerHTML" 
+                          hx-target="#target-{{data.uid}}" 
+                          class="like-post"> 
+                          <i class="bi {% if data.is_liked_by_author %}bi-heart-fill{% else %}bi-heart{% endif %} pe-1"></i>
+                          {% if data.is_liked_by_author %}Liked{% else %}Like{% endif %} ({{data.likes.count}})
+                          </a>
+                      </li>
+                      <li class="nav-item dropdown">
+                          <a href="#" class="nav-link mb-0" id="cardShareAction4" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi bi-reply-fill flip-horizontal ps-1"></i>Share (3)
+                          </a>
+                          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cardShareAction4">
+                              <li><a class="dropdown-item" href="#"> <i class="bi bi-envelope fa-fw pe-2"></i>Send via Direct Message</a></li>
+                              <li><a class="dropdown-item" href="#"> <i class="bi bi-bookmark-check fa-fw pe-2"></i>Bookmark </a></li>
+                              <li><a class="dropdown-item" href="#"> <i class="bi bi-link fa-fw pe-2"></i>Copy link to post</a></li>
+                              <li><a class="dropdown-item" href="#"> <i class="bi bi-share fa-fw pe-2"></i>Share post via …</a></li>
+                              <li>
+                                  <hr class="dropdown-divider">
+                              </li>
+                              <li><a class="dropdown-item" href="#"> <i class="bi bi-pencil-square fa-fw pe-2"></i>Share to News Feed</a></li>
+                          </ul>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link mb-0" href="#!"> <i class="bi bi-send-fill pe-1"></i>Send</a>
+                      </li>
+                  </ul>
+                  <!-- Add Comment Form -->
+                  <form class="nav nav-item w-100 position-relative mb-2" method="POST" novalidate>
+                      {% csrf_token %}
+                      <textarea name="content" data-autoresize="" class="form-control pe-5 bg-light" rows="1" placeholder="Add a comment..."></textarea>
+                      <button
+                      hx-post="{% url "feed_comment" data.uid %}"
+                      hx-target="#target-{{data.uid}}"
+                      hx-swap="outerHTML"
+                      class="nav-link bg-transparent px-3 position-absolute top-50 end-0 translate-middle-y border-0" type="submit">
+                      <i class="bi bi-send-fill"> </i>
+                  </button>
+                  </form>
+                  
+                  
+              </div>
+          </div>
+          {% endfor %}
+          
+      </div>
+      <!-- Main content END -->
+
+      <!-- Right sidebar START -->
+      <div class="col-lg-4">
+
+        <div class="row g-4">
+
+          <!-- Card START -->
+          <div class="col-md-6 col-lg-12">
+            <div class="card">
+              <div class="card-header border-0 pb-0">
+                <h5 class="card-title">About</h5>
+                <!-- Button modal -->
+              </div>
+              <!-- Card body START -->
+              <div class="card-body position-relative pt-0">
+                <p>{{the_profile.bio}}</p>
+                <!-- Date time -->
+                <ul class="list-unstyled mt-3 mb-0">
+                  <li class="mb-2"> <i class="bi bi-calendar-date fa-fw pe-1"></i> Born: <strong> {{the_profile.birthday}} </strong> </li>
+                  <li class="mb-2"> <i class="bi bi-heart fa-fw pe-1"></i> Status: <strong> {{the_profile.status}} </strong> </li>
+
+                  <li> <i class="bi bi-envelope fa-fw pe-1"></i> Email: <strong>{{the_profile.mail}}</strong> </li>
+                
+                </ul>
+              </div>
+              <!-- Card body END -->
+            </div>
+          </div>
+          <!-- Card END -->
+
+          <!-- Card START -->
+          <div class="col-md-6 col-lg-12">
+            <div class="card">
+              <!-- Card header START -->
+              <div class="card-header d-sm-flex justify-content-between border-0">
+                <h5 class="card-title">Photos</h5>
+                <a class="btn btn-primary-soft btn-sm" href="{% url "cxuphotos" the_profile.user.username %}"> See all photo</a>
+              </div>
+              <!-- Card header END -->
+              <!-- Card body START -->
+              <div class="card-body position-relative pt-0">
+                <div class="row g-2">
+                  {% for photo in all_photo|slice:":10" %}
+                  <!-- Photos item -->
+                  <div class="col-4">
+                    <a href="{{photo.image.url}}" data-gallery="image-popup" data-glightbox="">
+                      <img class="rounded img-fluid" src="{{photo.image.url}}" alt="">
+                    </a>
+                    <!-- glightbox Albums left bar END  -->
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <!-- Card body END -->
+            </div>
+          </div>
+          <!-- Card END -->
+
+          <!-- Card START -->
+          <div class="col-md-6 col-lg-12">
+            <div class="card">
+              <!-- Card header START -->
+              <div class="card-header d-sm-flex justify-content-between align-items-center border-0">
+                <h5 class="card-title">Friends <span class="badge bg-danger bg-opacity-10 text-danger">{{profile.friends.all.count}}</span></h5>
+                <a class="btn btn-primary-soft btn-sm" href="{% url "friends" the_profile.user.username %}"> See all friends</a>
+              </div>
+              <!-- Card header END -->
+              <!-- Card body START -->
+              <div class="card-body position-relative pt-0">
+                <div class="row g-3">
+
+                  {% for friend in the_profile.friends.all %}
+                  
+                  <div class="col-6">
+                    <!-- Friends item START -->
+                    <div class="card shadow-none text-center h-100">
+                      <!-- Card body -->
+                      <div class="card-body p-2 pb-0">
+                        {% comment %} <div class="avatar avatar-story avatar-xl"> {% endcomment %}
+                        <div class="avatar avatar-xl">
+                          <a href="#!"><img class="avatar-img rounded-circle" src="{{friend.author.profile_picture.url}}" alt=""></a>
+                        </div>
+                        <h6 class="card-title mb-1 mt-3"> <a href="{% url "view_profile" friend.author.user.username %}"> {{friend.author.first_name}} </a></h6>
+                        <p class="mb-0 small lh-sm">16 mutual connections</p>
+                      </div>
+                      {% if its_user_himself %}
+                      <!-- Card footer -->
+                      <div class="card-footer p-2 border-0">
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Send message"> <i class="bi bi-chat-left-text"></i> </button>
+                        <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove friend"> <i class="bi bi-person-x"></i> </button>
+                      </div>
+                      {% endif %}
+                    </div>
+                    <!-- Friends item END -->
+                  </div>
+                  {% endfor %}
+
+                </div>
+              </div>
+              <!-- Card body END -->
+            </div>
+          </div>
+          <!-- Card END -->
+        </div>
+
+      </div>
+      <!-- Right sidebar END -->
+
+    </div> <!-- Row END -->
+  </div>
+  <!-- Container END -->
+</main>
+
+{% endblock content %}

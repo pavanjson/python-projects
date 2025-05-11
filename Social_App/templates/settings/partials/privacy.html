@@ -1,0 +1,49 @@
+<div class="tab-pane fade active show" >
+    <!-- Notification START -->
+    <div class="card">
+      <!-- Card header START -->
+      <div class="card-header border-0 pb-0">
+        <h5 class="card-title">Modify Your Privacy </h5>
+        <p class="mb-0">Edit the settings as your prefarence.</p>
+      </div>
+      <!-- Card header START -->
+      <!-- Card body START -->
+      <div class="card-body pb-0">
+        <!-- Notification START -->
+        <ul class="list-group list-group-flush">
+            
+          <!-- Notification list item -->
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+            <div class="me-2">
+              <h6 class="mb-0">Handle your friend-lists privacy</h6>
+              <p class="small mb-0">Select the privacy, <span class="text-warning">Privacy setting will available if you have friends added</span></p>
+            </div>
+            <form method=="POST" novalidate>
+                {% csrf_token %}
+                <div class="form-check form-switch">
+                    {{form.privacy}}
+                    <!-- Button save -->
+                    <button 
+                    hx-post="{% url "setting_tabs" 'privacy' %}"
+                    hx-target="#tab-option-to-change"
+                    hx-swap="innerHTML"
+                    type="submit" 
+                    class="btn btn-sm btn-primary mb-0 mt-1">
+                    Save
+                    </button>
+                </div>
+                
+                
+            </form>
+          </li>
+          <div class="card-footer pt-0 text-end border-0">
+            
+          </div>
+        </ul>
+        <!-- Notification END -->
+        
+      </div>
+    <!-- Card body END -->
+  </div>
+    <!-- Notification END -->
+  </div>

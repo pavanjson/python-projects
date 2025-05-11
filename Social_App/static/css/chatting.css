@@ -1,0 +1,17 @@
+.chatting{
+    display: flex;
+    flex-direction: column;
+    height: 60vh
+    
+}
+
+
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    
+}
+
+.card-custom{
+    max-height: 80vh;
+}

@@ -1,0 +1,132 @@
+<!-- Account setting tab START -->
+<div class="tab-pane show active fade"  role="tabpanel">
+<!-- Account settings START -->
+<div class="card mb-4">
+    
+    <!-- Title START -->
+    <div class="card-header border-0 pb-0">
+    <h1 class="h5 card-title">Account Details</h1>
+    <p class="mb-0">Please fillup the additional details of your account and browse your news feed.</p>
+    </div>
+    <!-- Card header START -->
+    <!-- Card body START -->
+    <div class="card-body">
+    <!-- Form settings START -->
+
+    <form class="row g-3" method="POST" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <div class="col-sm-6 col-lg-4">
+            {{form.first_name.label}}
+            {{form.first_name}}
+            {% if form.first_name.errors %}
+            {% for error in form.first_name.errors %}
+            <p class="text-danger">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <!-- Last name -->
+        <div class="col-sm-6 col-lg-4">    
+        {{form.last_name.label}}
+        {{form.last_name}}
+        {% if form.last_name.errors %}
+            {% for error in form.last_name.errors %}
+            <p class="text-danger">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <!-- Additional name -->
+        <div class="col-sm-6 col-lg-4">                
+        {{form.gender.label}}
+        {{form.gender}}
+        {% if form.gender.errors %}
+            {% for error in form.gender.errors %}
+            <p class="text-danger">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-sm-6">
+        {{form.phone_number.label}}
+        {{form.phone_number}}
+        {% if form.phone_number.errors %}
+            {% for error in form.phone_number.errors %}
+            <p class="text-danger">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <!-- Birthday -->
+        <div class="col-lg-6">
+        {{form.birthday.label}}
+        {{form.birthday}}
+        {% if form.birthday.errors %}
+            {% for error in form.birthday.errors %}
+            <p class="text-danger">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="col-sm-12">
+        {{form.profile_picture.label}}
+        {{form.profile_picture}}
+        {% if form.profile_picture.errors %}
+            {% for error in form.profile_picture.errors %}
+            <p class="text-danger">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+        
+        </div>
+        
+
+        <div class="col-lg-6">
+            {{form.address.label}}
+            {{form.address}}
+            {% if form.address.errors %}
+            {% for error in form.address.errors %}
+            <p class="text-danger">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+            
+        </div>
+        <div class="col-lg-6">
+            {{form.profession.label}}
+            {{form.profession}}
+            {% if form.profession.errors %}
+            {% for error in form.profession.errors %}
+            <p class="text-danger">{{error}}</p>
+            {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="col-12">  
+                   
+            {{form.cover_photo.label}}
+            {{form.cover_photo}}
+            
+        </div>
+        <div class="col-12">  
+                   
+            {{form.status.label}}
+            {{form.status}}
+            
+        </div>
+        <div class="col-12">  
+                   
+            {{form.bio.label}}
+            {{form.bio}}
+            
+            <small>Character limit: 300</small>
+        </div>
+        <!-- Button  -->
+        <div class="col-12 text-end">
+            <a href="{% url "logout" %}" class="btn btn-sm btn-warning">Log Out</a>
+        <button 
+        hx-post="{% url "setting_tabs" "profile" %}"
+        hx-target="#tab-option-to-change"
+        hx-swap="innerHTML"
+        type="submit" class="btn btn-sm btn-primary mb-0">Save changes</button>
+        </div>
+    </form>
+    
+    </div>
+<!-- Card body END -->
+</div>
+<!-- Account settings END -->
