@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .search-container {
+        position: relative;
+    }
+    .search-icon {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+    }
+    .search-input {
+        padding-left: 30px;
+        outline: none !important;
+        box-shadow: none !important;
+        height: 3rem;
+    }
+
+    .icon:hover {
+        cursor: pointer;
+        opacity: 0.7;
+    }
+    hr {
+        border: 2px solid #212529;
+        opacity: 100;
+    }
+</style>
+
+
+
+    <form action="" method="GET">
+        <div class="search-container">
+            <i class="fa fa-search search-icon"></i>
+            <input type="text" id="searchBar" class="form-control search-input" placeholder="Press Ctrl + K to search" name="search" value="{{search_input}}" aria-label="Search" onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }">
+        </div>
+    </form>
+
+
+    <div class="row mt-5">
+
+        <div class="col-md-3">
+            <h2 class="text-center mb-3"><i class="fa fa-list" aria-hidden="true"></i> To Do</h2>
+            <hr>
+            {% if todo_count == 0 %}
+            <p>No tasks in the "To Do" status.</p>
+            {% else %}
+                {% for x in tasks %}
+                    {% if x.status == "todo" %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ x.title }}</h4>
+                                <p class="card-text">{{ x.description|safe|truncatechars:50 }}</p>
+                                <p class="card-text">{{ x.due|date:"F j, Y, P" }}</p>
+                                <div class="text-end pt-3">
+                                    <i class="fa fa-eye fa-lg text-primary icon" onclick="window.location.href='{% url 'task' x.id %}'" aria-hidden="true"></i>
+                                    <i class="fa fa-pencil fa-lg text-secondary icon" onclick="window.location.href='{% url 'task-update' x.id %}'" aria-hidden="true"></i>
+                                    <i class="fa fa-trash fa-lg text-danger icon" onclick="window.location.href='{% url 'task-delete' x.id %}'" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="col-md-3">
+            <h2 class="text-center mb-3"><i class="fa fa-tasks" aria-hidden="true"></i> Started</h2>
+            <hr>
+            {% if started_count == 0 %}
+            <p>No tasks in the "Started" status.</p>
+            {% else %}
+                {% for x in tasks %}
+                    {% if x.status == "started" %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ x.title }}</h4>
+                                <p class="card-text">{{ x.description|safe|truncatechars:50 }}</p>
+                                <p class="card-text">{{ x.due|date:"F j, Y, P" }}</p>
+                                <div class="text-end pt-3">
+                                    <i class="fa fa-eye fa-lg text-primary icon" onclick="window.location.href='{% url 'task' x.id %}'" aria-hidden="true"></i>
+                                    <i class="fa fa-pencil fa-lg text-secondary icon" onclick="window.location.href='{% url 'task-update' x.id %}'" aria-hidden="true"></i>
+                                    <i class="fa fa-trash fa-lg text-danger icon" onclick="window.location.href='{% url 'task-delete' x.id %}'" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="col-md-3">
+            <h2 class="text-center mb-3"><i class="fa fa-check" aria-hidden="true"></i> Complete</h2>
+            <hr>
+            {% if completed_count == 0 %}
+            <p>No tasks in the "Completed" status.</p>
+            {% else %}
+                {% for x in tasks %}
+                    {% if x.status == "complete" %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ x.title }}</h4>
+                                <p class="card-text">{{ x.description|safe|truncatechars:50 }}</p>
+                                <p class="card-text">{{ x.due|date:"F j, Y, P" }}</p>
+                                <div class="text-end pt-3">
+                                    <i class="fa fa-eye fa-lg text-primary icon" onclick="window.location.href='{% url 'task' x.id %}'" aria-hidden="true"></i>
+                                    <i class="fa fa-pencil fa-lg text-secondary icon" onclick="window.location.href='{% url 'task-update' x.id %}'" aria-hidden="true"></i>
+                                    <i class="fa fa-trash fa-lg text-danger icon" onclick="window.location.href='{% url 'task-delete' x.id %}'" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="col-md-3">
+            <h2 class="text-center mb-3"><i class="fa fa-archive" aria-hidden="true"></i> Archived</h2>
+            <hr>
+            {% if archived_count == 0 %}
+            <p>No tasks in the "Archived" status.</p>
+            {% else %}
+                {% for x in tasks %}
+                    {% if x.status == "archived" %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ x.title }}</h4>
+                                <p class="card-text">{{ x.description|safe|truncatechars:50 }}</p>
+                                <p class="card-text">{{ x.due|date:"F j, Y, P" }}</p>
+                                <div class="text-end pt-3">
+                                    <i class="fa fa-eye fa-lg text-primary icon" onclick="window.location.href='{% url 'task' x.id %}'" aria-hidden="true"></i>
+                                    <i class="fa fa-pencil fa-lg text-secondary icon" onclick="window.location.href='{% url 'task-update' x.id %}'" aria-hidden="true"></i>
+                                    <i class="fa fa-trash fa-lg text-danger icon" onclick="window.location.href='{% url 'task-delete' x.id %}'" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+
+<script>
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 'k') {
+            event.preventDefault();
+            var searchBar = document.getElementById('searchBar');
+            searchBar.focus();
+            // Set cursor at the end of the input field
+            searchBar.setSelectionRange(searchBar.value.length, searchBar.value.length);
+        }
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}  <!-- Extend base layout -->
+
+{% load static %}  <!-- Load static files -->
+
+<!-- Include CKEditor JavaScript file -->
+<script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+
+{% block title %}  <!-- Define title block -->
+New task
+{% endblock %}
+
+{% block content %}  <!-- Define content block -->
+
+<h1 class="h2">New task</h1>
+
+<!-- Form for creating new task -->
+<form action="" method="post">
+    {% csrf_token %}  <!-- CSRF token for security -->
+    {{ form.media }}  <!-- Form media -->
+    {{ form.as_p }}  <!-- Form fields -->
+    <input type="submit" value="Finish">  <!-- Submit button -->
+</form>
+
+<!-- Initialize CKEditor -->
+<script>
+    CKEDITOR.replace('id_description');  <!-- Replace textarea with id 'id_description' with CKEditor instance -->
+</script>
+
+{% endblock %}
